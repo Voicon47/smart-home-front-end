@@ -19,12 +19,12 @@ export type routeProps = {
 export const publicRoutes: routeProps[] = [
    {
       path: path.HOME,
-      component: <HomePage />,
+      component: <Phat />,
       type: typeRoute.PUBLIC_ROUTE,
    },
    {
       path: path.PHAT,
-      component:<Phat/>,
+      component:<HomePage/>,
       type: typeRoute.PUBLIC_ROUTE,
    }
    // {
