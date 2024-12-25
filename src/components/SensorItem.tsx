@@ -1,5 +1,5 @@
 // import { Chip,Image } from "@nextui-org/react";
-import { useState } from "react";
+// import { useState } from "react";
 
 export type ISensor = {
     id?: number | string | null;
@@ -13,7 +13,7 @@ type ItemProps = {
     
  };
  function SensorItem(props: ItemProps) {
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     
     return (
         <div  className=" flex flex-row gap-x-4 p-2 rounded-2xl hover:bg-slate-400/15 hover:shadow-md border-4 border-sky-500">
