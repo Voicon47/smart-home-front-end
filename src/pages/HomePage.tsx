@@ -1,9 +1,9 @@
-import { Link, Skeleton,Switch } from "@nextui-org/react";
+import { Switch } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import {Divider} from "@nextui-org/react";
+// import {Divider} from "@nextui-org/react";
 import SensorItem, { ISensor } from "../components/SensorItem";
-import FlameSensor from "../components/FlameSensor";
-import RoomCard from "../components/RoomCard";
+// import FlameSensor from "../components/FlameSensor";
+// import RoomCard from "../components/RoomCard";
 
 export interface WebSocketMessage<T> {
   Type: string; // Type of the message ("SensorData" or "Light")

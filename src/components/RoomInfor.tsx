@@ -21,7 +21,6 @@ const RoomInfor: React.FC<RoomInforProps> = ({
   mq2Sensor,
   flameSensor,
   doorStatus,
-  price,
 }) => {
   return (
     <div className="w-[870px] h-[403px] bg-[#D5E3E6] rounded-lg shadow-md relative p-6 hover:shadow-2xl transition-all duration-300">

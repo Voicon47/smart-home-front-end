@@ -1,10 +1,10 @@
-import logo from '../../assets/react.svg';
+// import logo from '../../assets/react.svg';
 import { GiOpenBook } from "react-icons/gi";
 import { MdSpaceDashboard } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { path } from "../routes/Path";
 import { BsPersonFill } from "react-icons/bs";
-import { Image, Accordion, AccordionItem, Chip } from '@nextui-org/react';
+import {Accordion, AccordionItem } from '@nextui-org/react';
 import { useRouter } from '../hooks/use-router';
 
 function Sidebar() {

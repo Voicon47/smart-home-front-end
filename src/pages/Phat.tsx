@@ -1,4 +1,4 @@
-import SensorItem, { ISensor } from "../components/SensorItem";
+// import SensorItem, { ISensor } from "../components/SensorItem";
 import FlameSensor from "../components/FlameSensor";
 import RoomCard from "../components/RoomCard";
 import RoomInfor from "../components/RoomInfor";

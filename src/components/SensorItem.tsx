@@ -1,4 +1,4 @@
-import { Chip,Image } from "@nextui-org/react";
+// import { Chip,Image } from "@nextui-org/react";
 import { useState } from "react";
 
 export type ISensor = {

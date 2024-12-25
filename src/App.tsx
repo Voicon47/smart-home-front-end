@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import './App.css'
 // import { Toaster } from 'react-hot-toast';
-import { createBrowserRouter, Navigate, Outlet, Route, RouteObject, RouterProvider, Routes,useLocation  } from 'react-router-dom';
+import {Route, Routes } from 'react-router-dom';
 import { publicRoutes } from './routes/Routes';
-import { useTheme } from './context/themeContext';
+// import { useTheme } from './context/themeContext';
 import MainLayout from './layouts/MainLayout';
 
 export enum Roles {
@@ -13,8 +12,8 @@ export enum Roles {
 
 function App() {
 //   const [count, setCount] = useState(0)
-  const { theme } = useTheme();
-  const role = Roles.ADMIN
+//   const { theme } = useTheme();
+//   const role = Roles.ADMIN
   return (
     <>
        {/* <Toaster

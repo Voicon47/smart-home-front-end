@@ -1,11 +1,8 @@
 import { Button, Image } from '@nextui-org/react';
-// import logo from '../assets/img/logo_1.png';
-import { IoBookOutline } from 'react-icons/io5';
-import { GoBell } from 'react-icons/go';
-import { PiCloudMoonThin, PiSunLight } from 'react-icons/pi';
+import { PiSunLight } from 'react-icons/pi';
 // import { useRouter } from '../hook';
 // import Search from '../components/Search';
-import { path } from '../routes/Path';
+// import { path } from '../routes/Path';
 // import { useAuth } from '../context/authContext';
 import { useTheme } from '../context/themeContext';
 function Header() {
