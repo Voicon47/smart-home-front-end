@@ -2,6 +2,8 @@ import {ReactNode} from "react";
 import { path } from "./Path";
 import HomePage from "../pages/HomePage";
 import Phat from "../pages/Phat";
+import RoomDetail from "../pages/RoomDetailPage";
+import RoomDetailPage from "../pages/RoomDetailPage";
 
 
 export type routeProps = {
@@ -19,12 +21,17 @@ export type routeProps = {
 export const publicRoutes: routeProps[] = [
    {
       path: path.HOME,
-      component: <Phat />,
+      component: <HomePage />,
       type: typeRoute.PUBLIC_ROUTE,
    },
    {
       path: path.PHAT,
-      component:<HomePage/>,
+      component:<Phat/>,
+      type: typeRoute.PUBLIC_ROUTE,
+   },
+   {
+      path: path.ROOM,
+      component:<RoomDetailPage/>,
       type: typeRoute.PUBLIC_ROUTE,
    }
    // {

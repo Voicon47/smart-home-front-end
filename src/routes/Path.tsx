@@ -2,6 +2,7 @@ export const path = {
     NOT_FOUND: '/not-found',
     HOME: '',
     PHAT:'phat',
+    ROOM:'room',
     POST: {
        INDEX: 'post',
        CREATE: 'post/create',

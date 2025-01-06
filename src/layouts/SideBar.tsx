@@ -11,7 +11,7 @@ function Sidebar() {
     const itemClasses = {
         base: "py-0 w-full",
         title: "font-normal text-medium",
-        trigger: "px-3 py-0 mx-auto mt-2 data-[hover=true]:bg-primary/80 rounded-lg h-12 w-11/12 ",
+        trigger: " py-0 mx-auto mt-2 bg-light-sidebar dark:bg-dark-sidebar rounded-lg h-12 w-11/12 ",
         indicator: "text-medium",
         content: "text-small px-0 py-0",
       };
@@ -74,7 +74,7 @@ function Sidebar() {
             </div> */}
             <Accordion 
                 showDivider={false}
-                className="m-0 p-0 "
+                className="m-0 p-0 border-solid "
                 itemClasses={itemClasses}
                 // variant="shadow"
                 >
@@ -86,22 +86,15 @@ function Sidebar() {
                         // className={`px-3 hover:bg-[#AE57EA] rounded-lg h-14 `}
                         aria-label="Connected devices"
                         startContent={
-                            // <Chip
-                            //     color='primary'
-                            //     variant={nav.path === pathname ? 'bordered' : 'light'}
-                            //     className={` rounded-lg  min-w-[8rem] `}
-                            // >
-                                <div
-                                    onClick={() => router.push(nav.path)}
-                                    className={`hover:text-white ${
-                                        pathname.includes(nav.path) ? 'text-primary' : 'text-black dark:text-white'
-                                    } px-3 flex justify-start items-center gap-4 `}
-                                >
-                                    {nav.icon}
-                                    <h2>{nav.name}</h2>
-                                </div>
-                            // </Chip>
-                            // <div>{nav.icon}</div>
+                            <div
+                                onClick={() => router.push(nav.path)}
+                                className={` ${
+                                    pathname.includes(nav.path) ? 'text-primary' : 'text-black dark:text-white'
+                                }  flex justify-start items-center gap-4 `}
+                            >
+                                {nav.icon}
+                                <h2>{nav.name}</h2>
+                            </div>
                         }
                         // title = {nav.name}
                         

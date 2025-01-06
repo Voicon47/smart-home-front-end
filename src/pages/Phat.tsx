@@ -1,5 +1,5 @@
 // import SensorItem, { ISensor } from "../components/SensorItem";
-import FlameSensor from "../components/FlameSensor";
+import FlameSensor from "../components/DeviceCard";
 import RoomCard from "../components/RoomCard";
 import RoomInfor from "../components/RoomInfor";
 import SortDropdown from "../components/SortDropdown";

@@ -11,7 +11,7 @@ function Header() {
 
    // const { isAuthenticated } = useAuth();
    return (
-      <header className="flex select-none h-20 border-b-[1px] border-solid dark:border-gray-900 backdrop-blur-2xl fixed z-[100000] left-0 top-0 right-0 justify-between items-center p-4">
+      <header className="flex select-none h-20 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-0 top-0 right-0 justify-between items-center p-4">
          <div
             onClick={() => {
                // router.push('');
