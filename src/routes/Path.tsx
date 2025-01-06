@@ -1,8 +1,8 @@
 export const path = {
     NOT_FOUND: '/not-found',
-    HOME: '',
+    HOME: 'room',
     PHAT:'phat',
-    ROOM:'room',
+    ROOM:'',
     POST: {
        INDEX: 'post',
        CREATE: 'post/create',
