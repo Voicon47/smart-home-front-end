@@ -3,8 +3,8 @@ import { ChartItem } from "../components/ChartItem";
 import DeviceCard from "../components/DeviceCard"
 import ListingPeople from "../components/ListingPeople";
 import ListingScheduleCards from "../components/ListingScheduleCards";
-import ScheduleCard from "../components/ScheduleCard";
-import SensorCard from "../components/SensroCard"
+// import ScheduleCard from "../components/ScheduleCard";
+// import SensorCard from "../components/SensroCard"
 import TableItem from "../components/TableItem";
 import axios from 'axios'
 import { API_ROOT } from "../utils/constants";
@@ -22,26 +22,26 @@ function RoomDetailPage(){
             setUser(user)
         })
     }, [])
-    const cardItem = [
-        {
-            name: "Light",
-            status: false,
+    // const cardItem = [
+    //     {
+    //         name: "Light",
+    //         status: false,
 
-        },
-        {
-            name: "MQ-2",
-            status: false,  
-        },
-        {
-            name: "DHT-11",
-            status: false,  
-        },
-        {
-            name: "Fan",
-            status: false
-        }
-    ];
-    // console.log(import.meta.env.API_ROOT)
+    //     },
+    //     {
+    //         name: "MQ-2",
+    //         status: false,  
+    //     },
+    //     {
+    //         name: "DHT-11",
+    //         status: false,  
+    //     },
+    //     {
+    //         name: "Fan",
+    //         status: false
+    //     }
+    // ];
+    console.log(user)
     return(
         <>
         <div className="w-full">

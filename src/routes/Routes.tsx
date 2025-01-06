@@ -2,7 +2,7 @@ import {ReactNode} from "react";
 import { path } from "./Path";
 import HomePage from "../pages/HomePage";
 import Phat from "../pages/Phat";
-import RoomDetail from "../pages/RoomDetailPage";
+// import RoomDetail from "../pages/RoomDetailPage";
 import RoomDetailPage from "../pages/RoomDetailPage";
 
 

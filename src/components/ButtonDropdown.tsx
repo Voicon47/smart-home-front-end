@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { RxCaretRight } from "react-icons/rx";
 import { IoIosAdd } from "react-icons/io";
 import { IoIosRemove } from "react-icons/io";
