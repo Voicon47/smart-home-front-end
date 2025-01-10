@@ -1,21 +1,82 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaTemperatureHigh } from "react-icons/fa";
 
-import { FaRegLightbulb } from "react-icons/fa";
+// import { GiGasMask } from "react-icons/gi";
+import { IoIosFlame } from "react-icons/io";
+import { MdOutlineAir } from "react-icons/md";
 
-interface SensorProps {
-  output: number; // Output in PPM (Parts Per Million)
+export type ISensorData = {
+  name: string;
+  type: string;
+  temperature: number | string | null;
+  humidity: number | string | null;
+  mq2: number | string | null;
+  flame: number | boolean |null;
+  pir: number | null;
+};
+type SensorDataItemProps = {
+  data: ISensorData
 }
 
-const SensorCard: React.FC<SensorProps> = ({ output }) => {
+function SensorCard(props: SensorDataItemProps) {
   const [isSensorOn, setIsSensorOn] = useState<boolean>(false);
-
+  // const [icon, setIcon] = useState<JSX.Element>()
+  const [name, setName] = useState<string>("Device")
+  const [sensorValue, setSensorValue] = useState<number| string| null| boolean>("")
+  const [unit, setUnit] = useState<string>("")
+  // const [status, setStatus] = useState<boolean>(false)
   const handleToggleSensor = () => setIsSensorOn((prevState) => !prevState);
 
+  // Dynamically determine icon
+  const renderIcon = (): JSX.Element => {
+    switch (props.data.type) {
+      case "DHT11":
+        return <FaTemperatureHigh className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
+      case "MQ-2":
+        return <MdOutlineAir className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
+      case "FLAME":
+        return <IoIosFlame className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
+      default:
+        return <IoIosFlame className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
+    }
+  };
+
+  useEffect(() => {
+    const { type, temperature, mq2, flame } = props.data;
+
+    // Update based on sensor type
+    switch (type) {
+      case "DHT11":
+        setName("DHT11");
+        setSensorValue(temperature);
+        setUnit(temperature ? "°C" : "");
+        setIsSensorOn(!!temperature);
+        break;
+      case "MQ-2":
+        setName("MQ-2");
+        setSensorValue(mq2);
+        setUnit(mq2 ? "PPM": "");
+        setIsSensorOn(!!mq2);
+        break;
+      case "FLAME":
+        setName("FLAME");
+        setSensorValue(flame === null ? "": flame ? "Detected" : "Not Detected");
+        setUnit("");
+        setIsSensorOn(flame != null);
+        break;
+      default:
+        setName("Unknown");
+        setSensorValue("");
+        setUnit("");
+        setIsSensorOn(false);
+    }
+  }, [props.data]);
+    
   // Dynamic classes for styling
   const containerClasses = `rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-[180px] h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
     isSensorOn ? "bg-[#294646]" : "bg-white"
   }`;
-
+  // setIcon(<PiFanFill  className={isSensorOn ? "text-white" : "text-primary"} size={33} />)
   const textColor = isSensorOn ? "text-white" : "text-black";
   const ppmColor = isSensorOn ? "text-white" : "text-emerald-700";
   const switchBg = isSensorOn ? "bg-white" : "bg-[rgba(41,70,70,0.4)]";
@@ -35,10 +96,11 @@ const SensorCard: React.FC<SensorProps> = ({ output }) => {
       {/* Icon, Label, and Output */}
       <div className="absolute top-[30px] left-[20px] flex flex-col items-start">
         <div className="w-12 h-12 flex items-center mb-[4px] text-[32px]">
-          <FaRegLightbulb className={isSensorOn ? "text-white" : "text-gray-500"} size={33} />
+          {/* <PiFanFill  className={isSensorOn ? "text-white" : "text-primary"} size={33} /> */}
+          {renderIcon()}
         </div>
-        <h2 className={`font-medium text-sm ${textColor}`}>Light</h2>
-        <span className={`text-lg font-bold mt-[4px] ${ppmColor}`}>{output} PPM</span>
+        <h2 className={`font-semibold text-sm ${textColor}`}> {name} </h2>
+        <span className={`text-lg font-bold mt-[4px] ${ppmColor}`}>{sensorValue} {unit}</span>
       </div>
 
       {/* Toggle Switch */}

@@ -18,7 +18,7 @@ export default {
         'second-light': '#f4f4f5',
       },
       colors: {
-        primary: '#1b4208',
+        primary: '#294646',
       },
     },
   },

@@ -1,16 +1,50 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegLightbulb } from "react-icons/fa";
+import { PiFanFill } from "react-icons/pi";
+export type IDeviceData = {
+  type: string,
+  status: string | null
+}
 
-const DeviceCard: React.FC<{}> = () => {
+type DeviceDataProps = {
+  data: IDeviceData
+}
+function DeviceCard (props : DeviceDataProps) {
   const [isSensorOn, setIsSensorOn] = useState<boolean>(false);
+  const [name, setName] = useState<string>("Device") 
+  // const [icon, setIcon] = useState<JSX.Element>()
 
   const handleToggleSensor = () => setIsSensorOn((prevState) => !prevState);
 
+  const renderIcon = (): JSX.Element => {
+    switch (props.data.type) {
+      case "LIGHT":
+        return <FaRegLightbulb className={isSensorOn ? "text-white" : "text-primary"} size={33} />
+      case "FAN":
+        return <PiFanFill className={isSensorOn ? "text-white" : "text-primary"} size={33} />
+      default:
+        return <span className="text-primary">?</span>;
+    }
+  };
+  useEffect(() => {
+    switch (props.data.type) {
+      case "LIGHT":
+        setName("LIGHT")
+        setIsSensorOn(props.data.status === "on" ? true : false);
+        break;
+      case "FAN":
+        setName("FAN")
+        setIsSensorOn(props.data.status === "on" ? true : false);
+        break
+      default:
+
+        break
+    }
+  },[props.data])
   // Dynamic styles
   const containerClasses = ` flex-none rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-[180px] h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
     isSensorOn ? "bg-[#294646]" : "bg-white"
   }`;
-
   const textColor = isSensorOn ? "text-white" : "text-black";
   const switchBg = isSensorOn ? "bg-white" : "bg-[rgba(41,70,70,0.4)]";
   const switchKnobClasses = `absolute left-1 top-[2px] w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 ${
@@ -29,9 +63,9 @@ const DeviceCard: React.FC<{}> = () => {
       {/* Icon and Label */}
       <div className="absolute top-[30px] left-[10px] flex flex-col items-center">
         <div className="w-12 h-12 flex items-center justify-center mb-[4px] text-[32px]">
-          <FaRegLightbulb className={isSensorOn ? "text-white" : "text-gray-500"} size={33} />
+          {renderIcon()}
         </div>
-        <h3 className={`text-sm font-medium mb-[30px] ${textColor}`}>Light</h3>
+        <h3 className={`text-sm font-semibold mb-[30px] ${textColor}`}>{name}</h3>
       </div>
 
       {/* Toggle Switch */}
