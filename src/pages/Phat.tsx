@@ -1,12 +1,12 @@
 // import SensorItem, { ISensor } from "../components/SensorItem";
-import FlameSensor from "../components/DeviceCard";
+// import FlameSensor from "../components/DeviceCard";
 import RoomCard from "../components/RoomCard";
 import RoomInfor from "../components/RoomInfor";
 import SortDropdown from "../components/SortDropdown";
 function Phat() {
   return (
     <>
-      <FlameSensor />
+      {/* <FlameSensor /> */}
       <RoomCard name={"Room 1"} status={"Bình thường"} price={0} />
       <RoomInfor
         imageSrc="https://via.placeholder.com/400"

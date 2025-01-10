@@ -148,39 +148,39 @@ const HomePage: React.FC = () => {
   const [response, setResponse] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  // useEffect(() => {
-  //   // Initialize WebSocket connection when the component mounts
-  //   const socket = new WebSocket('http://192.168.0.219:8017'); // Replace with your WebSocket URL
-  //   setWs(socket);
+  useEffect(() => {
+    // Initialize WebSocket connection when the component mounts
+    const socket = new WebSocket('http://192.168.0.219:8017'); // Replace with your WebSocket URL
+    setWs(socket);
 
-  //   socket.onopen = () => {
-  //     console.log('WebSocket connection established.');
-  //   };
+    socket.onopen = () => {
+      console.log('WebSocket connection established.');
+    };
 
-  //   socket.onmessage = (event) => {
-  //     const data = JSON.parse(event.data);
-  //     if (data.type === 'response') {
-  //       setResponse(JSON.stringify(data.data, null, 2));
-  //     } else if (data.type === 'error') {
-  //       setError(data.error);
-  //     }
-  //   };
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'response') {
+        setResponse(JSON.stringify(data.data, null, 2));
+      } else if (data.type === 'error') {
+        setError(data.error);
+      }
+    };
 
-  //   socket.onerror = (event) => {
-  //     console.error('WebSocket error:', event);
-  //   };
+    socket.onerror = (event) => {
+      console.error('WebSocket error:', event);
+    };
 
-  //   socket.onclose = () => {
-  //     console.log('WebSocket connection closed.');
-  //   };
+    socket.onclose = () => {
+      console.log('WebSocket connection closed.');
+    };
 
-  //   return () => {
-  //     // Clean up the WebSocket connection when the component unmounts
-  //     if (socket) {
-  //       socket.close();
-  //     }
-  //   };
-  // }, []);
+    return () => {
+      // Clean up the WebSocket connection when the component unmounts
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, []);
 
   const handleSendMessage = () => {
     if (ws) {
