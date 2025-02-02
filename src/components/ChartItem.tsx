@@ -38,130 +38,136 @@ ChartJS.register(
 
 const MAX_POINTS = 24; // Max points for real-time mode
 
-const ChartItem: React.FC = () => {
-  const [currentData, setCurrentData] = useState(mockData.daily);
-  const [, setMenuOpen] = useState(false);
-  const [realTime, setRealTime] = useState(false);
-  const [zoomRange, setZoomRange] = useState<number[]>([0, 12]);
-  const [paused, setPaused] = useState(false);
-  const [, setSelectedMonth] = useState("Jan");
+type ChartItemProps = {
+  labels: number[]
+  data: number[]
+}
+function ChartItem(props : ChartItemProps){
+  // const [currentData, setCurrentData] = useState(mockData.daily);
+  // const [, setMenuOpen] = useState(false);
+  // const [realTime, setRealTime] = useState(false);
+  // const [zoomRange, setZoomRange] = useState<number[]>([0, 12]);
+  // const [paused, setPaused] = useState(false);
+  const [selectedKeys, setSelectedKey] = React.useState("Options");
+  // console.log(props.data)
+  // Capitalize function for dynamic menu items
+  const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  // Fetch real-time data
-  useEffect(() => {
-    if (!realTime) return;
+  // console.log(currentData)
+  // useEffect(() => {
+  //   if (!realTime) return;
 
-    const interval = setInterval(() => {
-      setCurrentData((prevData) => {
-        const now = new Date();
-        const newTime = now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        });
-        const newTemperature = parseFloat((20 + Math.random() * 10).toFixed(1));
-        const newHumidity = parseFloat((50 + Math.random() * 20).toFixed(1));
+  //   const interval = setInterval(() => {
+  //     setCurrentData((prevData) => {
+  //       const now = new Date();
+  //       const newTime = now.toLocaleTimeString([], {
+  //         hour: "2-digit",
+  //         minute: "2-digit",
+  //         second: "2-digit",
+  //       });
+  //       const newTemperature = parseFloat((20 + Math.random() * 10).toFixed(1));
+  //       const newHumidity = parseFloat((50 + Math.random() * 20).toFixed(1));
 
-        const updatedLabels = [...prevData.labels, newTime].slice(-MAX_POINTS);
-        const updatedTemperature = [
-          ...prevData.temperature,
-          newTemperature,
-        ].slice(-MAX_POINTS);
-        const updatedHumidity = [...prevData.humidity, newHumidity].slice(
-          -MAX_POINTS
-        );
+  //       const updatedLabels = [...prevData.labels, newTime].slice(-MAX_POINTS);
+  //       const updatedTemperature = [
+  //         ...prevData.temperature,
+  //         newTemperature,
+  //       ].slice(-MAX_POINTS);
+  //       const updatedHumidity = [...prevData.humidity, newHumidity].slice(
+  //         -MAX_POINTS
+  //       );
 
-        if (!paused) {
-          setZoomRange([
-            Math.max(0, updatedLabels.length - 12),
-            updatedLabels.length,
-          ]);
-        }
+  //       if (!paused) {
+  //         setZoomRange([
+  //           Math.max(0, updatedLabels.length - 12),
+  //           updatedLabels.length,
+  //         ]);
+  //       }
 
-        return {
-          labels: updatedLabels,
-          temperature: updatedTemperature,
-          humidity: updatedHumidity,
-        };
-      });
-    }, 5000);
+  //       return {
+  //         labels: updatedLabels,
+  //         temperature: updatedTemperature,
+  //         humidity: updatedHumidity,
+  //       };
+  //     });
+  //   }, 5000);
 
-    return () => clearInterval(interval);
-  }, [realTime, paused]);
+  //   return () => clearInterval(interval);
+  // }, [realTime, paused]);
 
   // Change data type
-  const handleDataChange = useCallback(
-    (
-      type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
-      month?: string
-    ) => {
-      setMenuOpen(false);
+  // const handleDataChange = useCallback(
+  //   (
+  //     type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
+  //   ) => {
+  //     // setMenuOpen(false);
+  //     setSelectedKey(capitalize(type));
+  //     if (type === "realTime") {
+  //       setRealTime(true);
+  //       const now = new Date();
+  //       const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
+  //         const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
+  //         return {
+  //           time: time.toLocaleTimeString([], {
+  //             hour: "2-digit",
+  //             minute: "2-digit",
+  //             second: "2-digit",
+  //           }),
+  //           temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
+  //           humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
+  //         };
+  //       });
 
-      if (type === "realTime") {
-        setRealTime(true);
-        const now = new Date();
-        const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
-          const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
-          return {
-            time: time.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            }),
-            temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
-            humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
-          };
-        });
-
-        setCurrentData({
-          labels: initialData.map((d) => d.time),
-          temperature: initialData.map((d) => d.temperature),
-          humidity: initialData.map((d) => d.humidity),
-        });
-        setZoomRange([0, 12]);
-        setPaused(false);
-      } else if (type === "monthly" && month) {
-        setRealTime(false);
-        setSelectedMonth(month);
-        const monthData = mockData.monthly.details[month];
-        setCurrentData(monthData);
-        setZoomRange([0, Math.min(monthData.labels.length, 12)]);
-      } else {
-        setRealTime(false);
-        setCurrentData(mockData[type]);
-        setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
-      }
-    },
-    []
-  );
+  //       setCurrentData({
+  //         labels: initialData.map((d) => d.time),
+  //         temperature: initialData.map((d) => d.temperature),
+  //         humidity: initialData.map((d) => d.humidity),
+  //       });
+  //       setZoomRange([0, 12]);
+  //       setPaused(false);
+  //     // } else if (type === "monthly" && month) {
+  //     //   setRealTime(false);
+  //     //   // setSelectedMonth(month);
+  //     //   const monthData = mockData.monthly.details[month];
+  //     //   setCurrentData(monthData);
+  //     //   setZoomRange([0, Math.min(monthData.labels.length, 12)]);
+  //     } else {
+  //       setRealTime(false);
+  //       setCurrentData(mockData[type]);
+  //       setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
+  //     }
+  //   },
+  //   []
+  // );
 
   // Handle zoom (Previous/Next) logic
-  const handleZoomChange = useCallback(
-    (direction: "next" | "prev") => {
-      setZoomRange((prevRange) => {
-        const offset = direction === "next" ? 12 : -12;
-        const newStart = Math.max(0, prevRange[0] + offset);
-        const newEnd = Math.min(currentData.labels.length, newStart + 12);
+  // const handleZoomChange = useCallback(
+  //   (direction: "next" | "prev") => {
+  //     setZoomRange((prevRange) => {
+  //       const offset = direction === "next" ? 12 : -12;
+  //       const newStart = Math.max(0, prevRange[0] + offset);
+  //       const newEnd = Math.min(currentData.labels.length, newStart + 12);
 
-        if (direction === "next" && newEnd >= currentData.labels.length) {
-          setPaused(false);
-        } else {
-          setPaused(true);
-        }
+  //       if (direction === "next" && newEnd >= currentData.labels.length) {
+  //         setPaused(false);
+  //       } else {
+  //         setPaused(true);
+  //       }
 
-        return [newStart, newEnd];
-      });
-    },
-    [currentData.labels.length]
-  );
+  //       return [newStart, newEnd];
+  //     });
+  //   },
+  //   [currentData.labels.length]
+  // );
 
   // Chart data and configuration
   const combinedChartData = {
-    labels: currentData.labels.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
+    labels: props.labels,
     datasets: [
       {
         type: "line" as const,
         label: "Temperature (°C)",
-        data: currentData.temperature.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
+        data: props.data, // Giảm 1 điểm
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
@@ -170,7 +176,8 @@ const ChartItem: React.FC = () => {
       {
         type: "line" as const,
         label: "Humidity (%)",
-        data: currentData.humidity.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
+        // data: currentData.humidity.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
+        data:[0],
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
@@ -178,7 +185,8 @@ const ChartItem: React.FC = () => {
       },
     ],
   };
-
+  console.log(combinedChartData.datasets[0].data)
+  console.log(combinedChartData.labels)
   const chartOptions = {
     responsive: true, // thay đổi kích thước màn hình tuỳ chỉnh dựa trên dữ liệu
     plugins: {
@@ -220,46 +228,27 @@ const ChartItem: React.FC = () => {
         <Dropdown>
           <DropdownTrigger>
             <Button className="text-white border-2 border-white" variant="bordered">
+              {selectedKeys}
               <RxCaretRight className="text-lg" />
             </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Data Type Selection"
-            onAction={(key) => {
-              if (key === "monthly") {
-                // Tạo menu con cho "Monthly" khi nhấn vào
-                setMenuOpen(true);
-              } else {
-                handleDataChange(
-                  key as "daily" | "weekly" | "yearly" | "realTime"
-                );
-              }
+            selectedKeys={selectedKeys}
+            selectionMode="single"
+            onAction={(key) => { 
+              setSelectedKey(capitalize(String(key)));
+              // handleDataChange(
+              //   key as "daily" | "weekly" | "monthly" | "realTime"| "yearly"
+              // );
+              
             }}
           >
             {/* Các loại menu */}
             {["daily", "weekly", "monthly", "yearly", "realTime"].map(
               (type) => (
                 <DropdownItem key={type} className="capitalize text-gray-950">
-                  {type === "monthly" ? (
-                    // Tạo menu con cho "Monthly" khi rê chuột vào
-                    <Dropdown placement="right">
-                      <DropdownTrigger onMouseEnter={() => setMenuOpen(true)}>
-                        <span className="cursor-pointer">Monthly</span>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        aria-label="Month selection"
-                        onAction={(monthKey) =>
-                          handleDataChange("monthly", monthKey as string)
-                        }
-                      >
-                        {Object.keys(mockData.monthly.details).map((month) => (
-                          <DropdownItem key={month} className="capitalize text-gray-950">{month}</DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                  ) : (
-                    type.charAt(0).toUpperCase() + type.slice(1) // Viết hoa chữ cái đầu
-                  )}
+                  {capitalize(type)}
                 </DropdownItem>
               )
             )}
@@ -276,15 +265,15 @@ const ChartItem: React.FC = () => {
         {/* Nút Previous và Next */}
         <div className="absolute top-2 right-2 flex gap-2">
           <button
-            disabled={zoomRange[0] === 0}
-            onClick={() => handleZoomChange("prev")}
+            // disabled={zoomRange[0] === 0}
+            // onClick={() => handleZoomChange("prev")}
             className="bg-gray-500 hover:bg-gray-600 text-white p-1 rounded-[20px] disabled:bg-gray-300"
           >
             <BsArrowLeftShort size={20} />
           </button>
           <button
-            disabled={zoomRange[1] >= currentData.labels.length}
-            onClick={() => handleZoomChange("next")}
+            // disabled={zoomRange[1] >= currentData.labels.length}
+            // onClick={() => handleZoomChange("next")}
             className="bg-gray-500 hover:bg-gray-600 text-white p-1 rounded-[20px] disabled:bg-gray-300"
           >
             <BsArrowRightShort size={20} />

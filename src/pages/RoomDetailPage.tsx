@@ -29,11 +29,63 @@ const defaultData = `{
     ]
   }`
 
+  const tableData = [
+    {
+        _id: "601a3b4c5d6e7f8a9b0c1d2e",
+        sensorId: "sensor_001",
+        createAt: "2025-01-31T12:00:00Z",
+        temperature: 22.5,
+        humidity: 55,
+        mq2: 150,
+        flame: false,
+        pir: false,
+        _destroy: false
+    },
+    {
+        _id: "601a3b4c5d6e7f8a9b0c1d2f",
+        sensorId: "sensor_002",
+        createAt: "2025-01-31T12:05:00Z",
+        temperature: 23.0,
+        humidity: 53,
+        mq2: 140,
+        flame: false,
+        pir: true,
+        _destroy: false
+    },
+    {
+        _id: "601a3b4c5d6e7f8a9b0c1d30",
+        sensorId: "sensor_003",
+        createAt: "2025-01-31T12:10:00Z",
+        temperature: 24.2,
+        humidity: 50,
+        mq2: 160,
+        flame: true,
+        pir: false,
+        _destroy: false
+    },
+    {
+        _id: "601a3b4c5d6e7f8a9b0c1d31",
+        sensorId: "sensor_004",
+        createAt: "2025-01-31T12:15:00Z",
+        temperature: 21.8,
+        humidity: 57,
+        mq2: 130,
+        flame: false,
+        pir: false,
+        _destroy: true
+    }
+];
+
+
+  
+
 function RoomDetailPage(){
     // const [user, setUser] = useState(null)
     // const [ws, setWs] = useState<WebSocket | null>(null);
     const [sensorData, setSensorData] = useState<ISensorData[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
+    const [chartData, setChartData] = useState<number[]>([]);
+    const [labelData, setLabelData] = useState<number[]>([]);
     // useEffect(() => {
     //     const userId = '6777a2be6f390f3a1bcfde52'
     //     FetchUserDataAPI(userId).then(user => {
@@ -64,6 +116,8 @@ function RoomDetailPage(){
                 console.log(data)
                 if (data.sensors) {
                   setSensorData(transformToISensorData(data.sensors));
+                  chartData.push(data.sensors[1].temperature)
+                  labelData.push( Date.now())
                 }
                 if (data.devices) {
                   setDeviceData(transformToIDeviceData(data.devices));
@@ -88,7 +142,7 @@ function RoomDetailPage(){
         }
         };
     }, []);
-    // console.log(user)
+    console.log("COunt")
     return(
         <>
         <div className="w-full">
@@ -110,7 +164,7 @@ function RoomDetailPage(){
                             )}
                         </div>
                         <div className="w-[1240px] flex-shrink-0 flex-grow mt-5">
-                            <ChartItem/>
+                            <ChartItem data={chartData} labels={labelData}/>
                         </div>
                     </div>
                     <div className="flex flex-col gap-5">
@@ -123,7 +177,7 @@ function RoomDetailPage(){
                     </div>
                 </div>
                 <div className="w-full">
-                    <TableItem/>
+                    <TableItem data={tableData}/>
                 </div>
             </div>
         </div>

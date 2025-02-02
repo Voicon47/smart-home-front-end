@@ -4,10 +4,13 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { useLocation } from "react-router-dom";
 import { path } from "../routes/Path";
 import { BsPersonFill } from "react-icons/bs";
-import {Accordion, AccordionItem } from '@nextui-org/react';
+import {Accordion, AccordionItem, Button } from '@nextui-org/react';
 import { useRouter } from '../hooks/use-router';
+import { useTheme } from "../context/themeContext";
+import { PiSunLight } from "react-icons/pi";
 
 function Sidebar() {
+    const { toggleTheme } = useTheme();
     const itemClasses = {
         base: "py-0 w-full",
         title: "font-normal text-medium",
@@ -117,6 +120,14 @@ function Sidebar() {
                     </AccordionItem>
                 ))}
             </Accordion>
+            <div>
+                <Button
+                    className="bg-transparent hover:text-primary"
+                    onPress={toggleTheme}
+                    isIconOnly
+                    startContent={<PiSunLight className="text-xl hover:text-primary cursor-pointer" />}
+                ></Button>
+            </div>
         </>
     );
 }
