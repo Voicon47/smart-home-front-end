@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import  ChartItem  from "../components/ChartItem";
-import DeviceCard, { IDeviceData } from "../components/DeviceCard"
-import ListingPeople from "../components/ListingPeople";
-import ListingScheduleCards from "../components/ListingScheduleCards";
+import  ChartItem  from "../../components/ChartItem";
+import DeviceCard, { IDeviceData } from "../../components/DeviceCard"
+import ListingPeople from "../../components/ListingPeople";
+import ListingScheduleCards from "../../components/ListingScheduleCards";
 // import ScheduleCard from "../components/ScheduleCard";
 // import SensorCard from "../components/SensroCard"
-import TableItem from "../components/TableItem";
+import TableItem from "../../components/TableItem";
 // import axios from 'axios'
 // import { API_ROOT } from "../utils/constants";
-import SensorCard, { ISensorData } from "../components/SensroCard";
-import { transformToIDeviceData, transformToISensorData } from "../utils/dataTransform";
-import SelectAvailableSensor from "./RoomDetail/SelectAvailbleSensor";
+import SensorCard, { ISensorData } from "../../components/SensroCard";
+import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -80,14 +79,13 @@ const defaultData = `{
 
   
 
-function RoomDetailPage(){
+function RoomDetail(){
     // const [user, setUser] = useState(null)
     // const [ws, setWs] = useState<WebSocket | null>(null);
     const [sensorData, setSensorData] = useState<ISensorData[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
-    const [chartData, setChartData] = useState<number[]>([])
-    const [labelData, setLabelData] = useState<number[]>([])
-    const [sensorId, setSensorId] = useState<string | null>(null)
+    const [chartData, setChartData] = useState<number[]>([]);
+    const [labelData, setLabelData] = useState<number[]>([]);
     // useEffect(() => {
     //     const userId = '6777a2be6f390f3a1bcfde52'
     //     FetchUserDataAPI(userId).then(user => {
@@ -179,9 +177,6 @@ function RoomDetailPage(){
                     </div>
                 </div>
                 <div className="w-full">
-                    <SelectAvailableSensor
-                        value={sensorId}
-                    />
                     <TableItem data={tableData}/>
                 </div>
             </div>
@@ -189,4 +184,4 @@ function RoomDetailPage(){
         </>
     )
 }
-export default RoomDetailPage
+export default RoomDetail
