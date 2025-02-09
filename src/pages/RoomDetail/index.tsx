@@ -10,6 +10,11 @@ import TableItem from "../../components/TableItem";
 // import { API_ROOT } from "../utils/constants";
 import SensorCard, { ISensorData } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
+import FilterBarSensor from "./FilterBarSensor";
+import { IFilterSensor } from "../../models/Common.model";
+import TableSensor from "./TableSensor";
+import { ISensor } from "../../models/Sensor.model";
+import { Pagination } from "@nextui-org/react";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -86,6 +91,12 @@ function RoomDetail(){
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
+    const [data, setData] = useState<ISensor[]>([]);
+    const [filterData, setFilterData] = useState<IFilterSensor>({
+        sensorId: null,
+        status: null,
+        query: null,
+     });
     // useEffect(() => {
     //     const userId = '6777a2be6f390f3a1bcfde52'
     //     FetchUserDataAPI(userId).then(user => {
@@ -177,7 +188,22 @@ function RoomDetail(){
                     </div>
                 </div>
                 <div className="w-full">
-                    <TableItem data={tableData}/>
+                    <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
+                    <div className="pt-5">
+                        <TableSensor data={tableData}/>
+                    </div>
+                    {data.length > 0 && (
+                        <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
+                            <Pagination
+                                total={paginationData.totalPages}
+                                page={1}
+                                initialPage={1}
+                                showControls
+                                loop
+                                onChange={async (page) => await handleChangePage(page)}
+                            />
+                        </div>
+            )}
                 </div>
             </div>
         </div>

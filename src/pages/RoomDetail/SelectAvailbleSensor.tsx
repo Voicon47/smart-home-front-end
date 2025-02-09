@@ -101,9 +101,9 @@ function SelectAvailableSensor(props: SelectSensorProps) {
             startContent={<MdCategory className="text-xl" />}
             labelPlacement="outside"
             disableSelectorIconRotation
-            placeholder="Chọn"
-            label="Loại cảm biến "
-            className="max-w-[10rem]"
+            placeholder="Select sensor"
+            label="Sensor "
+            className="min-w-[10rem] max-w-[15rem]"
             selectorIcon={<TbSelector className="text-xl" />}
             selectedKeys={props.value ? [props.value.toString()] : []}
         >
