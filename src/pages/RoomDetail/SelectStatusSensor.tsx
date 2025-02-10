@@ -47,7 +47,7 @@ function SelectStatusCourse(props: SelectStatusCourseProps) {
          className="min-w-[10rem] max-w-[14rem]"
          selectorIcon={<TbSelector className="text-xl" />}
          value={props.value}
-         selectedKeys={props.value ? [props.value.toString()] : []}
+         // selectedKeys={props.value ? [props.value.toString()] : []}
       >
          {categories.map((category: ICategory) => (
             <SelectItem key={category.id} value={category.value} variant="flat" color="secondary">

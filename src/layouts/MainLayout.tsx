@@ -22,7 +22,7 @@ type MainLayoutProps = {
                 <div className="select-none min-w-[15rem] bg-primary shadow-2xl fixed z-auto flex justify-start  max-h-screen rounded-xl left-2 bottom-1 top-5 items-start flex-col">
                     <Sidebar/>
                 </div>
-                <div className="ml-[16rem] w-screen p-4  mr-[1rem]">{props.children}</div>
+                <div className="ml-[16rem] w-screen p-4  mr-[2rem]">{props.children}</div>
             </div>
             {/* <Footer/> */}
         </div>

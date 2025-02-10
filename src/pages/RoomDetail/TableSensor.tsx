@@ -1,19 +1,37 @@
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip} from "@nextui-org/react";
 import { ISensorData } from "../../models/SensorData.model";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
-const columns = [
+const allColumns  = [
   { name: 'Date', uid: 'date' },
   { name: 'Time', uid: 'time' },
+  { name: 'Detection', uid: 'detection' },
+  { name: 'MQ2', uid: 'mq2' },
   { name: 'Temperature', uid: 'temperature' },
   { name: 'Humidity', uid: 'humidity' },
   { name: 'Status', uid: 'status' },
 ];
 type TableProps = {
   data: ISensorData[];
+  type: string | null;
   isLoading?: boolean;
 };
 export default function TableSensor(props: TableProps) {
+  const filteredColumns = useMemo(() => {
+    if (props.type === "DHT11") {
+      return allColumns.filter((col) => ["date", "time", "temperature", "humidity", "status"].includes(col.uid));
+    }
+    if (props.type === "PIR") {
+      return allColumns.filter((col) => ["date", "time", "detection", "status"].includes(col.uid));
+    }
+    if (props.type === "MQ2") {
+      return allColumns.filter((col) => ["date", "time", "mq2", "status"].includes(col.uid));
+    }
+    if (props.type === "FLAME") {
+      return allColumns.filter((col) => ["date", "time", "detection", "status"].includes(col.uid));
+    }
+    return allColumns; // Default: show all columns
+  }, [props.type]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderCell = React.useCallback((data: ISensorData, columnKey: any) => {
     switch (columnKey) {
@@ -46,7 +64,7 @@ export default function TableSensor(props: TableProps) {
       removeWrapper
       >
       
-      <TableHeader columns={columns} >
+      <TableHeader columns={filteredColumns} >
         {(column) => (
             <TableColumn
               key={column.uid}

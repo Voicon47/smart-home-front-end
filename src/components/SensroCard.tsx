@@ -5,7 +5,7 @@ import { FaTemperatureHigh } from "react-icons/fa";
 import { IoIosFlame } from "react-icons/io";
 import { MdOutlineAir } from "react-icons/md";
 
-export type ISensorData = {
+export type ISensorDataCard = {
   name: string;
   type: string;
   temperature: number | string | null;
@@ -15,7 +15,7 @@ export type ISensorData = {
   pir: number | null;
 };
 type SensorDataItemProps = {
-  data: ISensorData
+  data: ISensorDataCard
 }
 
 function SensorCard(props: SensorDataItemProps) {

@@ -7,35 +7,35 @@ import { ISensor } from '../../models/Sensor.model';
 
 export const sensorExamples: ISensor[] = [
     {
-      id: "1",
+      id: "1ssads",
       name: "Temperature Sensor",
       type: "temperature",
       roomId: "101",
       _destroy: false,
     },
     {
-      id: "2",
+      id: "2asd",
       name: "Humidity Sensor",
       type: "humidity",
       roomId: "102",
       _destroy: false,
     },
     {
-      id: "3",
+      id: "asd3",
       name: "Motion Sensor",
       type: "motion",
       roomId: "103",
       _destroy: false,
     },
     {
-      id: "4",
+      id: "sda",
       name: "Light Sensor",
       type: "light",
       roomId: "104",
       _destroy: false,
     },
     {
-      id: "5",
+      id: "5sad",
       name: "CO2 Sensor",
       type: "co2",
       roomId: "105",
@@ -58,7 +58,7 @@ type SelectSensorProps = {
 
 const getAllAvailableSensor = async (): Promise<ISensor[] | null> => {
     try {
-        const response = await fetch('https://localhost:7005/api/category-course', {
+        const response = await fetch('http://localhost:8017/v1/sensor', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ function SelectAvailableSensor(props: SelectSensorProps) {
             label="Sensor "
             className="min-w-[10rem] max-w-[15rem]"
             selectorIcon={<TbSelector className="text-xl" />}
-            selectedKeys={props.value ? [props.value.toString()] : []}
+            // selectedKeys={props.value ? [props.value.toString()] : []}
         >
             {sensors.map((sensor: ISensor, index: number) => (
                 <SelectItem key={sensor?.id ?? index} value={sensor.id} variant="flat" color="secondary">

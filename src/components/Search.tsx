@@ -11,7 +11,7 @@ function Search(props: SearchProps) {
    return (
       <Input
          className={`${props.className} max-w-[25rem] select-none w-1/3 min-w-[20rem]`}
-         label=""
+         label="Search"
          value={props.value}
          onChange={(e) => props.onChange && props.onChange(e.target.value)}
          placeholder={props.placeholder ? props.placeholder : 'Tìm kiếm khóa học, bài viết , video,...'}

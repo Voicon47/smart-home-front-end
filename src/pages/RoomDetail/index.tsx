@@ -8,13 +8,17 @@ import ListingScheduleCards from "../../components/ListingScheduleCards";
 import TableItem from "../../components/TableItem";
 // import axios from 'axios'
 // import { API_ROOT } from "../utils/constants";
-import SensorCard, { ISensorData } from "../../components/SensroCard";
+import SensorCard, { ISensorDataCard } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 import FilterBarSensor from "./FilterBarSensor";
 import { IFilterSensor } from "../../models/Common.model";
 import TableSensor from "./TableSensor";
 import { ISensor } from "../../models/Sensor.model";
 import { Pagination } from "@nextui-org/react";
+import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
+import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
+import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
+import { ISensorData } from "../../models/SensorData.model";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -87,16 +91,40 @@ const defaultData = `{
 function RoomDetail(){
     // const [user, setUser] = useState(null)
     // const [ws, setWs] = useState<WebSocket | null>(null);
-    const [sensorData, setSensorData] = useState<ISensorData[]>([])
+    const [sensorData, setSensorData] = useState<ISensorDataCard[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
-    const [data, setData] = useState<ISensor[]>([]);
+    const [typeTable, setTypeTable] = useState<string | null>(null)
+    const [data, setData] = useState<ISensorData[]>(tableData);
+    const [paginationData, setPaginationData] = useState<IPaginationClientData>({
+        totalPages: -1,
+        size: 5,
+        currentPage: 1,
+     });
     const [filterData, setFilterData] = useState<IFilterSensor>({
         sensorId: null,
         status: null,
         query: null,
      });
+    const handleChangePage = async (page: number) => {
+        const queryData: IPaginationRequestDto<ISensorQueryDto> = {
+            where: filterData,
+            pageNumber: page,
+            pageSize: paginationData.size,
+        };
+        setPaginationData((prev) => {
+            return {
+                ...prev,
+                currentPage: page,
+            };
+        });
+        // setIsLoading(true);
+        // const res = await getAllCourse(queryData);
+        // console.log("After change "+res)
+        // setIsLoading(false);
+        // res && setData(res.data);
+    };
     // useEffect(() => {
     //     const userId = '6777a2be6f390f3a1bcfde52'
     //     FetchUserDataAPI(userId).then(user => {
@@ -153,7 +181,7 @@ function RoomDetail(){
         }
         };
     }, []);
-    console.log("COunt")
+    console.log(filterData)
     return(
         <>
         <div className="w-full">
@@ -190,12 +218,12 @@ function RoomDetail(){
                 <div className="w-full">
                     <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
                     <div className="pt-5">
-                        <TableSensor data={tableData}/>
+                        <TableSensor data={tableData} type={typeTable} />
                     </div>
                     {data.length > 0 && (
                         <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
                             <Pagination
-                                total={paginationData.totalPages}
+                                total={5}
                                 page={1}
                                 initialPage={1}
                                 showControls

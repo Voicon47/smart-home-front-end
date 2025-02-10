@@ -26,7 +26,9 @@ function FilterBarSensor(props: FilterBarCourseProps) {
         <div className="flex justify-between gap-3 items-end ">
             <Search onChange={(val) => setQuery(val)} placeholder="Tìm kiếm theo..." />
             <div className="flex gap-3">
-                <SelectAvailableSensor onResult={(val) => setSensorId(val)}/>
+                <SelectAvailableSensor 
+                    // value={sensorId}
+                    onResult={(val) => setSensorId(val)}/>
                 <SelectStatusSensor onResult={(val) => setStatus(val)}/>
             </div>
         </div>

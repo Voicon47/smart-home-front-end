@@ -1,6 +1,6 @@
 // import { ISensorData } from "../components/SensorCard";
 import { IDeviceData } from "../components/DeviceCard";
-import { ISensorData } from "../components/SensroCard";
+import { ISensorDataCard } from "../components/SensroCard";
 
 /**
  * Transforms raw sensor data into ISensorData format.
@@ -8,7 +8,7 @@ import { ISensorData } from "../components/SensroCard";
  * @returns Transformed ISensorData array
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const transformToISensorData = (sensors: any): ISensorData[] => {
+export const transformToISensorData = (sensors: any): ISensorDataCard[] => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return sensors.map((sensor: any) => ({
     type: sensor.type,
