@@ -1,7 +1,7 @@
 import './App.css'
 // import { Toaster } from 'react-hot-toast';
 import {Route, Routes } from 'react-router-dom';
-import { privateRoutes, protectedRoutes, publicRoutes } from './routes/Routes';
+import {  protectedRoutes, publicRoutes } from './routes/Routes';
 // import { useTheme } from './context/themeContext';
 import MainLayout from './layouts/MainLayout';
 
