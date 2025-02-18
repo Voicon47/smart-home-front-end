@@ -23,7 +23,7 @@ export type routeProps = {
 export const protectedRoutes: routeProps[] = [
    {
       path: path.HOME,
-      component: <HomePage />,
+      component: <RoomDetail/>,
       type: typeRoute.PROTECTED_ROUTE,
    },
    {
