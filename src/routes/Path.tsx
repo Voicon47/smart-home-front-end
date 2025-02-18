@@ -1,6 +1,6 @@
 export const path = {
     NOT_FOUND: '/not-found',
-    HOME: 'dashboard',
+    HOME: '',
     PHAT:'phat',
     ROOM:'room',
     POST: {
