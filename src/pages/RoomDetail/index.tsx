@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import  ChartItem  from "../../components/ChartItem";
 import DeviceCard, { IDeviceData } from "../../components/DeviceCard"
 import ListingPeople from "../../components/ListingPeople";
 import ListingScheduleCards from "../../components/ListingScheduleCards";
 // import ScheduleCard from "../components/ScheduleCard";
 // import SensorCard from "../components/SensroCard"
-import TableItem from "../../components/TableItem";
+// import TableItem from "../../components/TableItem";
 // import axios from 'axios'
 // import { API_ROOT } from "../utils/constants";
 import SensorCard, { ISensorDataCard } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 import FilterBarSensor from "./FilterBarSensor";
 import { IFilterSensor } from "../../models/Common.model";
-import TableSensor from "./TableSensor";
-import { ISensor } from "../../models/Sensor.model";
+import TableSensor, { ISensorDataTable } from "./TableSensor";
+// import { ISensor } from "../../models/Sensor.model";
 import { Pagination } from "@nextui-org/react";
 import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
 import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
 import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
-import { ISensorData } from "../../models/SensorData.model";
+import { getDataSensor } from "./service";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -86,45 +86,45 @@ const defaultData = `{
 ];
 
 
-  
 
 function RoomDetail(){
     // const [user, setUser] = useState(null)
     // const [ws, setWs] = useState<WebSocket | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sensorData, setSensorData] = useState<ISensorDataCard[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
-    const [typeTable, setTypeTable] = useState<string | null>(null)
-    const [data, setData] = useState<ISensorData[]>(tableData);
-    const [paginationData, setPaginationData] = useState<IPaginationClientData>({
-        totalPages: -1,
-        size: 5,
-        currentPage: 1,
-     });
+    const [data, setData] = useState<ISensorDataTable[]>([]);
+    // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
+    //     totalPages: -1,
+    //     size: 5,
+    //     currentPage: 1,
+    //  });
     const [filterData, setFilterData] = useState<IFilterSensor>({
         sensorId: null,
+        sensorType: null,
         status: null,
         query: null,
      });
-    const handleChangePage = async (page: number) => {
-        const queryData: IPaginationRequestDto<ISensorQueryDto> = {
-            where: filterData,
-            pageNumber: page,
-            pageSize: paginationData.size,
-        };
-        setPaginationData((prev) => {
-            return {
-                ...prev,
-                currentPage: page,
-            };
-        });
-        // setIsLoading(true);
-        // const res = await getAllCourse(queryData);
-        // console.log("After change "+res)
-        // setIsLoading(false);
-        // res && setData(res.data);
-    };
+    // const handleChangePage = async (page: number) => {
+    //     const queryData: IPaginationRequestDto<ISensorQueryDto> = {
+    //         where: filterData,
+    //         pageNumber: page,
+    //         pageSize: paginationData.size,
+    //     };
+    //     setPaginationData((prev) => {
+    //         return {
+    //             ...prev,
+    //             currentPage: page,
+    //         };
+    //     });
+    //     // setIsLoading(true);
+    //     // const res = await getAllCourse(queryData);
+    //     // console.log("After change "+res)
+    //     // setIsLoading(false);
+    //     // res && setData(res.data);
+    // };
     // useEffect(() => {
     //     const userId = '6777a2be6f390f3a1bcfde52'
     //     FetchUserDataAPI(userId).then(user => {
@@ -182,6 +182,64 @@ function RoomDetail(){
         };
     }, []);
     console.log(filterData)
+
+    // useEffect(() => {
+    //     const initData = async() => {
+    //         setIsLoading(true)
+    //         const totalData = 100
+    //         // const queryData: IPaginationRequestDto<ISensorQueryDto> = {
+    //         //     where: {},
+    //         //     pageNumber: 1,
+    //         //     pageSize: paginationData.size,
+    //         // }
+    //         setPaginationData((prev) => {
+    //             return {
+    //                 ...prev,
+    //                 totalPages: Math.ceil(totalData / paginationData.size)
+    //             }
+    //         })
+    //         const res = await getDataSensor(filterData)
+    //         console.log(res)
+    //         setIsLoading(false)
+    //         res && setData(res)
+    //     }
+    //     initData();
+    // }, []);
+
+    const fetchDataChart = useCallback(async () => {
+        setChartData([])
+        setLabelData([])
+        // const res = await getAllAvailableSensor();
+        // if (res) setSensors(res);
+    }, []);
+    useEffect(() => {
+        console.log("Query sensor 2")
+        fetchDataChart();
+    }, [fetchDataChart]);
+    useEffect(() => {
+        console.log("UseEffect 2")
+        if (!filterData) return; // Skip if filterData is empty
+        const filter = async () => {
+            // setData([])
+            console.log("isLoading")
+            console.log(data)
+            setIsLoading(true);
+            const newData = await getDataSensor(filterData)
+            console.log("newdata: ",newData)
+            console.log("unLoading")
+            setIsLoading(false);
+            setData([...newData])
+            
+        };
+        console.log("isLoading")
+            setIsLoading(true);
+        const queryTimeout = setTimeout(filter, 1000);
+  
+        return () => {
+           clearTimeout(queryTimeout);
+        };
+     }, [filterData]);
+    //  console.log(isLoading)
     return(
         <>
         <div className="w-full">
@@ -218,7 +276,7 @@ function RoomDetail(){
                 <div className="w-full">
                     <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
                     <div className="pt-5">
-                        <TableSensor data={tableData} type={typeTable} />
+                        <TableSensor data={data} type={filterData.sensorType} isLoading={isLoading}/>
                     </div>
                     {data.length > 0 && (
                         <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
@@ -228,7 +286,7 @@ function RoomDetail(){
                                 initialPage={1}
                                 showControls
                                 loop
-                                onChange={async (page) => await handleChangePage(page)}
+                                // onChange={async (page) => await handleChangePage(page)}
                             />
                         </div>
             )}
@@ -239,3 +297,4 @@ function RoomDetail(){
     )
 }
 export default RoomDetail
+

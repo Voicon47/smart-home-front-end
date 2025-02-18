@@ -5,7 +5,8 @@ export enum IStatusSensor {
 }
 
 export type IFilterSensor = {
-    sensorId?: number | string | null;
+    sensorId:string | null;
+    sensorType: string | null;
     status?: IStatusSensor | string | null;
     query?: string | null;
  };

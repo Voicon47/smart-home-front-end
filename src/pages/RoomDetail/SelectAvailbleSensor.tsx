@@ -2,40 +2,40 @@ import { Select, SelectItem } from '@nextui-org/react';
 import { TbSelector } from 'react-icons/tb';
 import { MdCategory } from 'react-icons/md';
 // import { ICategoryCourse } from '../../../model/Common.model';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ISensor } from '../../models/Sensor.model';
 
 export const sensorExamples: ISensor[] = [
     {
-      id: "1ssads",
+      _id: "1ssads",
       name: "Temperature Sensor",
       type: "temperature",
       roomId: "101",
       _destroy: false,
     },
     {
-      id: "2asd",
+      _id: "2asd",
       name: "Humidity Sensor",
       type: "humidity",
       roomId: "102",
       _destroy: false,
     },
     {
-      id: "asd3",
+      _id: "asd3",
       name: "Motion Sensor",
       type: "motion",
       roomId: "103",
       _destroy: false,
     },
     {
-      id: "sda",
+      _id: "sda",
       name: "Light Sensor",
       type: "light",
       roomId: "104",
       _destroy: false,
     },
     {
-      id: "5sad",
+        _id: "5sad",
       name: "CO2 Sensor",
       type: "co2",
       roomId: "105",
@@ -58,7 +58,7 @@ type SelectSensorProps = {
 
 const getAllAvailableSensor = async (): Promise<ISensor[] | null> => {
     try {
-        const response = await fetch('http://localhost:8017/v1/sensor', {
+        const response = await fetch(import.meta.env.VITE_URL_API+'sensor', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,25 +78,37 @@ const getAllAvailableSensor = async (): Promise<ISensor[] | null> => {
 function SelectAvailableSensor(props: SelectSensorProps) {
     const [sensors, setSensors] = useState<ISensor[]>([]);
 
-    useEffect(() => {
-        const getData = async () => {
-            const res = await getAllAvailableSensor();
-            if (res) {
-                setSensors([...res]);
-            } else {
-                setSensors([...sensorExamples])
-            }
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const res = await getAllAvailableSensor();
+    //         if (res) {
+    //             setSensors(res);
+    //         } 
+    //         // else {
+    //         //     setSensors([...sensorExamples])
+    //         // }
 
-        };
-        getData();
+    //     };
+    //     getData();
+    // }, []);
+    const fetchSensors = useCallback(async () => {
+        const res = await getAllAvailableSensor();
+        if (res) setSensors(res);
     }, []);
+    useEffect(() => {
+        console.log("Query sensor 2")
+        fetchSensors();
+    }, [fetchSensors]);
 
-    console.log(props.value);
+    console.log("Query sensor");
     return (
         <Select
             onChange={(val) => {
-                // props.onResult(+val.target.value === 0 ? null : +val.target.value);
-                props.onResult(val.target.value)
+                const selectedSensor = sensors.find(sensor => sensor._id === val.target.value);
+                props.onResult({
+                    id: val.target.value,
+                    type: selectedSensor ? selectedSensor.type : null,  // Return sensor type
+                });
             }}
             startContent={<MdCategory className="text-xl" />}
             labelPlacement="outside"
@@ -108,7 +120,7 @@ function SelectAvailableSensor(props: SelectSensorProps) {
             // selectedKeys={props.value ? [props.value.toString()] : []}
         >
             {sensors.map((sensor: ISensor, index: number) => (
-                <SelectItem key={sensor?.id ?? index} value={sensor.id} variant="flat" color="secondary">
+                <SelectItem key={sensor?._id ?? index} value={sensor._id} variant="flat" color="secondary">
                     {sensor.name}
                 </SelectItem>
             ))}

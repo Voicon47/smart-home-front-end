@@ -7,19 +7,20 @@ type SearchProps = {
    onChange?: (res: string) => void;
    value?: string;
 };
-function Search(props: SearchProps) {
+function SearchDashboard(props: SearchProps) {
    return (
       <Input
-         className={`${props.className} max-w-[25rem] select-none w-1/3 min-w-[20rem]`}
-         label="Search"
+         className={`${props.className} max-w-[25rem] select-none w-1/3 min-w-[15rem]`}
+        //  label="Search"
          value={props.value}
          onChange={(e) => props.onChange && props.onChange(e.target.value)}
-         placeholder={props.placeholder ? props.placeholder : '...'}
+         radius='md'
+         placeholder="Search"
          isClearable
-         labelPlacement="outside"
+         labelPlacement="inside"
          startContent={<IoSearchOutline />}
       />
    );
 }
 
-export default Search;
+export default SearchDashboard;

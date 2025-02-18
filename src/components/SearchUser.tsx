@@ -3,23 +3,22 @@ import { IoSearchOutline } from 'react-icons/io5';
 
 type SearchProps = {
    className?: string;
-   placeholder?: string;
    onChange?: (res: string) => void;
    value?: string;
 };
-function Search(props: SearchProps) {
+function SearchUser(props: SearchProps) {
    return (
       <Input
-         className={`${props.className} max-w-[25rem] select-none w-1/3 min-w-[20rem]`}
+        //  className={`${props.className} max-w-[25rem] select-none w-1/3 min-w-[20rem]`}
+         variant='bordered'
          label="Search"
          value={props.value}
          onChange={(e) => props.onChange && props.onChange(e.target.value)}
-         placeholder={props.placeholder ? props.placeholder : '...'}
          isClearable
-         labelPlacement="outside"
+         labelPlacement="inside"
          startContent={<IoSearchOutline />}
       />
    );
 }
 
-export default Search;
+export default SearchUser;

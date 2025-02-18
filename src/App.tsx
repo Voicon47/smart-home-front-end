@@ -1,7 +1,7 @@
 import './App.css'
 // import { Toaster } from 'react-hot-toast';
 import {Route, Routes } from 'react-router-dom';
-import { publicRoutes } from './routes/Routes';
+import { privateRoutes, protectedRoutes, publicRoutes } from './routes/Routes';
 // import { useTheme } from './context/themeContext';
 import MainLayout from './layouts/MainLayout';
 
@@ -31,12 +31,20 @@ function App() {
           }}
        /> */}
        <Routes>
+          {/* Protected Routes */}
+          {protectedRoutes.map((route, index) => (
+             <Route
+                key={index}
+                path={route.path}
+                element={<MainLayout >{route.component}</MainLayout>}
+             />
+          ))}
           {/* Public Routes */}
           {publicRoutes.map((route, index) => (
              <Route
                 key={index}
                 path={route.path}
-                element={<MainLayout >{route.component}</MainLayout>}
+                element={route.component}
              />
           ))}
        </Routes>

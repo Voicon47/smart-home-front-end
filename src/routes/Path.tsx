@@ -1,8 +1,8 @@
 export const path = {
     NOT_FOUND: '/not-found',
-    HOME: 'room',
+    HOME: '',
     PHAT:'phat',
-    ROOM:'',
+    ROOM:'room',
     POST: {
        INDEX: 'post',
        CREATE: 'post/create',
@@ -28,7 +28,7 @@ export const path = {
     },
     ADMIN: {
        MANAGER_COURSE_CATEGORY: 'admin/course/category',
-       DASHBOARD: 'admin/dashboard',
+       DASHBOARD: 'dashboard',
        COURSE: 'admin/course',
        ADD_COURSE: 'admin/course/add',
        DETAIL_COURSE: 'admin/course/',

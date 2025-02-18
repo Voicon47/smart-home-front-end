@@ -4,6 +4,8 @@ import HomePage from "../pages/HomePage";
 import Phat from "../pages/Phat";
 // import RoomDetailPage from "../pages/RoomDetailPage";
 import RoomDetail from "../pages/RoomDetail";
+import Dashboard from "../pages/admin/dashboard";
+import Login from "../pages/auth/Login";
 
 
 export type routeProps = {
@@ -18,21 +20,26 @@ export type routeProps = {
     PUBLIC_ROUTE = 'public_route',
  }
 
-export const publicRoutes: routeProps[] = [
+export const protectedRoutes: routeProps[] = [
    {
       path: path.HOME,
       component: <HomePage />,
-      type: typeRoute.PUBLIC_ROUTE,
+      type: typeRoute.PROTECTED_ROUTE,
    },
    {
       path: path.PHAT,
       component:<Phat/>,
-      type: typeRoute.PUBLIC_ROUTE,
+      type: typeRoute.PROTECTED_ROUTE,
    },
    {
       path: path.ROOM,
       component:<RoomDetail/>,
-      type: typeRoute.PUBLIC_ROUTE,
+      type: typeRoute.PROTECTED_ROUTE,
+   },
+   {
+      path: path.ADMIN.DASHBOARD,
+      component: <Dashboard/>,
+      type: typeRoute.PROTECTED_ROUTE
    }
    // {
    //    path: '/test',
@@ -55,8 +62,12 @@ export const publicRoutes: routeProps[] = [
    //    type: typeRoute.PUBLIC_ROUTE,
    // },
 ];
-export const protectedRoutes: routeProps[] = [
-   
+export const publicRoutes: routeProps[] = [
+   {
+      path: path.AUTH.LOGIN,
+      component: <Login />,
+      type: typeRoute.PUBLIC_ROUTE,
+   },
    // {
    //    path: path.ADMIN.POST,
    //    component: <PostManagement />,

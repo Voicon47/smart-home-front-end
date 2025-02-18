@@ -52,7 +52,7 @@ function ChartItem(props : ChartItemProps){
   // console.log(props.data)
   // Capitalize function for dynamic menu items
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
+  console.log("Chart")
   // console.log(currentData)
   // useEffect(() => {
   //   if (!realTime) return;
@@ -185,8 +185,8 @@ function ChartItem(props : ChartItemProps){
       },
     ],
   };
-  console.log(combinedChartData.datasets[0].data)
-  console.log(combinedChartData.labels)
+  // console.log(combinedChartData.datasets[0].data)
+  // console.log(combinedChartData.labels)
   const chartOptions = {
     responsive: true, // thay đổi kích thước màn hình tuỳ chỉnh dựa trên dữ liệu
     plugins: {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Search from "../../components/Search"
 import { IFilterSensor, IStatusSensor } from "../../models/Common.model";
 import SelectAvailableSensor from "./SelectAvailbleSensor";
@@ -10,25 +10,43 @@ type FilterBarCourseProps = {
 
 function FilterBarSensor(props: FilterBarCourseProps) {
     
-    const [query, setQuery] = useState<string | null>(null);
+    const [query, setQuery] = useState<string>("");
     const [status, setStatus] = useState<IStatusSensor| string | null>(null)
-    const [sensorId, setSensorId] = useState<string | null>(null)
+    const [sensor, setSensor] = useState<{ id: string | null; type: string | null }>({ id: null, type: null });
+    const filter = useMemo(
+        () => ({
+            sensorId: sensor.id || null,
+            sensorType: sensor.type || null,
+            status: status || null,
+            query: query.trim() || null
+        }),
+        [sensor, status, query]
+    );
+    // Callback to trigger onChange only when the filter changes
+    const updateFilter = useCallback(() => {
+        props.onChange(filter);
+    }, [filter, props.onChange]);
     useEffect(() => {
-        let filter = {
-            sensorId,
-            status,
-            query
-        };
-        props.onChange(filter)
-    },[sensorId, status, query])
-
+        const delayDebounceFn = setTimeout(updateFilter, 500); // Debounce for 500ms
+        return () => clearTimeout(delayDebounceFn);
+    }, [updateFilter]);
+    // useEffect(() => {
+    //     let filter = {
+    //         sensorId: sensor.id,
+    //         sensorType: sensor.type,
+    //         status,
+    //         query
+    //     };
+    //     props.onChange(filter)
+    // },[sensor, status, query])
+    console.log("FilterBarSensor")
     return(
         <div className="flex justify-between gap-3 items-end ">
             <Search onChange={(val) => setQuery(val)} placeholder="Tìm kiếm theo..." />
             <div className="flex gap-3">
                 <SelectAvailableSensor 
                     // value={sensorId}
-                    onResult={(val) => setSensorId(val)}/>
+                    onResult={(val) => setSensor(val)}/>
                 <SelectStatusSensor onResult={(val) => setStatus(val)}/>
             </div>
         </div>

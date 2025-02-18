@@ -1,5 +1,5 @@
 export type ISensor = {
-    id: string,
+    _id: string,
     name: string,
     type: string,
     roomId: string,
