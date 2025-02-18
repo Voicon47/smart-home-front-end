@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,7 +22,7 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
 
 import zoomPlugin from "chartjs-plugin-zoom";
-import { mockData } from "./mockData";
+// import { mockData } from "./mockData";
 
 // Register ChartJS components
 ChartJS.register(
@@ -36,7 +36,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-const MAX_POINTS = 24; // Max points for real-time mode
+// const MAX_POINTS = 24; // Max points for real-time mode
 
 type ChartItemProps = {
   labels: number[]

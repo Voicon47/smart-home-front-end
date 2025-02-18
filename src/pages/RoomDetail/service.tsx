@@ -1,6 +1,6 @@
 import { IDevice } from "../../models/Device.model";
-import { IPaginationResponseDto } from "../../models/PaginatedResponse.Dto";
-import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
+// import { IPaginationResponseDto } from "../../models/PaginatedResponse.Dto";
+// import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
 import { ISensorData } from "../../models/SensorData.model";
 import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
 import { IUser } from "../../models/User.model";

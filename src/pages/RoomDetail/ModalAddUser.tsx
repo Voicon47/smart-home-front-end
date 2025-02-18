@@ -1,4 +1,4 @@
-import { Button, Checkbox, CheckboxGroup, Chip, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, useDisclosure, User } from "@nextui-org/react"
+import { Button, Checkbox, CheckboxGroup, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, useDisclosure, User } from "@nextui-org/react"
 import { useEffect, useState } from "react";
 import SearchUser from "../../components/SearchUser";
 import { IUser } from "../../models/User.model";
@@ -11,7 +11,7 @@ type ModalAddUserProps = {
     onAddUser?: (selectedUsers: IUser[]) => void;
  };
 function ModalAddUser(props: ModalAddUserProps) {
-    const { isOpen, onOpenChange, onOpen } = useDisclosure();
+    const {  onOpenChange} = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const [allUsers, setAllUsers] = useState<IUser[]>([]);
     const [isSelected, setIsSelected] = useState<string[]>([]);

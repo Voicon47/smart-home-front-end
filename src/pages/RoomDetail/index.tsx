@@ -15,9 +15,9 @@ import { IFilterSensor } from "../../models/Common.model";
 import TableSensor, { ISensorDataTable } from "./TableSensor";
 // import { ISensor } from "../../models/Sensor.model";
 import { Pagination } from "@nextui-org/react";
-import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
-import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
-import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
+// import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
+// import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
+// import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
 import { getDataSensor } from "./service";
 
 // const FetchUserDataAPI = async (userId: string) => {
@@ -38,52 +38,52 @@ const defaultData = `{
     ]
   }`
 
-  const tableData = [
-    {
-        _id: "601a3b4c5d6e7f8a9b0c1d2e",
-        sensorId: "sensor_001",
-        createAt: "2025-01-31T12:00:00Z",
-        temperature: 22.5,
-        humidity: 55,
-        mq2: 150,
-        flame: false,
-        pir: false,
-        _destroy: false
-    },
-    {
-        _id: "601a3b4c5d6e7f8a9b0c1d2f",
-        sensorId: "sensor_002",
-        createAt: "2025-01-31T12:05:00Z",
-        temperature: 23.0,
-        humidity: 53,
-        mq2: 140,
-        flame: false,
-        pir: true,
-        _destroy: false
-    },
-    {
-        _id: "601a3b4c5d6e7f8a9b0c1d30",
-        sensorId: "sensor_003",
-        createAt: "2025-01-31T12:10:00Z",
-        temperature: 24.2,
-        humidity: 50,
-        mq2: 160,
-        flame: true,
-        pir: false,
-        _destroy: false
-    },
-    {
-        _id: "601a3b4c5d6e7f8a9b0c1d31",
-        sensorId: "sensor_004",
-        createAt: "2025-01-31T12:15:00Z",
-        temperature: 21.8,
-        humidity: 57,
-        mq2: 130,
-        flame: false,
-        pir: false,
-        _destroy: true
-    }
-];
+//   const tableData = [
+//     {
+//         _id: "601a3b4c5d6e7f8a9b0c1d2e",
+//         sensorId: "sensor_001",
+//         createAt: "2025-01-31T12:00:00Z",
+//         temperature: 22.5,
+//         humidity: 55,
+//         mq2: 150,
+//         flame: false,
+//         pir: false,
+//         _destroy: false
+//     },
+//     {
+//         _id: "601a3b4c5d6e7f8a9b0c1d2f",
+//         sensorId: "sensor_002",
+//         createAt: "2025-01-31T12:05:00Z",
+//         temperature: 23.0,
+//         humidity: 53,
+//         mq2: 140,
+//         flame: false,
+//         pir: true,
+//         _destroy: false
+//     },
+//     {
+//         _id: "601a3b4c5d6e7f8a9b0c1d30",
+//         sensorId: "sensor_003",
+//         createAt: "2025-01-31T12:10:00Z",
+//         temperature: 24.2,
+//         humidity: 50,
+//         mq2: 160,
+//         flame: true,
+//         pir: false,
+//         _destroy: false
+//     },
+//     {
+//         _id: "601a3b4c5d6e7f8a9b0c1d31",
+//         sensorId: "sensor_004",
+//         createAt: "2025-01-31T12:15:00Z",
+//         temperature: 21.8,
+//         humidity: 57,
+//         mq2: 130,
+//         flame: false,
+//         pir: false,
+//         _destroy: true
+//     }
+// ];
 
 
 

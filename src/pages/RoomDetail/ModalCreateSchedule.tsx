@@ -1,4 +1,4 @@
-import { Button, Checkbox, CheckboxGroup, Chip, Input, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, TimeInput, useDisclosure, User } from "@nextui-org/react"
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, TimeInput, useDisclosure } from "@nextui-org/react"
 import SelectAvailableDevice from "./SelectAvailableDevice";
 import { useState } from "react";
 import SelectDayActive from "./SelectDayActive";
@@ -10,7 +10,7 @@ type ModalCreateScheduleProps = {
 }
 
 function ModalCreateSchedule(props: ModalCreateScheduleProps) {
-    const { isOpen, onOpenChange, onOpen } = useDisclosure();
+    const {  onOpenChange} = useDisclosure();
     const [device, setDevice] = useState<string>("")
     const [dayActive, setDayActive] = useState<string[]>([])
     const [startTime, setStartTime] = useState<TimeInputValue | null>(null)
@@ -20,7 +20,7 @@ function ModalCreateSchedule(props: ModalCreateScheduleProps) {
     if (!time) return "00:00"; // Default fallback
     return `${time.hour.toString().padStart(2, "0")}:${time.minute.toString().padStart(2, "0")}`;
 };
-    // console.log(dayActive,device,formatTime(startTime))
+    console.log(dayActive,device,formatTime(startTime))
 
     return (
         <Modal 

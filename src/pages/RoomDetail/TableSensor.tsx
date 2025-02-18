@@ -1,6 +1,6 @@
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner} from "@nextui-org/react";
-import { ISensorData } from "../../models/SensorData.model";
-import React, { useEffect, useMemo, useState } from "react";
+// import { ISensorData } from "../../models/SensorData.model";
+import  { useEffect, useMemo} from "react";
 
 const allColumns  = [
   { name: 'Date', uid: 'date' },

@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
-import ScheduleCard from "./ScheduleCard";
-import ButtonDropdown from "./ButtonDropdown";
+import { useState } from "react";
+// import ScheduleCard from "./ScheduleCard";
+// import ButtonDropdown from "./ButtonDropdown";
 import { Button } from "@nextui-org/react";
 import { IoMdAdd } from "react-icons/io";
 import ScheduleList from "./ScheduleList";
@@ -17,19 +17,20 @@ const ListingScheduleCards = () => {
   //   },
   // ]);
   const [listSchedule, setListSchedule] = useState<IDeviceSchedule[]>([]);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  // const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
-  const handleAdd = () => {
+  setListSchedule([])
+  // const handleAdd = () => {
     
-  };
+  // };
 
-  const handleDelete = () => {
-    // if (selectedId === null) return;
-    // setList((listSchedule) =>
-    //   listSchedule.filter((schedule) => schedule.id !== selectedId)
-    // );
-    // setSelectedId(null);
-  };
+  // const handleDelete = () => {
+  //   // if (selectedId === null) return;
+  //   // setList((listSchedule) =>
+  //   //   listSchedule.filter((schedule) => schedule.id !== selectedId)
+  //   // );
+  //   // setSelectedId(null);
+  // };
 
  
 

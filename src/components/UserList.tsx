@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { IUser } from "../models/User.model";
 import avatar from "../assets/avatar.jpg"
 import { User } from "@nextui-org/react";
@@ -20,7 +20,7 @@ type UserListProps = {
 function UserList(props: UserListProps){
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handleConfirmDelete = () => {
     if (selectedId) {

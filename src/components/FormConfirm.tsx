@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { Button, Modal, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 
 type FormConfirmProps = {
     isOpen?: boolean;
@@ -6,7 +6,7 @@ type FormConfirmProps = {
     onAccepted?: () => void;
  };
 function FormConfirm(props: FormConfirmProps){
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const {onOpenChange} = useDisclosure();
     return (
       <>
         <Modal
