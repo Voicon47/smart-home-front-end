@@ -2,6 +2,7 @@
 import { RiHomeWifiFill } from "react-icons/ri";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoMdArrowDropright } from "react-icons/io";
+import { Spinner } from "@nextui-org/react";
 
 interface HomeCardProps {
   name: string,
@@ -15,6 +16,7 @@ interface HomeCardProps {
 
 function HomeCard ({name,location,active,room,user,energy,devices = []}: HomeCardProps) {
   return (
+    <>
     <div className="w-[38095px] h-full p-4 rounded-[20px] shadow-md bg-white hover:shadow-xl transition">
       <div className="flex justify-between items-center border-b pb-2">
         <div className="flex items-center gap-2">
@@ -43,9 +45,14 @@ function HomeCard ({name,location,active,room,user,energy,devices = []}: HomeCar
         <p className="text-orange-600 font-medium">
           {room} Rooms - {user} Users
         </p>
-        <p className="font-bold text-lg">
+        {!energy ? (
+          <Spinner/>
+        ) : (
+          <p className="font-bold text-lg">
           Energy (Kwh): <span className="text-black">{energy}</span>
         </p>
+        )}
+        
       </div>
       <div className="flex gap-2 mt-4">
         {devices.map((device, index) => (
@@ -55,6 +62,7 @@ function HomeCard ({name,location,active,room,user,energy,devices = []}: HomeCar
         ))}
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,13 +1,10 @@
 import { Button, Image } from '@nextui-org/react';
-import { PiSunLight } from 'react-icons/pi';
-// import { useRouter } from '../hook';
-// import Search from '../components/Search';
-// import { path } from '../routes/Path';
-// import { useAuth } from '../context/authContext';
-import { useTheme } from '../context/themeContext';
+import { BiLogOut } from 'react-icons/bi';
+import { useRouter } from '../hooks/use-router';
+import { path } from '../routes/Path';
 function Header() {
-   // const router = useRouter();
-   const { toggleTheme } = useTheme();
+   const router = useRouter();
+   // const { toggleTheme } = useTheme();
 
    // const { isAuthenticated } = useAuth();
    return (
@@ -18,17 +15,17 @@ function Header() {
             }}
             className="cursor-pointer select-none flex justify-start items-center gap-10 w-1/3"
          >
-            <Image className="m-5" width={80} radius='none' alt="Study Online" />
-            <h5 className="font-semibold">One For All</h5>
+            {/* <Image className="m-5" width={80} radius='none' alt="Study Online" /> */}
+            <h5 className="ml-3 font-semibold">One For All</h5>
          </div>
          {/* <Search /> */}
          <div className="w-1/3 flex justify-end items-center gap-4">
+            <p className=''>Hello, Elephant47</p>
             <Button
-               className="bg-transparent hover:text-primary"
-               onClick={toggleTheme}
-               isIconOnly
-               startContent={<PiSunLight className="text-xl hover:text-primary cursor-pointer" />}
-            ></Button>
+               className="bg-transparent hover:text-primary text-primary"
+               startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer"/>}
+               onPress={() => router.push(path.AUTH.LOGIN)}
+            >Log out</Button>
             {/* <PiCloudMoonThin /> */}
             {/* {isAuthenticated ? (
                <>

@@ -96,6 +96,7 @@ function RoomDetail(){
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
+    console.log(import.meta.env.VITE_URL_API)
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
     //     totalPages: -1,
     //     size: 5,
@@ -140,7 +141,7 @@ function RoomDetail(){
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('https://192.168.0.219:8017'); // Replace with your WebSocket URL
+        const socket = new WebSocket('http://192.168.0.219:8017'); // Replace with your WebSocket URL
         // setWs(socket);
 
         socket.onopen = () => {
@@ -155,8 +156,10 @@ function RoomDetail(){
                 console.log(data)
                 if (data.sensors) {
                   setSensorData(transformToISensorData(data.sensors));
-                  chartData.push(data.sensors[1].temperature)
-                  labelData.push( Date.now())
+                //   chartData.push(data.sensors[1].temperature)
+                //   labelData.push( Date.now())
+                setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
+                setLabelData((prev) => [...prev, Date.now()]);
                 }
                 if (data.devices) {
                   setDeviceData(transformToIDeviceData(data.devices));
@@ -206,16 +209,6 @@ function RoomDetail(){
     //     initData();
     // }, []);
 
-    const fetchDataChart = useCallback(async () => {
-        setChartData([])
-        setLabelData([])
-        // const res = await getAllAvailableSensor();
-        // if (res) setSensors(res);
-    }, []);
-    useEffect(() => {
-        console.log("Query sensor 2")
-        fetchDataChart();
-    }, [fetchDataChart]);
     useEffect(() => {
         console.log("UseEffect 2")
         if (!filterData) return; // Skip if filterData is empty

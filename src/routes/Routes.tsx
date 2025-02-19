@@ -6,6 +6,8 @@ import Phat from "../pages/Phat";
 import RoomDetail from "../pages/RoomDetail";
 import Dashboard from "../pages/admin/dashboard";
 import Login from "../pages/auth/Login";
+import UserManagement from "../pages/admin/user";
+import SensorManagement from "../pages/admin/sensor";
 
 
 export type routeProps = {
@@ -22,17 +24,12 @@ export type routeProps = {
 
 export const protectedRoutes: routeProps[] = [
    {
-      path: path.HOME,
-      component: <RoomDetail/>,
-      type: typeRoute.PROTECTED_ROUTE,
-   },
-   {
       path: path.PHAT,
       component:<Phat/>,
       type: typeRoute.PROTECTED_ROUTE,
    },
    {
-      path: path.ROOM,
+      path: path.ADMIN.DETAIL_ROOM,
       component:<RoomDetail/>,
       type: typeRoute.PROTECTED_ROUTE,
    },
@@ -40,7 +37,22 @@ export const protectedRoutes: routeProps[] = [
       path: path.ADMIN.DASHBOARD,
       component: <Dashboard/>,
       type: typeRoute.PROTECTED_ROUTE
-   }
+   },
+   {
+      path: path.ADMIN.USER,
+      component: <UserManagement/>,
+      type: typeRoute.PROTECTED_ROUTE
+   },
+   {
+      path: path.ADMIN.SENSOR,
+      component: <SensorManagement/>,
+      type: typeRoute.PROTECTED_ROUTE
+   },
+   {
+      path: path.ADMIN.ROOM,
+      component: <UserManagement/>,
+      type: typeRoute.PROTECTED_ROUTE
+   },
    // {
    //    path: '/test',
    //    component: <TestPage />,
@@ -81,7 +93,11 @@ export const publicRoutes: routeProps[] = [
    
 ];
 export const privateRoutes: routeProps[] = [
-   
+   {
+      path: path.ROOM,
+      component: <RoomDetail/>,
+      type: typeRoute.PRIVATE_ROUTE,
+   },
    // {
    //    path: path.POST.VIEW,
    //    component: <ViewPost />,

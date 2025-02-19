@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import ScheduleCard from "./ScheduleCard";
 // import ButtonDropdown from "./ButtonDropdown";
 import { Button } from "@nextui-org/react";
@@ -19,7 +19,6 @@ const ListingScheduleCards = () => {
   const [listSchedule, setListSchedule] = useState<IDeviceSchedule[]>([]);
   // const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
-  setListSchedule([])
   // const handleAdd = () => {
     
   // };
@@ -32,7 +31,9 @@ const ListingScheduleCards = () => {
   //   // setSelectedId(null);
   // };
 
- 
+  useEffect(() => {
+    setListSchedule([])
+  },[])
 
 
 

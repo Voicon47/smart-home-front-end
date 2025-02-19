@@ -19,11 +19,11 @@ function Dashboard() {
                         <div className="mt-5">
                             <h3 className="text-start font-semibold">Overview</h3>
                             <div className="flex gap-5 w-full mt-1">
-                                <CardDashBoard title={""} icon={<MdOutlineShowChart/>} number={0} description={""}/>
-                                <CardDashBoard title={""} icon={<IoMdAdd/>} number={0} description={""}/>
-                                <CardDashBoard title={""} icon={<IoMdAdd/>} number={0} description={""}/>
-                                <CardDashBoard title={""} icon={<IoMdAdd/>} number={0} description={""}/>
-                                <CardDashBoard title={""} icon={<IoMdAdd/>} number={0} description={""}/>
+                                <CardDashBoard title={"Home"} icon={<MdOutlineShowChart/>} number={0} />
+                                <CardDashBoard title={"Room"} icon={<IoMdAdd/>} number={0} />
+                                <CardDashBoard title={"User"} icon={<IoMdAdd/>} number={0} />
+                                <CardDashBoard title={"Device"} icon={<IoMdAdd/>} number={0} />
+                                <CardDashBoard title={"Sensor"} icon={<IoMdAdd/>} number={0} />
                             </div>
                         </div>
                         <div className="w-[1180px]  flex-shrink-0 flex-grow mt-5">
@@ -34,9 +34,9 @@ function Dashboard() {
                             </Link>
                             </div>
                             <div className="flex flex-row gap-5 mt-3">
-                                <HomeCard name="Home 1" location="314 74TH" active={false} room={6} user={12} energy={100}/>
-                                <HomeCard name="Home 1" location="314 74TH ST BROOKLYN NY 11209-2564 USA" active={false} room={6} user={12} energy={100}/>
-                                <HomeCard name="Home 1" location="314 74TH ST BROOKLYN NY 11209-2564 USA" active={false} room={6} user={12} energy={100}/>
+                                <HomeCard name="Home 1" location="314 74TH" active={false} room={6} user={12} energy={0}/>
+                                <HomeCard name="Home 1" location="314 74TH ST BROOKLYN NY 11209-2564 USA" active={false} room={6} user={12} energy={0}/>
+                                <HomeCard name="Home 1" location="314 74TH ST BROOKLYN NY 11209-2564 USA" active={false} room={6} user={12} energy={0}/>
                                 
                             </div>
                         </div>
@@ -48,10 +48,10 @@ function Dashboard() {
                             </Link>
                             </div>
                             <div className="flex flex-row gap-4 mt-3">
-                                <RoomCard name={"AAA"} status={""} price={0}/>
-                                <RoomCard name={"AAA"} status={"AAA"} price={0}/>
-                                <RoomCard name={"AAA"} status={"AAA"} price={0}/>
-                                <RoomCard name={"AAA"} status={"AAA"} price={0}/>
+                                <RoomCard name={"AAA"} status={""} energy={0} userName={"Elephant47"}/>
+                                <RoomCard name={"AAA"} status={""} energy={0} userName={"Loc81"}/>
+                                <RoomCard name={"AAA"} status={""} energy={0} userName={"Phat BMTBMT"}/>
+                                <RoomCard name={"AAA"} status={"AAA"} energy={0} userName={"Mango 521"}/>
                             </div>
                         </div>
                         

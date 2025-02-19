@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
 // import { Eye, EyeOff } from "lucide-react";
 import { FaEye,FaEyeSlash } from "react-icons/fa";
+import { useRouter } from "../../hooks/use-router";
+import { path } from "../../routes/Path";
 
 function Login() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-
+  const router = useRouter();
   const toggleVisibility = (): void => setIsVisible((prev) => !prev);
-
+  
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault(); // Ngăn reload trang khi submit form
 
@@ -24,7 +26,11 @@ function Login() {
 
     setError("");
     console.log("Logging in with:", { username, password });
-
+    if(username === "vandinhdung"){
+      router.push(path.ROOM);
+    } else if(username === "admin01"){
+      router.push(path.ADMIN.ROOM)
+    }
     // Xử lý đăng nhập ở đây (gửi request API)
   };
 

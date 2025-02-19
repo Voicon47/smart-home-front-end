@@ -36,38 +36,23 @@ function Sidebar() {
             subNav: [
                 {
                     name: 'Sensor ',
-                    path: path.ADMIN.COURSE,
+                    path: path.ADMIN.SENSOR,
                     icon: <MdSensors className="text-xl "/>
                 },
                 {
                     name: 'Device',
-                    path: path.ADMIN.ADD_COURSE,
+                    path: path.ADMIN.SENSOR,
                     icon: <MdSensors className="text-xl"/>
                 },
                 {
                     name: 'Room',
-                    path: path.ADMIN.MANAGER_COURSE_CATEGORY,
+                    path: path.ADMIN.ROOM,
                     icon: <MdSensors className="text-xl"/>
                 },
                 
             ],
         },
-        // {
-        //     name: 'Posts',
-        //     icon: <BiBookContent className="text-xl" />,
-        //     key: 3,
-        //     path: path.ADMIN.POST,
-        //     subNav: [
-        //         {
-        //             name: 'Quản lý',
-        //             path: path.ADMIN.POST,
-        //         },
-        //         {
-        //             name: 'Thêm bài viết',
-        //             path: path.ADMIN.ADD_POST,
-        //         },
-        //     ],
-        // },
+        
         {
             name: 'Users',
             icon: <BsPersonFill className="text-xl" />,

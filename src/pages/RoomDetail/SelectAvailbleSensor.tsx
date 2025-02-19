@@ -5,43 +5,6 @@ import { MdCategory } from 'react-icons/md';
 import { useCallback, useEffect, useState } from 'react';
 import { ISensor } from '../../models/Sensor.model';
 
-export const sensorExamples: ISensor[] = [
-    {
-      _id: "1ssads",
-      name: "Temperature Sensor",
-      type: "temperature",
-      roomId: "101",
-      _destroy: false,
-    },
-    {
-      _id: "2asd",
-      name: "Humidity Sensor",
-      type: "humidity",
-      roomId: "102",
-      _destroy: false,
-    },
-    {
-      _id: "asd3",
-      name: "Motion Sensor",
-      type: "motion",
-      roomId: "103",
-      _destroy: false,
-    },
-    {
-      _id: "sda",
-      name: "Light Sensor",
-      type: "light",
-      roomId: "104",
-      _destroy: false,
-    },
-    {
-        _id: "5sad",
-      name: "CO2 Sensor",
-      type: "co2",
-      roomId: "105",
-      _destroy: true,
-    },
-  ];
   
 export type ICategory = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
