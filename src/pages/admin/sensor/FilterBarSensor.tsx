@@ -50,7 +50,7 @@ function FilterBarSensor(props: PropsType) {
                 </div>
             </div>
             <div className='flex items-end'>
-                <Button  color="primary">Add New User</Button>
+                <Button  color="primary">Add New Sensor</Button>
             </div>
             
             

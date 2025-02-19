@@ -1,34 +1,37 @@
 import { useEffect, useState } from "react";
-import FilterBarUser from "./FilterBarUser"
-import { IUser, mockUsers } from "../../../models/User.model";
-import { getAllUsersByQuery } from "./service";
-import TableUser from "./TableUser";
+import FilterBarSensor from "./FilterBarRoom"
+import TableSensor from "./TableRoom";
 import { Pagination } from "@nextui-org/react";
+import { getAllSensorsByQuery } from "./service";
+import { ISensor, mockSensors } from "../../../models/Sensor.model";
+import { mockRooms } from "../../../models/Room.model";
 
 
-export type IFilterUser = {
+export type IFilterSensor = {
     query?: string | null
-    role?: string | null
+    status?: string | null
+    type?: string | null
 }
-function UserManagement(){
+function RoomManagement(){
     const [isLoading, setIsLoading] = useState(false);
-    const [userData, setUserData] = useState<IUser[]|null>([]);
-    const [filterData, setFilterData] = useState<IFilterUser>({
+    const [sensorData, setSensorData] = useState<ISensor[]|null>([]);
+    const [filterData, setFilterData] = useState<IFilterSensor>({
             query: null,
-            role: null,
+            status: null,
+            type: null,
     });
     useEffect(() => {
         // if (!filterData) return; // Skip if filterData is empty
         const filter = async () => {
             // setData([])
             console.log("isLoading")
-            console.log(userData)
+            console.log(sensorData)
             setIsLoading(true);
-            const users = await getAllUsersByQuery(filterData)
+            const sensors = await getAllSensorsByQuery(filterData) ///NOTE
             // console.log("newdata: ",newData)
             // console.log("unLoading")
             setIsLoading(false);
-            setUserData([...users])
+            setSensorData([...sensors])
             
         };
         console.log("isLoading")
@@ -42,13 +45,13 @@ function UserManagement(){
     return(
         <div className="w-full p-4">
             <div className="w-full">
-                <h3 className="text-start text-2xl font-semibold">User</h3>
-                <FilterBarUser onChange={(res: IFilterUser) => setFilterData(res)}/>
+                <h3 className="text-start text-2xl font-semibold">Room</h3>
+                <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
                 <div className="mt-5">
-                    <TableUser  data={mockUsers}/>
+                    <TableSensor isLoading={isLoading} data={mockRooms}/>
                 </div>
                 <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
-                    <Pagination showControls total={5} initialPage={1} className="" />
+                    <Pagination showControls total={2} initialPage={1} className="" />
                 </div>
             </div>
             
@@ -56,4 +59,4 @@ function UserManagement(){
     )
 }
 
-export default UserManagement
+export default RoomManagement

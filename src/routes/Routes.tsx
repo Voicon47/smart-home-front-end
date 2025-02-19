@@ -8,6 +8,7 @@ import Dashboard from "../pages/admin/dashboard";
 import Login from "../pages/auth/Login";
 import UserManagement from "../pages/admin/user";
 import SensorManagement from "../pages/admin/sensor";
+import RoomManagement from "../pages/admin/room";
 
 
 export type routeProps = {
@@ -50,7 +51,7 @@ export const protectedRoutes: routeProps[] = [
    },
    {
       path: path.ADMIN.ROOM,
-      component: <UserManagement/>,
+      component: <RoomManagement/>,
       type: typeRoute.PROTECTED_ROUTE
    },
    // {
