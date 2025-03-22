@@ -11,3 +11,13 @@ export type IFilterSensor = {
     query?: string | null;
  };
 
+ export type IResponse<T, U> = {
+    status: number;
+    meta: T;
+    data: U | null;
+    message: string;
+};
+export type IToken = {
+    accessToken: string;
+    refreshToken: string;
+};

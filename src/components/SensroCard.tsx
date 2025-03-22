@@ -73,7 +73,7 @@ function SensorCard(props: SensorDataItemProps) {
   }, [props.data]);
     
   // Dynamic classes for styling
-  const containerClasses = `rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-[180px] h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
+  const containerClasses = `flex-none rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-full  h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
     isSensorOn ? "bg-[#294646]" : "bg-white"
   }`;
   // setIcon(<PiFanFill  className={isSensorOn ? "text-white" : "text-primary"} size={33} />)

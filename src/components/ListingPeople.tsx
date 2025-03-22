@@ -75,7 +75,7 @@ const ListingPeople = () => {
   
   return (
     <>
-      <div className="rounded-[24px] border-1 border-gray w-80 max-w-md mx-auto p-4 bg-gray-50 shadow-md">
+      <div className="rounded-[24px] border-1 border-gray w-full sm:w-80 max-w-md mx-auto p-4 bg-gray-50 shadow-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-700">User</h2>
           {/* <div ref={dropdownRef} className="relative z-10">

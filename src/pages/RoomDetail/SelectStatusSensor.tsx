@@ -50,7 +50,7 @@ function SelectStatusCourse(props: SelectStatusCourseProps) {
          // selectedKeys={props.value ? [props.value.toString()] : []}
       >
          {categories.map((category: ICategory) => (
-            <SelectItem key={category.id} value={category.value} variant="flat" color="secondary">
+            <SelectItem key={category.id} value={category.value} variant="flat" color="primary" className='text-black'>
                {category.nameState}
             </SelectItem>
          ))}

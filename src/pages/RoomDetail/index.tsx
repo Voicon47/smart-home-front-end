@@ -235,57 +235,64 @@ function RoomDetail(){
     //  console.log(isLoading)
     return(
         <>
-        <div className="w-full">
-            <div className="flex flex-col gap-5">
-                {/*  */}
-                <div className="flex w-full justify-between">
-                    {/*  */}
-                    <div className="flex flex-col w-full max-w-[1180px]" >
-                        <div className="flex gap-5 w-full">
-                            {(sensorData.length > 0 || deviceData.length > 0) && (
-                                <>
-                                    {sensorData.map((c,index) => (
-                                        <SensorCard key={index} data={c} />
-                                    ))}
-                                    {deviceData.map((c,index) => (
-                                        <DeviceCard key={index} data={c} />
-                                    ))}
-                                </>
-                            )}
-                        </div>
-                        <div className="w-[1240px] flex-shrink-0 flex-grow mt-5">
-                            <ChartItem data={chartData} labels={labelData}/>
-                        </div>
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-5">
+            {/* Main Content */}
+            <div className="flex flex-col xl:flex-row w-full justify-between gap-4">
+                {/* Sensor and Device Cards */}
+                <div className="flex flex-col w-full lg:max-w-[1024px]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+                        {(sensorData.length > 0 || deviceData.length > 0) && (
+                            <>
+                                {sensorData.map((c, index) => (
+                                    <SensorCard key={index} data={c} />
+                                ))}
+                                {deviceData.map((c, index) => (
+                                    <DeviceCard key={index} data={c} />
+                                ))}
+                            </>
+                        )}
                     </div>
-                    <div className="flex flex-col gap-5">
-                        <div>
-                           <ListingPeople/> 
-                        </div>
-                        <div>
-                            <ListingScheduleCards/>
-                        </div>
+                    <div className="w-full flex-shrink flex-grow mt-5">
+                        <ChartItem data={chartData} labels={labelData}/>
                     </div>
                 </div>
-                <div className="w-full">
-                    <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
-                    <div className="pt-5">
-                        <TableSensor data={data} type={filterData.sensorType} isLoading={isLoading}/>
+
+                {/* Sidebar for Listing & Schedules */}
+                <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
+                    <div>
+                        <ListingPeople/> 
                     </div>
-                    {data.length > 0 && (
-                        <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
-                            <Pagination
-                                total={5}
-                                page={1}
-                                initialPage={1}
-                                showControls
-                                loop
-                                // onChange={async (page) => await handleChangePage(page)}
-                            />
-                        </div>
-            )}
+                    <div>
+                        <ListingScheduleCards/>
+                    </div>
                 </div>
             </div>
+
+            {/* Filter & Table */}
+            <div className="w-full">
+                <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
+                <div className="pt-5">
+                    <TableSensor data={data} type={filterData.sensorType} isLoading={isLoading}/>
+                </div>
+
+                {/* Pagination */}
+                {data.length > 0 && (
+                    <div className="p-4 mt-5 flex justify-center sm:justify-end">
+                        <Pagination
+                            total={5}
+                            page={1}
+                            initialPage={1}
+                            showControls
+                            loop
+                            // onChange={async (page) => await handleChangePage(page)}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
+    </div>
+
         </>
     )
 }

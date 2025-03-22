@@ -39,7 +39,7 @@ const ListingScheduleCards = () => {
 
   return (
     <>
-      <div className="rounded-[24px] border border-gray w-80 max-w-md mx-auto p-3 bg-gray-50 shadow-md">
+      <div className="rounded-[24px] border border-gray w-full sm:w-80 max-w-md mx-auto p-3 bg-gray-50 shadow-md">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-700">Schedules</h2>
           <Button isIconOnly aria-label="add" size="sm" color="primary" variant="ghost" onPress={() => setIsOpenForm(true)}>

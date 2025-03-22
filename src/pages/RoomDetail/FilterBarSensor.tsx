@@ -41,7 +41,7 @@ function FilterBarSensor(props: FilterBarCourseProps) {
     // },[sensor, status, query])
     console.log("FilterBarSensor")
     return(
-        <div className="flex justify-between gap-3 items-end ">
+        <div className="flex flex-wrap justify-between gap-3 items-end ">
             <Search onChange={(val) => setQuery(val)} placeholder="Tìm kiếm theo..." />
             <div className="flex gap-3">
                 <SelectAvailableSensor 

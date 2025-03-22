@@ -4,6 +4,7 @@ import { MdCategory } from 'react-icons/md';
 // import { ICategoryCourse } from '../../../model/Common.model';
 import { useCallback, useEffect, useState } from 'react';
 import { ISensor } from '../../models/Sensor.model';
+import instance from '../../helper/axios';
 
   
 export type ICategory = {
@@ -21,21 +22,23 @@ type SelectSensorProps = {
 
 const getAllAvailableSensor = async (): Promise<ISensor[] | null> => {
     try {
-        const response = await fetch(import.meta.env.VITE_URL_API+'sensor', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+        // const response = await fetch(import.meta.env.VITE_URL_API+'sensor', {
+        //     method: 'GET',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        // });
+        const response = await instance.get<ISensor[] | null>("sensor")
+        return response.data
+    } catch (error: any) {
+        console.error("Error during login:", error.response);
+        // Handle API error response
+        if (error.response) {
+          throw new Error(error.response.data.message || `HTTP error! Status: ${error.response.status}`);
+        } else {
+          throw new Error("Network error or server not responding");
         }
-        const responseData: ISensor[] = await response.json();
-        return responseData;
-    } catch (error) {
-        console.error('Error during registration:', error);
-        return null;
-    }
+      }
 };
 
 function SelectAvailableSensor(props: SelectSensorProps) {
@@ -78,12 +81,12 @@ function SelectAvailableSensor(props: SelectSensorProps) {
             disableSelectorIconRotation
             placeholder="Select sensor"
             label="Sensor "
-            className="min-w-[10rem] max-w-[15rem]"
+            className="min-w-[10rem] max-w-[15rem] "
             selectorIcon={<TbSelector className="text-xl" />}
             // selectedKeys={props.value ? [props.value.toString()] : []}
         >
             {sensors.map((sensor: ISensor, index: number) => (
-                <SelectItem key={sensor?._id ?? index} value={sensor._id} variant="flat" color="secondary">
+                <SelectItem key={sensor?._id ?? index} value={sensor._id} variant="flat" color="primary" className='text-black'>
                     {sensor.name}
                 </SelectItem>
             ))}

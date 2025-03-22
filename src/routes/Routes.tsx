@@ -95,10 +95,11 @@ export const publicRoutes: routeProps[] = [
 ];
 export const privateRoutes: routeProps[] = [
    {
-      path: path.ROOM,
+      path: path.HOME,
       component: <RoomDetail/>,
       type: typeRoute.PRIVATE_ROUTE,
    },
+   
    // {
    //    path: path.POST.VIEW,
    //    component: <ViewPost />,
