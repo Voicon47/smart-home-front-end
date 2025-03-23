@@ -1,6 +1,7 @@
 // import { Outlet } from "react-router-dom";
 // import Header from "./Header";
 // import { Roles } from "../App";
+import Footer from "./Footer";
 import Header from "./Header";
 // import Sidebar from "./SideBar";
 type MainLayoutProps = {
@@ -27,7 +28,7 @@ type MainLayoutProps = {
                 </div>
                 <div className="ml-[16rem] w-screen p-4  mr-[2rem]">{props.children}</div>
             </div> */}
-            {/* <Footer/> */}
+            <Footer/>
         </div>
     );
 };

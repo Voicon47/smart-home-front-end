@@ -1,7 +1,8 @@
 import axios from "axios";
 import helper from ".";
+import { API_ROOT } from "../utils/constants";
 const instance = axios.create({
-    baseURL : import.meta.env.VITE_URL_API,
+    baseURL : API_ROOT,
     timeout : 1000,
     headers: {
         "Content-type": "application/json",

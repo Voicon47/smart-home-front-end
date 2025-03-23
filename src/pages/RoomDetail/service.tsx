@@ -4,6 +4,7 @@ import { IDevice } from "../../models/Device.model";
 import { ISensorData } from "../../models/SensorData.model";
 import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
 import { IUser } from "../../models/User.model";
+import { API_ROOT } from "../../utils/constants";
 import { ISensorDataTable } from "./TableSensor";
 
 export const getDataSensorById = async(id:string|null):Promise<ISensorData[]> => {
@@ -48,7 +49,7 @@ export const getDataSensorById = async(id:string|null):Promise<ISensorData[]> =>
 export const getDataSensor = async(
     queryData: ISensorQueryDto) : Promise<ISensorDataTable[]> => {
         try {
-            const response = await fetch(import.meta.env.VITE_URL_API +'sensorData', {
+            const response = await fetch(API_ROOT +'sensorData', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

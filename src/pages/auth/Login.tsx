@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 // import { Eye, EyeOff } from "lucide-react";
-import { FaEye,FaEyeSlash } from "react-icons/fa";
+import {  FaArrowLeft, FaEye,FaEyeSlash } from "react-icons/fa";
 import { useRouter } from "../../hooks/use-router";
 import { path } from "../../routes/Path";
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -109,6 +109,12 @@ function Login() {
     <div className="flex w-screen  h-screen relative overflow-hidden">
       {/* Left Side */}
       <div className="w-full sm:w-1/2 flex flex-col justify-center items-center bg-white p-10 dark:bg-black relative pl-10">
+        <Button 
+          onPress={()=> router.back()}
+          isIconOnly 
+          className="absolute top-4 left-4">
+            <FaArrowLeft />
+        </Button>
         <h2 className="text-4xl font-bold mb-8">Welcome Back!</h2>
 
         <form className="w-80 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
