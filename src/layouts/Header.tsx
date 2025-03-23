@@ -11,6 +11,7 @@ function Header() {
 
    const { isAuthenticated, user, logout, isLoading} = useAuth();
    console.log(user)
+   ///prevent flickering
    if (isLoading) {
       return null
    }
