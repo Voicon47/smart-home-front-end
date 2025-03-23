@@ -9,6 +9,8 @@ import { useRouter } from '../hooks/use-router';
 import { BiLogOut } from "react-icons/bi";
 import avatar from '../assets/avatar.jpg'
 import { MdSensors } from "react-icons/md";
+import { useAuth } from "../context/authContext";
+import toast from "react-hot-toast";
 
 function Sidebar() {
     // const { toggleTheme } = useTheme();
@@ -21,6 +23,7 @@ function Sidebar() {
       };
     const { pathname } = useLocation();
     const router = useRouter();
+    const { logout} = useAuth();
     const navs = [
         {
             name: 'Dashboard',
@@ -136,7 +139,11 @@ function Sidebar() {
                     <Button
                         className="bg-transparent hover:text-primary text-white"
                         startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer"/>}
-                        onPress={() => router.push(path.AUTH.LOGIN)}
+                        onPress={() => {
+                            logout()
+                            toast.success('Đăng xuất thành công!');
+                            router.push(path.AUTH.LOGIN)
+                        }}
                     >Log out</Button>
                 </div>
             </div>

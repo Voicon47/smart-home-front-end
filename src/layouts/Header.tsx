@@ -4,12 +4,16 @@ import { useRouter } from '../hooks/use-router';
 import { path } from '../routes/Path';
 import { useAuth } from '../context/authContext';
 import { GoBell } from 'react-icons/go';
+import toast from 'react-hot-toast';
 function Header() {
    const router = useRouter();
    // const { toggleTheme } = useTheme();
 
-   const { isAuthenticated, user} = useAuth();
+   const { isAuthenticated, user, logout, isLoading} = useAuth();
    console.log(user)
+   if (isLoading) {
+      return null
+   }
    return (
       <header className="flex select-none h-20 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-0 top-0 right-0 justify-between items-center p-4">
          <div
@@ -36,7 +40,11 @@ function Header() {
                   >Log out</Button>
                </>
             ) : (
-               <Button color="primary" onPress={() => router.push(path.AUTH.LOGIN)}>
+               <Button color="primary" onPress={() => {
+                  logout()
+                  toast.success('Đăng xuất thành công!');
+                  router.push(path.AUTH.LOGIN)
+              }}>
                   Đăng nhập
                </Button>
             )}

@@ -24,7 +24,7 @@ function HomeCard ({name,location,active,room,user,energy,devices = []}: HomeCar
           <h2 className="font-semibold text-lg">{name}</h2>
         </div>
 
-        <button className="flex items-center text-gray-600 font-medium text-xs gap-0.5">
+        <button className="flex items-center bg-background text-gray-600 font-medium text-xs gap-0.5">
           <span>View</span>
           <IoMdArrowDropright  size={12} />
         </button>

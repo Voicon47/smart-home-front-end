@@ -16,9 +16,7 @@ export enum Roles {
 
 function App() {
    const {  isAuthenticated,role } = useAuth();
-//   const [count, setCount] = useState(0)
-//   const { theme } = useTheme();
-//   const role = Roles.ADMIN
+   console.log("isAuthenticated: ",isAuthenticated)
    return (
     <>
        <Toaster

@@ -20,8 +20,8 @@ import { Pagination } from "@nextui-org/react";
 // import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
 import { getDataSensor } from "./service";
 import { useAuth } from "../../context/authContext";
-import { useRouter } from "../../hooks/use-router";
-import { path } from "../../routes/Path";
+// import { useRouter } from "../../hooks/use-router";
+// import { path } from "../../routes/Path";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -98,7 +98,7 @@ function RoomDetail(){
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
-    const router = useRouter();
+    // const router = useRouter();
     console.log(import.meta.env.VITE_URL_API)
     const {isAuthenticated} = useAuth()
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
@@ -136,7 +136,6 @@ function RoomDetail(){
     //         setUser(user)
     //     })
     // }, [])
-    
     useEffect(() => {
         const defaultJson = JSON.parse(defaultData)
         setSensorData(transformToISensorData(defaultJson.sensors))
@@ -145,7 +144,7 @@ function RoomDetail(){
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('http://192.168.0.219:8017'); // Replace with your WebSocket URL
+        const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
         // setWs(socket);
 
         socket.onopen = () => {
@@ -237,7 +236,7 @@ function RoomDetail(){
         };
      }, [filterData]);
     //  console.log(isLoading)
-    if(!isAuthenticated) router.push(path.AUTH.LOGIN)
+    
     return(
         <>
         {isAuthenticated && (

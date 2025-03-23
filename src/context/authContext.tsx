@@ -12,6 +12,7 @@ interface AuthContextProps {
 interface AuthContextValue {
    user: IUser | null;
    isAuthenticated: boolean;
+   isLoading: boolean;
    login: (user: IUser, token: IToken) => void;
    logout: () => void;
    role: Roles | null;
@@ -38,9 +39,10 @@ const getInitialRole = (): Roles | null => {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
-   const [isAuthenticated, setIsAuthenticated] = useState<any>(null);
+   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
    const [user, setUser] = useState<IUser | null>(null);
    const [role, setRole] = useState<Roles | null>(getInitialRole());
+   const [isLoading, setIsLoading] = useState(true); // Add loading state
    // console.log("After "+role)
    const login = (user: IUser, token: IToken) => {
       setIsAuthenticated(true);
@@ -67,16 +69,33 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
       setUser(user);
    };
    // console.log("First")
+   // useEffect(() => {
+   //    const accessToken = helper.getFullToken();
+   //    const isAuth = accessToken !== null;
+   //    console.log(isAuth)
+   //    setIsAuthenticated(isAuth);
+   //    const user = helper.getUserData();
+   //    user && accessToken && login(user, accessToken);
+   //    // console.log("Auth:"+isAuth)
+   // }, []);
    useEffect(() => {
       const accessToken = helper.getFullToken();
-      const isAuth = accessToken !== null;
-      setIsAuthenticated(isAuth);
-      const user = helper.getUserData();
-      user && accessToken && login(user, accessToken);
-      // console.log("Auth:"+isAuth)
+      const storedUser = helper.getUserData();
+   
+      if (accessToken && storedUser) {
+         setIsAuthenticated(true);
+         setUser(storedUser);
+         const userRole = storedUser.role === 0 ? Roles.ADMIN : Roles.USER;
+         setRole(userRole);
+         Cookies.set('userRole', userRole.toString(), { expires: 7 });
+      } else {
+         setIsAuthenticated(false);
+      }
+      setIsLoading(false)
    }, []);
+   console.log("isAuthenticated Context: ", isAuthenticated)
    return (
-      <AuthContext.Provider value={{ isAuthenticated, user, login, logout, role, onUpdateUser }}>
+      <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, role, onUpdateUser }}>
          {children}
       </AuthContext.Provider>
    );
