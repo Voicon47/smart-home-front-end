@@ -15,7 +15,7 @@ export enum Roles {
 }
 
 function App() {
-   const {  role } = useAuth();
+   const {  isAuthenticated,role } = useAuth();
 //   const [count, setCount] = useState(0)
 //   const { theme } = useTheme();
 //   const role = Roles.ADMIN
@@ -45,7 +45,7 @@ function App() {
                   role === Roles.ADMIN ? (
                      <Navigate to={'/' + path.ADMIN.DASHBOARD} />
                   ) : (
-                     <PublicLayout >{route.component}</PublicLayout>
+                     <PublicLayout isAuthenticated={isAuthenticated}>{route.component}</PublicLayout>
                   )
                }
                //  element={<PublicLayout >{route.component}</PublicLayout>}
@@ -56,7 +56,9 @@ function App() {
              <Route
                 key={index}
                 path={route.path}
-                element={<MainLayout >{route.component}</MainLayout>}
+                element={role === Roles.ADMIN ? 
+                           <MainLayout isAuthenticated={isAuthenticated}>{route.component}</MainLayout>
+                           : <Navigate to={'/' + path.AUTH.LOGIN} />}
              />
           ))}
           {/* Public Routes */}
@@ -64,7 +66,13 @@ function App() {
              <Route
                 key={index}
                 path={route.path}
-                element={route.component}
+                element={
+                  role === Roles.ADMIN ? (
+                     <Navigate to={'/' + path.ADMIN.DASHBOARD} />
+                  ) : (
+                     route.component
+                  )
+               }
              />
           ))}
        </Routes>

@@ -4,7 +4,7 @@
 import Sidebar from "./SideBar";
 type MainLayoutProps = {
     children: React.ReactNode;
-    // isAuthenticated: boolean;
+    isAuthenticated: boolean;
     // roles?: Roles[];
  };
  

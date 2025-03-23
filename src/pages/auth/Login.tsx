@@ -60,7 +60,7 @@ function Login() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   // const [username, setUsername] = useState<string>("");
   // const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  // const [error, setError] = useState<string>("");
   const router = useRouter();
   const toggleVisibility = (): void => setIsVisible((prev) => !prev);
   const loading = useLoading()
@@ -152,7 +152,6 @@ function Login() {
           </div>
 
           {/* Hiển thị lỗi nếu có */}
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           {/* Register link */}
           <p className="text-center mt-4 text-sm">

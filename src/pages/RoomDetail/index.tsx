@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import  ChartItem  from "../../components/ChartItem";
 import DeviceCard, { IDeviceData } from "../../components/DeviceCard"
 import ListingPeople from "../../components/ListingPeople";
@@ -19,6 +19,9 @@ import { Pagination } from "@nextui-org/react";
 // import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
 // import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
 import { getDataSensor } from "./service";
+import { useAuth } from "../../context/authContext";
+import { useRouter } from "../../hooks/use-router";
+import { path } from "../../routes/Path";
 
 // const FetchUserDataAPI = async (userId: string) => {
 //     const response = await axios.get(`${API_ROOT}/v1/users/${userId}`)
@@ -86,7 +89,6 @@ const defaultData = `{
 // ];
 
 
-
 function RoomDetail(){
     // const [user, setUser] = useState(null)
     // const [ws, setWs] = useState<WebSocket | null>(null);
@@ -96,7 +98,9 @@ function RoomDetail(){
     const [chartData, setChartData] = useState<number[]>([]);
     const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
+    const router = useRouter();
     console.log(import.meta.env.VITE_URL_API)
+    const {isAuthenticated} = useAuth()
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
     //     totalPages: -1,
     //     size: 5,
@@ -233,8 +237,10 @@ function RoomDetail(){
         };
      }, [filterData]);
     //  console.log(isLoading)
+    if(!isAuthenticated) router.push(path.AUTH.LOGIN)
     return(
         <>
+        {isAuthenticated && (
         <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5">
             {/* Main Content */}
@@ -292,7 +298,7 @@ function RoomDetail(){
             </div>
         </div>
     </div>
-
+)}
         </>
     )
 }

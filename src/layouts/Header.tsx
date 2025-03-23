@@ -1,12 +1,15 @@
-import { Button, Image } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { BiLogOut } from 'react-icons/bi';
 import { useRouter } from '../hooks/use-router';
 import { path } from '../routes/Path';
+import { useAuth } from '../context/authContext';
+import { GoBell } from 'react-icons/go';
 function Header() {
    const router = useRouter();
    // const { toggleTheme } = useTheme();
 
-   // const { isAuthenticated } = useAuth();
+   const { isAuthenticated, user} = useAuth();
+   console.log(user)
    return (
       <header className="flex select-none h-20 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-0 top-0 right-0 justify-between items-center p-4">
          <div
@@ -20,23 +23,23 @@ function Header() {
          </div>
          {/* <Search /> */}
          <div className="w-1/3 flex justify-end items-center gap-4">
-            <p className=''>Hello, Elephant47</p>
-            <Button
-               className="bg-transparent hover:text-primary text-primary"
-               startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer"/>}
-               onPress={() => router.push(path.AUTH.LOGIN)}
-            >Log out</Button>
+            {/* <p className=''>Hi, {user?.fullName || "User1"} </p> */}
             {/* <PiCloudMoonThin /> */}
-            {/* {isAuthenticated ? (
+            {isAuthenticated ? (
                <>
                   <GoBell className="text-xl hover:text-primary cursor-pointer" />
-                  <UserInfo />
+                  <p className=''>Hi, {user?.fullName || "User1"} </p>
+                  <Button
+                     className="bg-transparent hover:text-primary text-primary"
+                     startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer"/>}
+                     onPress={() => router.push(path.AUTH.LOGIN)}
+                  >Log out</Button>
                </>
             ) : (
-               <Button color="primary" onClick={() => router.push(path.AUTH.LOGIN)}>
+               <Button color="primary" onPress={() => router.push(path.AUTH.LOGIN)}>
                   Đăng nhập
                </Button>
-            )} */}
+            )}
          </div>
       </header>
    );

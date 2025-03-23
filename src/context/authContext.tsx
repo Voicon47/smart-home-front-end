@@ -3,7 +3,7 @@ import { IUser } from '../models/User.model';
 import helper from '../helper';
 import { Roles } from '../App';
 import { IToken } from '../models/Common.model';
-import { User } from '@nextui-org/react';
+// import { User } from '@nextui-org/react';
 import Cookies from 'js-cookie'; // Ensure js-cookie is installed
 interface AuthContextProps {
    children: ReactNode;

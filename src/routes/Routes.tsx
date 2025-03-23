@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 import { path } from "./Path";
 // import HomePage from "../pages/HomePage";
-import Phat from "../pages/Phat";
+// import Phat from "../pages/Phat";
 // import RoomDetailPage from "../pages/RoomDetailPage";
 import RoomDetail from "../pages/RoomDetail";
 import Dashboard from "../pages/admin/dashboard";
@@ -24,11 +24,7 @@ export type routeProps = {
  }
 
 export const protectedRoutes: routeProps[] = [
-   {
-      path: path.PHAT,
-      component:<Phat/>,
-      type: typeRoute.PROTECTED_ROUTE,
-   },
+   
    {
       path: path.ADMIN.DETAIL_ROOM,
       component:<RoomDetail/>,
