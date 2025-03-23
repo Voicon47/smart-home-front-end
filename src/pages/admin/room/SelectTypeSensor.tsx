@@ -2,8 +2,8 @@ import { Select, SelectItem } from '@nextui-org/react';
 import { TbSelector } from 'react-icons/tb';
 import { MdCategory } from 'react-icons/md';
 // import { ICategoryCourse } from '../../../model/Common.model';
-import { useCallback, useEffect, useState } from 'react';
-import { IUser } from '../../../models/User.model';
+// import { useCallback, useEffect, useState } from 'react';
+// import { IUser } from '../../../models/User.model';
 
 
   

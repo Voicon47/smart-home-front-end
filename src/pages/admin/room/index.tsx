@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import FilterBarSensor from "./FilterBarRoom"
+import FilterBarRoom from "./FilterBarRoom"
 import TableSensor from "./TableRoom";
 import { Pagination } from "@nextui-org/react";
 import { getAllSensorsByQuery } from "./service";
-import { ISensor, mockSensors } from "../../../models/Sensor.model";
+import { ISensor } from "../../../models/Sensor.model";
 import { mockRooms } from "../../../models/Room.model";
 
 
-export type IFilterSensor = {
+export type IFilterRoom = {
     query?: string | null
     status?: string | null
     type?: string | null
@@ -15,7 +15,7 @@ export type IFilterSensor = {
 function RoomManagement(){
     const [isLoading, setIsLoading] = useState(false);
     const [sensorData, setSensorData] = useState<ISensor[]|null>([]);
-    const [filterData, setFilterData] = useState<IFilterSensor>({
+    const [filterData, setFilterData] = useState<IFilterRoom>({
             query: null,
             status: null,
             type: null,
@@ -46,7 +46,7 @@ function RoomManagement(){
         <div className="w-full p-4">
             <div className="w-full">
                 <h3 className="text-start text-2xl font-semibold">Room</h3>
-                <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
+                <FilterBarRoom onChange={(res: IFilterRoom) => setFilterData(res)}/>
                 <div className="mt-5">
                     <TableSensor isLoading={isLoading} data={mockRooms}/>
                 </div>

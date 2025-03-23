@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
    Table as TableNextUI,
    TableHeader,
@@ -7,10 +7,8 @@ import {
    TableRow,
    TableCell,
    Chip,
-   Avatar,
    Spinner,
 } from '@nextui-org/react';
-import { IUser } from '../../../models/User.model';
 // import avatar from '../../../assets/avatar.jpg'
 import { IoMdTrash,IoMdConstruct  } from 'react-icons/io';
 import { ISensor } from '../../../models/Sensor.model';

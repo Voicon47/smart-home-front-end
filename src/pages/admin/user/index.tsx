@@ -45,7 +45,7 @@ function UserManagement(){
                 <h3 className="text-start text-2xl font-semibold">User</h3>
                 <FilterBarUser onChange={(res: IFilterUser) => setFilterData(res)}/>
                 <div className="mt-5">
-                    <TableUser  data={mockUsers}/>
+                    <TableUser isLoading={isLoading} data={mockUsers}/>
                 </div>
                 <div className="p-4 mt-5 rounded-xl  flex justify-end items-center ">
                     <Pagination showControls total={5} initialPage={1} className="" />

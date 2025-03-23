@@ -18,7 +18,7 @@ type UserListProps = {
 };
 
 function UserList(props: UserListProps){
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string>();
   const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
   // const [isLoading, setIsLoading] = useState(false);
 

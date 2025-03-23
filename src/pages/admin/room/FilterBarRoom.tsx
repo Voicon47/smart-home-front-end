@@ -2,26 +2,25 @@ import { Button } from '@nextui-org/react';
 import Search from '../../../components/Search';
 import { GrPowerReset } from 'react-icons/gr';
 import { useEffect, useState } from 'react';
-import { IFilterSensor } from '.';
-import SelectStatusSensor from './SelectStatusRoom';
-import SelectTypeSensor from './SelectTypeSensor';
+import { IFilterRoom } from '.';
+import SelectStatusRoom from './SelectStatusRoom';
+// import SelectTypeSensor from './SelectTypeSensor';
 
 type PropsType = {
-   onChange: (text: IFilterSensor) => void;
+   onChange: (text: IFilterRoom) => void;
 };
 function FilterBarRoom(props: PropsType) {
    // const [search, setSearch] = useState('');
    const [query, setQuery] = useState<string | null>(null);
    const [status, setStatus] = useState<string | null>(null);
-   const [type, setType] = useState<string | null>(null);
+//    const [type, setType] = useState<string | null>(null);
    useEffect(() => {
       let filter = {
           query,
-          status,
-          type
+          status
       };
       props.onChange(filter);
-  }, [query,type,status]);
+  }, [query,status]);
    return (
       <div className="flex flex-col mt-5  gap-5 rounded-xl shadow-xl  backdrop-blur-xl  w-9/12 p-4">
         <div className='flex gap-2'>
@@ -31,7 +30,7 @@ function FilterBarRoom(props: PropsType) {
          <div className="w-full flex justify-between gap-6">
             <div className='flex items-end gap-4'>
                 <Search onChange={(val) => setQuery(val)} placeholder="Tìm kiếm theo tên, email, ..." />
-                <SelectStatusSensor onResult={(val) => setStatus(val)}/>
+                <SelectStatusRoom onResult={(val) => setStatus(val)}/>
                 {/* <SelectTypeSensor onResult={(val) => setType(val)}/> */}
                 <div>
                     <Button

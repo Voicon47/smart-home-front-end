@@ -1,7 +1,7 @@
-import { IFilterSensor} from ".";
+import { IFilterRoom} from ".";
 import { ISensor } from "../../../models/Sensor.model";
 
-export const getAllSensorsByQuery = async (queryData: IFilterSensor): Promise<ISensor[]> => {
+export const getAllSensorsByQuery = async (queryData: IFilterRoom): Promise<ISensor[]> => {
     try {
         const response = await fetch(import.meta.env.VITE_URL_API+'user', {
             method: 'POST',

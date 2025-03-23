@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
    Table as TableNextUI,
    TableHeader,
@@ -7,7 +7,6 @@ import {
    TableRow,
    TableCell,
    Chip,
-   Tooltip,
    Avatar,
    Spinner,
 } from '@nextui-org/react';
@@ -29,7 +28,7 @@ type PropsType = {
    isLoading?: boolean;
 };
 export default function TableUser({ data, isLoading }: PropsType) {
-   const [userIdSelect, setUserIdSelect] = useState<any>(null);
+   // const [userIdSelect, setUserIdSelect] = useState<any>(null);
 
    const renderCell = React.useCallback((user: IUser, columnKey: React.Key) => {
       const cellValue = user[columnKey as keyof IUser];
