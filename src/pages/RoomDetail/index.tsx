@@ -140,6 +140,9 @@ function RoomDetail(){
         const defaultJson = JSON.parse(defaultData)
         setSensorData(transformToISensorData(defaultJson.sensors))
         setDeviceData(transformToIDeviceData(defaultJson.devices))
+        ////demo when haven't websocket fro vercel deployment
+        setChartData([])
+        setLabelData([])
     },[])
 
     // useEffect(() => {
