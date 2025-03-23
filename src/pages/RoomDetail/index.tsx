@@ -142,52 +142,52 @@ function RoomDetail(){
         setDeviceData(transformToIDeviceData(defaultJson.devices))
     },[])
 
-    useEffect(() => {
-        // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
-        // setWs(socket);
+    // useEffect(() => {
+    //     // Initialize WebSocket connection when the component mounts
+    //     const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
+    //     // setWs(socket);
 
-        socket.onopen = () => {
-            console.log('WebSocket connection established and send register message');
-            const payload = { type: 'register', role: "frontend" };
-            socket.send(JSON.stringify(payload));
-        };
+    //     socket.onopen = () => {
+    //         console.log('WebSocket connection established and send register message');
+    //         const payload = { type: 'register', role: "frontend" };
+    //         socket.send(JSON.stringify(payload));
+    //     };
 
-        socket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                console.log(data)
-                if (data.sensors) {
-                  setSensorData(transformToISensorData(data.sensors));
-                //   chartData.push(data.sensors[1].temperature)
-                //   labelData.push( Date.now())
-                setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
-                setLabelData((prev) => [...prev, Date.now()]);
-                }
-                if (data.devices) {
-                  setDeviceData(transformToIDeviceData(data.devices));
-                }
-              } catch (error) {
-                console.error("Error parsing WebSocket message:", error);
-            }
-        };
+    //     socket.onmessage = (event) => {
+    //         try {
+    //             const data = JSON.parse(event.data);
+    //             console.log(data)
+    //             if (data.sensors) {
+    //               setSensorData(transformToISensorData(data.sensors));
+    //             //   chartData.push(data.sensors[1].temperature)
+    //             //   labelData.push( Date.now())
+    //             setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
+    //             setLabelData((prev) => [...prev, Date.now()]);
+    //             }
+    //             if (data.devices) {
+    //               setDeviceData(transformToIDeviceData(data.devices));
+    //             }
+    //           } catch (error) {
+    //             console.error("Error parsing WebSocket message:", error);
+    //         }
+    //     };
 
-        socket.onerror = (event) => {
-            console.error('WebSocket error:', event);
-        };
+    //     socket.onerror = (event) => {
+    //         console.error('WebSocket error:', event);
+    //     };
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed.');
-        };
+    //     socket.onclose = () => {
+    //         console.log('WebSocket connection closed.');
+    //     };
 
-        return () => {
-        // Clean up the WebSocket connection when the component unmounts
-        if (socket) {
-            socket.close();
-        }
-        };
-    }, []);
-    console.log(filterData)
+    //     return () => {
+    //     // Clean up the WebSocket connection when the component unmounts
+    //     if (socket) {
+    //         socket.close();
+    //     }
+    //     };
+    // }, []);
+    // console.log(filterData)
 
     // useEffect(() => {
     //     const initData = async() => {
