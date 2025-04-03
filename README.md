@@ -5,6 +5,7 @@ Built using **React.js (frontend), Node.js (backend), and ESP32 (hardware integr
 
 ## 🌍 Live Demo  
 🔗 [OmniHome Web App (V1)](https://smart-home-front-end-phi.vercel.app/)  
+🔗 API: https://github.com/Voicon47/smart-home-back-end
 
 ## 🔑 Test Accounts  
 - **User:** `vandinhdung2003@g****.***` / `P@ssw0rd`  
