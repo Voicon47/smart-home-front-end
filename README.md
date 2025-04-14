@@ -9,7 +9,10 @@ Built using **React.js (frontend), Node.js (backend), and ESP32 (hardware integr
 
 ## 🔑 Test Accounts  
 - **User:** `vandinhdung2003@g****.***` / `P@ssw0rd`  
-- **Admin:** `admin01@g****.***` / `P@ssw0rd`  
+- **Admin:** `admin01@g****.***` / `P@ssw0rd`
+
+
+![public_layout](https://github.com/user-attachments/assets/8238b16a-1247-467e-b4fa-194b33b8e330)
 
 ## 🚀 Key Features  
 .. **Power Consumption Tracking** – Monitor and analyze energy usage in real-time.  
