@@ -11,9 +11,10 @@ Built using **React.js (frontend), Node.js (backend), and ESP32 (hardware integr
 - **User:** `vandinhdung2003@g****.***` / `P@ssw0rd`  
 - **Admin:** `admin01@g****.***` / `P@ssw0rd`
 
+![User](https://github.com/user-attachments/assets/2536c686-92a6-40cb-892e-7ba7d46c38e9)
 
-![public_layout](https://github.com/user-attachments/assets/8238b16a-1247-467e-b4fa-194b33b8e330)
-
+![Admin](https://github.com/user-attachments/assets/7d5a7a69-53e8-439f-9890-399cb3d0f518)
+.......
 ## 🚀 Key Features  
 .. **Power Consumption Tracking** – Monitor and analyze energy usage in real-time.  
 ✅ **Warning Alerts** – Get instant notifications for abnormal power consumption or device failures.  
