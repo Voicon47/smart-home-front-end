@@ -1,50 +1,37 @@
-# React + TypeScript + Vite
+# OmniHome – Smart Dormitory IoT System  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 **OmniHome** is an IoT-based software solution for **monitoring, controlling, and managing smart devices** in a dormitory.  
+Built using **React.js (frontend), Node.js (backend), and ESP32 (hardware integration)**, the system provides real-time automation, energy tracking, and device alerts.  
 
-Currently, two official plugins are available:
+## 🌍 Live Demo  
+🔗 [OmniHome Web App (V1)](https://smart-home-front-end-phi.vercel.app/)  
+🔗 API: https://github.com/Voicon47/smart-home-back-end
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔑 Test Accounts  
+- **User:** `vandinhdung2003@g****.***` / `P@ssw0rd`  
+- **Admin:** `admin01@g****.***` / `P@ssw0rd`
 
-## Expanding the ESLint configuration
+![User](https://github.com/user-attachments/assets/2536c686-92a6-40cb-892e-7ba7d46c38e9)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+![Admin](https://github.com/user-attachments/assets/7d5a7a69-53e8-439f-9890-399cb3d0f518)
+.......
+## 🚀 Key Features  
+.. **Power Consumption Tracking** – Monitor and analyze energy usage in real-time.  
+✅ **Warning Alerts** – Get instant notifications for abnormal power consumption or device failures.  
+✅ **Data Collection & Visualization** – Interactive charts and dashboards for insights.  
+✅ **Real-time Monitoring** – WebSockets integration for live updates.  
+✅ **Remote Control & Automation** – Manage devices anytime, anywhere.  
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tech Stack  
+- **Frontend:** React.js, Tailwind CSS, Recharts  
+- **Backend:** Node.js, Express.js, WebSockets  
+- **Database:** MongoDB  
+- **Hardware:** ESP32, Sensors (temperature, motion, power usage)  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 📌 Installation  
+Clone the repository and install dependencies:  
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+```bash
+git clone https://github.com/your-repo/OmniHome.git
+cd OmniHome
+npm install
