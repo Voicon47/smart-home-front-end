@@ -8,9 +8,9 @@ export type IDevice = {
 export type IDeviceSchedule = {
     _id: string,
     deviceId: string,
-    name: string,
+    name?: string,
     startTime: string,
     endTime: string,
-    dayActive: string,
+    dayActive: Array<string>,
     status: string,
 }

@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import ScheduleList from "./ScheduleList";
 import { IDeviceSchedule } from "../models/Device.model";
 import ModalCreateSchedule from "../pages/RoomDetail/ModalCreateSchedule";
+import { getScheduleByRoom } from "../pages/RoomDetail/service";
 
 const ListingScheduleCards = () => {
   // const [listSchedule, setListSchedule] = useState([
@@ -17,10 +18,16 @@ const ListingScheduleCards = () => {
   //   },
   // ]);
   const [listSchedule, setListSchedule] = useState<IDeviceSchedule[]>([]);
-  // const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
   // const handleAdd = () => {
     
+  useEffect(() => {
+    const initData = async() => {
+      const res = await getScheduleByRoom("")
+      setListSchedule(res)
+    }
+    initData()
+  },[isOpenForm])
   // };
 
   // const handleDelete = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,7 +22,7 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { BsArrowRightShort } from "react-icons/bs";
 
 import zoomPlugin from "chartjs-plugin-zoom";
-// import { mockData } from "./mockData";
+import { mockData } from "./mockData";
 
 // Register ChartJS components
 ChartJS.register(
@@ -36,23 +36,23 @@ ChartJS.register(
   zoomPlugin
 );
 
-// const MAX_POINTS = 24; // Max points for real-time mode
+const MAX_POINTS = 24; // Max points for real-time mode
 
 type ChartItemProps = {
   labels: number[]
   data: number[]
 }
 function ChartItem(props : ChartItemProps){
-  // const [currentData, setCurrentData] = useState(mockData.daily);
+  const [currentData, setCurrentData] = useState(mockData.daily);
   // const [, setMenuOpen] = useState(false);
   // const [realTime, setRealTime] = useState(false);
-  // const [zoomRange, setZoomRange] = useState<number[]>([0, 12]);
+  const [zoomRange, setZoomRange] = useState<number[]>([0, 12]);
   // const [paused, setPaused] = useState(false);
-  const [selectedKeys, setSelectedKey] = React.useState("Options");
+  const [selectedKeys, setSelectedKey] = React.useState("Monthly");
   // console.log(props.data)
   // Capitalize function for dynamic menu items
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-  console.log("Chart")
+  console.log("Chart",props.data)
   // console.log(currentData)
   // useEffect(() => {
   //   if (!realTime) return;
@@ -96,49 +96,49 @@ function ChartItem(props : ChartItemProps){
   // }, [realTime, paused]);
 
   // Change data type
-  // const handleDataChange = useCallback(
-  //   (
-  //     type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
-  //   ) => {
-  //     // setMenuOpen(false);
-  //     setSelectedKey(capitalize(type));
-  //     if (type === "realTime") {
-  //       setRealTime(true);
-  //       const now = new Date();
-  //       const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
-  //         const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
-  //         return {
-  //           time: time.toLocaleTimeString([], {
-  //             hour: "2-digit",
-  //             minute: "2-digit",
-  //             second: "2-digit",
-  //           }),
-  //           temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
-  //           humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
-  //         };
-  //       });
+  const handleDataChange = useCallback(
+    (
+      type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
+    ) => {
+      // setMenuOpen(false);
+      setSelectedKey(capitalize(type));
+      if (type === "realTime") {
+        // setRealTime(true);
+        const now = new Date();
+        const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
+          const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
+          return {
+            time: time.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            }),
+            temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
+            humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
+          };
+        });
 
-  //       setCurrentData({
-  //         labels: initialData.map((d) => d.time),
-  //         temperature: initialData.map((d) => d.temperature),
-  //         humidity: initialData.map((d) => d.humidity),
-  //       });
-  //       setZoomRange([0, 12]);
-  //       setPaused(false);
-  //     // } else if (type === "monthly" && month) {
-  //     //   setRealTime(false);
-  //     //   // setSelectedMonth(month);
-  //     //   const monthData = mockData.monthly.details[month];
-  //     //   setCurrentData(monthData);
-  //     //   setZoomRange([0, Math.min(monthData.labels.length, 12)]);
-  //     } else {
-  //       setRealTime(false);
-  //       setCurrentData(mockData[type]);
-  //       setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
-  //     }
-  //   },
-  //   []
-  // );
+        setCurrentData({
+          labels: initialData.map((d) => d.time),
+          temperature: initialData.map((d) => d.temperature),
+          humidity: initialData.map((d) => d.humidity),
+        });
+        setZoomRange([0, 12]);
+        // setPaused(false);
+      // } else if (type === "monthly" && month) {
+      //   setRealTime(false);
+      //   // setSelectedMonth(month);
+      //   const monthData = mockData.monthly.details[month];
+      //   setCurrentData(monthData);
+      //   setZoomRange([0, Math.min(monthData.labels.length, 12)]);
+      } else {
+        // setRealTime(false);
+        setCurrentData(mockData[type]);
+        setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
+      }
+    },
+    []
+  );
 
   // Handle zoom (Previous/Next) logic
   // const handleZoomChange = useCallback(
@@ -162,12 +162,12 @@ function ChartItem(props : ChartItemProps){
 
   // Chart data and configuration
   const combinedChartData = {
-    labels: props.labels,
+    labels: currentData.labels,
     datasets: [
       {
         type: "line" as const,
         label: "Temperature (°C)",
-        data: props.data, // Giảm 1 điểm
+        data: currentData.temperature.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
         borderColor: "rgba(75, 192, 192, 1)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
@@ -176,8 +176,8 @@ function ChartItem(props : ChartItemProps){
       {
         type: "line" as const,
         label: "Humidity (%)",
-        // data: currentData.humidity.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
-        data:[0],
+        data: currentData.humidity.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
+        // data:[0],
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
@@ -238,9 +238,9 @@ function ChartItem(props : ChartItemProps){
             selectionMode="single"
             onAction={(key) => { 
               setSelectedKey(capitalize(String(key)));
-              // handleDataChange(
-              //   key as "daily" | "weekly" | "monthly" | "realTime"| "yearly"
-              // );
+              handleDataChange(
+                key as "daily" | "weekly" | "monthly" | "realTime"| "yearly"
+              );
               
             }}
           >

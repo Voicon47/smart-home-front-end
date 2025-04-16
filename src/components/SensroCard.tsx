@@ -60,7 +60,10 @@ function SensorCard(props: SensorDataItemProps) {
         break;
       case "FLAME":
         setName("FLAME");
-        setSensorValue(flame === null ? "": flame ? "Detected" : "Not Detected");
+        console.log(flame)
+        setSensorValue(
+          typeof flame !== "number" ? "" : flame > 700 ? "Detected" : "Not Detected"
+        );
         setUnit("");
         setIsSensorOn(flame != null);
         break;
@@ -100,7 +103,8 @@ function SensorCard(props: SensorDataItemProps) {
           {renderIcon()}
         </div>
         <h2 className={`font-semibold text-sm ${textColor}`}> {name} </h2>
-        <span className={`text-lg font-bold mt-[4px] ${ppmColor}`}>{sensorValue} {unit}</span>
+        {isSensorOn && <span className={`text-lg font-bold mt-[4px] ${ppmColor}`}>{sensorValue} {unit}</span>}
+        
       </div>
 
       {/* Toggle Switch */}

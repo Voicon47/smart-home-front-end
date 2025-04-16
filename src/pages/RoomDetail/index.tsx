@@ -31,9 +31,9 @@ import { useAuth } from "../../context/authContext";
 const defaultData = `{
     "room": "677d0d50cc13de58fab8e379",
     "sensors": [
-        { "name":"mq2_1","type":"MQ-2","mq2": null },
-        { "name":"dht11_1","type":"DHT11","temperature": null, "humidity": null },
-        { "name":"flame_1","type":"FLAME","flame": null }
+        { "name":"mq2_1","type":"MQ-2","mq2": 134 },
+        { "name":"dht11_1","type":"DHT11","temperature": 28, "humidity": null },
+        { "name":"flame_1","type":"FLAME","flame": 601 }
     ],
     "devices": [
         { "name":"light_1", "type": "LIGHT", "status": null},
@@ -145,51 +145,51 @@ function RoomDetail(){
         setLabelData([])
     },[])
 
-    // useEffect(() => {
-    //     // Initialize WebSocket connection when the component mounts
-    //     const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
-    //     // setWs(socket);
+    useEffect(() => {
+        // Initialize WebSocket connection when the component mounts
+        const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
+        // setWs(socket);
 
-    //     socket.onopen = () => {
-    //         console.log('WebSocket connection established and send register message');
-    //         const payload = { type: 'register', role: "frontend" };
-    //         socket.send(JSON.stringify(payload));
-    //     };
+        socket.onopen = () => {
+            console.log('WebSocket connection established and send register message');
+            const payload = { type: 'register', role: "frontend" };
+            socket.send(JSON.stringify(payload));
+        };
 
-    //     socket.onmessage = (event) => {
-    //         try {
-    //             const data = JSON.parse(event.data);
-    //             console.log(data)
-    //             if (data.sensors) {
-    //               setSensorData(transformToISensorData(data.sensors));
-    //             //   chartData.push(data.sensors[1].temperature)
-    //             //   labelData.push( Date.now())
-    //             setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
-    //             setLabelData((prev) => [...prev, Date.now()]);
-    //             }
-    //             if (data.devices) {
-    //               setDeviceData(transformToIDeviceData(data.devices));
-    //             }
-    //           } catch (error) {
-    //             console.error("Error parsing WebSocket message:", error);
-    //         }
-    //     };
+        socket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                console.log(data)
+                if (data.sensors) {
+                  setSensorData(transformToISensorData(data.sensors));
+                //   chartData.push(data.sensors[1].temperature)
+                //   labelData.push( Date.now())
+                setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
+                setLabelData((prev) => [...prev, Date.now()]);
+                }
+                if (data.devices) {
+                  setDeviceData(transformToIDeviceData(data.devices));
+                }
+              } catch (error) {
+                console.error("Error parsing WebSocket message:", error);
+            }
+        };
 
-    //     socket.onerror = (event) => {
-    //         console.error('WebSocket error:', event);
-    //     };
+        socket.onerror = (event) => {
+            console.error('WebSocket error:', event);
+        };
 
-    //     socket.onclose = () => {
-    //         console.log('WebSocket connection closed.');
-    //     };
+        socket.onclose = () => {
+            console.log('WebSocket connection closed.');
+        };
 
-    //     return () => {
-    //     // Clean up the WebSocket connection when the component unmounts
-    //     if (socket) {
-    //         socket.close();
-    //     }
-    //     };
-    // }, []);
+        return () => {
+        // Clean up the WebSocket connection when the component unmounts
+        if (socket) {
+            socket.close();
+        }
+        };
+    }, []);
     // console.log(filterData)
 
     // useEffect(() => {

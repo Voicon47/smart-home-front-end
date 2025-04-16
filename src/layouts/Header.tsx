@@ -4,7 +4,7 @@ import { useRouter } from '../hooks/use-router';
 import { path } from '../routes/Path';
 import { useAuth } from '../context/authContext';
 import { GoBell } from 'react-icons/go';
-import logo from '../assets/internet-of-things.png'
+import logo from '../assets/smart-home.png'
 // import toast from 'react-hot-toast';
 function Header() {
    const router = useRouter();
@@ -17,7 +17,7 @@ function Header() {
       return null
    }
    return (
-      <header className="flex select-none h-16 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-0 top-0 right-0 justify-between items-center p-4">
+      <header className="flex select-none h-16 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-5 top-0 right-0 justify-between items-center p-4">
          <div
             onClick={() => {
                // router.push('');
@@ -25,7 +25,7 @@ function Header() {
             className="cursor-pointer select-none flex justify-start items-center gap-5 w-1/3"
          >
             <Image className="ml-5" width={30} src={logo} radius='none' alt="Study Online" />
-            <h5 className="ml-3 font-semibold">OmniHome</h5>
+            <h5 className="ml-3 font-extrabold">Omni</h5>
          </div>
          {/* <Search /> */}
          <div className="w-1/3 flex justify-end items-center gap-4">

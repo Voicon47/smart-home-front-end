@@ -30,7 +30,7 @@ function SelectAvailableDevice(props: SelectDeviceProps) {
                 const { value } = val.target;
                 props.onResult(+value);
             }}
-            isRequired
+            // isRequired
             // startContent={<MdCategory className="text-xl" />}
             labelPlacement="outside"
             disableSelectorIconRotation

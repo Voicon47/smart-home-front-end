@@ -17,9 +17,9 @@ function ModalCreateSchedule(props: ModalCreateScheduleProps) {
     const [endTime, setEndTime] = useState<TimeInputValue | null>()
 
     const formatTime = (time: TimeInputValue | null) => {
-    if (!time) return "00:00"; // Default fallback
-    return `${time.hour.toString().padStart(2, "0")}:${time.minute.toString().padStart(2, "0")}`;
-};
+      if (!time) return "00:00"; // Default fallback
+      return `${time.hour.toString().padStart(2, "0")}:${time.minute.toString().padStart(2, "0")}`;
+    };
     console.log(dayActive,device,formatTime(startTime))
 
     return (

@@ -7,14 +7,29 @@ import SearchDashboard from "./SearchDashboard"
 import AnnouncementListing from "./AnnoucementListing"
 import { MdOutlineShowChart } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io";
-function Dashboard() {
+import { RiCalendarScheduleLine } from "react-icons/ri"
 
+function Dashboard() {
     return(
         <>
-        <div className="w-full">
+        <div className="w-full mt-5">
             <div className="flex flex-col gap-5">
                 <div className="flex w-full justify-between">
                     <div className="flex flex-col w-full max-w-[1180px] ">
+
+                        <div className="flex justify-between items-center mb-[2rem]">
+                            <div className="flex flex-col items-start ">
+                                <h2 className="font-bold text-3xl">Hello, Admin</h2>
+                                <p>Track your home here. Have a nice day!</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <p>14 April,2025</p>
+                                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+                                    <RiCalendarScheduleLine className="w-4 h-4" />
+                                </div>
+                            </div>
+                        </div>
+                        
                         <SearchDashboard/>
                         <div className="mt-5">
                             <h3 className="text-start font-semibold">Overview</h3>

@@ -36,6 +36,7 @@ export const path = {
        POST: 'admin/post',
        ADD_POST: 'admin/post/add',
        USER: 'admin/user',
+       SETTING: 'admin/setting'
     },
  
     USER_ADMIN_MANAGER: {},

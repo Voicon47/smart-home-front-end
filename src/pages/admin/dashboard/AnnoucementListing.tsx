@@ -27,13 +27,13 @@ const notifications = [
   
   export default function AnnouncementListing() {
     return (
-      <div className="w-full h-full bg-white shadow-lg rounded-xl p-4 overflow-y-auto">
+      <div className="w-full h-full bg-white shadow-lg rounded-xl p-4 overflow-y-auto ">
         <div className="flex justify-between items-center border-b pb-2">
           <div className="flex items-center gap-2">
             <h2 className="font-semibold text-lg">Notification</h2>
           </div>
   
-          <button className="flex items-center text-gray-600 font-medium text-xs gap-0.5 hover:shadow-xl transition">
+          <button className="flex items-center bg-white text-gray-600 font-medium text-xs gap-0.5 hover:shadow-xl transition">
             <span>View</span>
             <IoMdArrowDropdown size={12} />
           </button>

@@ -38,7 +38,7 @@ class Helper {
       if (!myCookieValue) return null;
       const strToken = this.decrypt(myCookieValue);
       if (!strToken) return null;
-      console.log(strToken)
+      // console.log(strToken)
       const data: IToken = JSON.parse(strToken);
       return data.accessToken || null;
    }

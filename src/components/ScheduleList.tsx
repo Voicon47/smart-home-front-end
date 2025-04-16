@@ -22,7 +22,7 @@ function ScheduleList(props: ScheduleListProps){
                 }`}
             >
                 <ScheduleCard
-                    label={schedule.name}
+                    label={schedule.name || "Door"}
                     startTime={schedule.startTime}
                     endTime={schedule.endTime}
                 />
