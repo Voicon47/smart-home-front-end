@@ -8,7 +8,7 @@ Built using **React.js (frontend), Node.js (backend), and ESP32 (hardware integr
 🔗 API: https://github.com/Voicon47/smart-home-back-end
 
 ## 🔑 Test Accounts  
-- **User:** `vandinhdung2003@g****.***` / `P@ssw0rd`  
+- **User:** `vandinhdung@g****.***` / `P@ssw0rd`  
 - **Admin:** `admin01@g****.***` / `P@ssw0rd`
 
 ![User](https://github.com/user-attachments/assets/2536c686-92a6-40cb-892e-7ba7d46c38e9)
