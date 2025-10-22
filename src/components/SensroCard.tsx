@@ -11,7 +11,7 @@ export type ISensorDataCard = {
   temperature: number | string | null;
   humidity: number | string | null;
   mq2: number | string | null;
-  flame: number | boolean |null;
+  flame: number | boolean | null;
   pir: number | null;
 };
 type SensorDataItemProps = {
@@ -22,7 +22,7 @@ function SensorCard(props: SensorDataItemProps) {
   const [isSensorOn, setIsSensorOn] = useState<boolean>(false);
   // const [icon, setIcon] = useState<JSX.Element>()
   const [name, setName] = useState<string>("Device")
-  const [sensorValue, setSensorValue] = useState<number| string| null| boolean>("")
+  const [sensorValue, setSensorValue] = useState<number | string | null | boolean>("")
   const [unit, setUnit] = useState<string>("")
   // const [status, setStatus] = useState<boolean>(false)
   const handleToggleSensor = () => setIsSensorOn((prevState) => !prevState);
@@ -55,7 +55,7 @@ function SensorCard(props: SensorDataItemProps) {
       case "MQ-2":
         setName("MQ-2");
         setSensorValue(mq2);
-        setUnit(mq2 ? "PPM": "");
+        setUnit(mq2 ? "PPM" : "");
         setIsSensorOn(!!mq2);
         break;
       case "FLAME":
@@ -74,18 +74,16 @@ function SensorCard(props: SensorDataItemProps) {
         setIsSensorOn(false);
     }
   }, [props.data]);
-    
+
   // Dynamic classes for styling
-  const containerClasses = `flex-none rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-full  h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
-    isSensorOn ? "bg-[#294646]" : "bg-white"
-  }`;
+  const containerClasses = `flex-none rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-full  h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${isSensorOn ? "bg-[#294646]" : "bg-white"
+    }`;
   // setIcon(<PiFanFill  className={isSensorOn ? "text-white" : "text-primary"} size={33} />)
   const textColor = isSensorOn ? "text-white" : "text-black";
   const ppmColor = isSensorOn ? "text-white" : "text-emerald-700";
   const switchBg = isSensorOn ? "bg-white" : "bg-[rgba(41,70,70,0.4)]";
-  const knobClasses = `absolute left-1 top-[2px] w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 ${
-    isSensorOn ? "transform translate-x-3 bg-[#294646]" : "bg-white"
-  }`;
+  const knobClasses = `absolute left-1 top-[2px] w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 ${isSensorOn ? "transform translate-x-3 bg-[#294646]" : "bg-white"
+    }`;
 
   return (
     <div className={containerClasses}>
@@ -104,7 +102,7 @@ function SensorCard(props: SensorDataItemProps) {
         </div>
         <h2 className={`font-semibold text-sm ${textColor}`}> {name} </h2>
         {isSensorOn && <span className={`text-lg font-bold mt-[4px] ${ppmColor}`}>{sensorValue} {unit}</span>}
-        
+
       </div>
 
       {/* Toggle Switch */}

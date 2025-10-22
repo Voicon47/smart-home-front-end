@@ -4,24 +4,34 @@ import { PiFanFill } from "react-icons/pi";
 export type IDeviceData = {
   type: string,
   status: string | null
+  id: string
+  name: string
+
 }
 
 type DeviceDataProps = {
   data: IDeviceData
+  onToggleChange: (deviceId: string, isOn: boolean) => void; // Callback prop
 }
-function DeviceCard (props : DeviceDataProps) {
-  const [isSensorOn, setIsSensorOn] = useState<boolean>(false);
-  const [name, setName] = useState<string>("Device") 
+function DeviceCard(props: DeviceDataProps) {
+  const [isDeviceOn, setIsDeviceOn] = useState<boolean>(false);
+  // const [name, setName] = useState<string>("Device")
   // const [icon, setIcon] = useState<JSX.Element>()
 
-  const handleToggleSensor = () => setIsSensorOn((prevState) => !prevState);
+  // const handleToggleSensor = () => setisDeviceOn((prevState) => !prevState);
+  const handleToggleChange = () => {
+    const newState = !isDeviceOn;
+    setIsDeviceOn(newState);
+    // Notify parent of toggle change
+    props.onToggleChange("67a976200157d298f7c949c8", newState);
+  };
 
   const renderIcon = (): JSX.Element => {
     switch (props.data.type) {
       case "LIGHT":
-        return <FaRegLightbulb className={isSensorOn ? "text-white" : "text-primary"} size={33} />
+        return <FaRegLightbulb className={isDeviceOn ? "text-white" : "text-primary"} size={33} />
       case "FAN":
-        return <PiFanFill className={isSensorOn ? "text-white" : "text-primary"} size={33} />
+        return <PiFanFill className={isDeviceOn ? "text-white" : "text-primary"} size={33} />
       default:
         return <span className="text-primary">?</span>;
     }
@@ -29,43 +39,41 @@ function DeviceCard (props : DeviceDataProps) {
   useEffect(() => {
     switch (props.data.type) {
       case "LIGHT":
-        setName("LIGHT")
-        setIsSensorOn(props.data.status === "on" ? true : false);
+        // setName("LIGHT")
+        setIsDeviceOn(props.data.status === "on" ? true : false);
         break;
       case "FAN":
-        setName("FAN")
-        setIsSensorOn(props.data.status === "on" ? true : false);
+        // setName("FAN")
+        setIsDeviceOn(props.data.status === "on" ? true : false);
         break
       default:
 
         break
     }
-  },[props.data])
+  }, [props.data])
   // Dynamic styles
-  const containerClasses = ` flex-none rounded-[30px] border-[#1b4208] border-1 p-[20px] flex flex-col justify-between items-center w-full h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${
-    isSensorOn ? "bg-[#294646]" : "bg-white"
-  }`;
-  const textColor = isSensorOn ? "text-white" : "text-black";
-  const switchBg = isSensorOn ? "bg-white" : "bg-[rgba(41,70,70,0.4)]";
-  const switchKnobClasses = `absolute left-1 top-[2px] w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 ${
-    isSensorOn ? "transform translate-x-3 bg-[#294646]" : "bg-white"
-  }`;
+  const containerClasses = ` flex-none rounded-[30px] border-[#1b4208] border-1 px-[20px] py-[10px] flex flex-col justify-between items-start w-full h-[140px] relative shadow-sm hover:shadow-lg transition-all duration-300 ${isDeviceOn ? "bg-[#294646]" : "bg-white"
+    }`;
+  const textColor = isDeviceOn ? "text-white" : "text-black";
+  const switchBg = isDeviceOn ? "bg-white" : "bg-[rgba(41,70,70,0.4)]";
+  const switchKnobClasses = `absolute left-1 top-[2px] w-3.5 h-3.5 rounded-full shadow-md transition-transform duration-300 ${isDeviceOn ? "transform translate-x-3 bg-[#294646]" : "bg-white"
+    }`;
 
   return (
     <div className={containerClasses}>
       {/* Sensor Status */}
-      <div className="absolute top-[10px] left-[20px]">
+      <div className="">
         <span className={`font-medium text-sm ${textColor}`}>
-          {isSensorOn ? "ON" : "OFF"}
+          {isDeviceOn ? "ON" : "OFF"}
         </span>
       </div>
 
       {/* Icon and Label */}
-      <div className="absolute top-[30px] left-[10px] flex flex-col items-center">
-        <div className="w-12 h-12 flex items-center justify-center mb-[4px] text-[32px]">
+      <div className=" flex flex-col items-start">
+        <div className="w-12 h-12 flex items-center mb-[4px] text-[32px]">
           {renderIcon()}
         </div>
-        <h3 className={`text-sm font-semibold mb-[30px] ${textColor}`}>{name}</h3>
+        <h3 className={`text-sm font-semibold mb-[30px] ${textColor}`}>{props.data.name || "DEVICE"}</h3>
       </div>
 
       {/* Toggle Switch */}
@@ -74,8 +82,8 @@ function DeviceCard (props : DeviceDataProps) {
           <input
             type="checkbox"
             className="sr-only"
-            checked={isSensorOn}
-            onChange={handleToggleSensor}
+            checked={isDeviceOn}
+            onChange={handleToggleChange}
             aria-label="Toggle sensor"
           />
           <span className={`block w-full h-full rounded-full transition-all duration-300 ${switchBg}`} />

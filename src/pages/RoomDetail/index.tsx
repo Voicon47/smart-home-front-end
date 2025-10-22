@@ -1,25 +1,25 @@
-import {  useEffect, useState } from "react";
-import  ChartItem  from "../../components/ChartItem";
+import { useEffect, useState } from "react";
+import ChartItem from "../../components/ChartItem";
 import DeviceCard, { IDeviceData } from "../../components/DeviceCard"
 import ListingPeople from "../../components/ListingPeople";
 import ListingScheduleCards from "../../components/ListingScheduleCards";
-// import ScheduleCard from "../components/ScheduleCard";
-// import SensorCard from "../components/SensroCard"
-// import TableItem from "../../components/TableItem";
-// import axios from 'axios'
-// import { API_ROOT } from "../utils/constants";
+
 import SensorCard, { ISensorDataCard } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 import FilterBarSensor from "./FilterBarSensor";
 import { IFilterSensor } from "../../models/Common.model";
 import TableSensor, { ISensorDataTable } from "./TableSensor";
-// import { ISensor } from "../../models/Sensor.model";
+import { getDataSensor } from "./service";
+import { useAuth } from "../../context/authContext";
 import { Pagination } from "@nextui-org/react";
+// import { ISensor } from "../../models/Sensor.model";
+
 // import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
 // import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
 // import { ISensorQueryDto } from "../../models/SensorQuery.Dto";
-import { getDataSensor } from "./service";
-import { useAuth } from "../../context/authContext";
+// // import axios from 'axios'
+// import { API_ROOT } from "../utils/constants";
+
 // import { useRouter } from "../../hooks/use-router";
 // import { path } from "../../routes/Path";
 
@@ -89,9 +89,9 @@ const defaultData = `{
 // ];
 
 
-function RoomDetail(){
+function RoomDetail() {
     // const [user, setUser] = useState(null)
-    // const [ws, setWs] = useState<WebSocket | null>(null);
+    const [ws, setWs] = useState<WebSocket | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sensorData, setSensorData] = useState<ISensorDataCard[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
@@ -100,7 +100,7 @@ function RoomDetail(){
     const [data, setData] = useState<ISensorDataTable[]>([]);
     // const router = useRouter();
     console.log(import.meta.env.VITE_URL_API)
-    const {isAuthenticated} = useAuth()
+    const { isAuthenticated, user } = useAuth()
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
     //     totalPages: -1,
     //     size: 5,
@@ -111,7 +111,7 @@ function RoomDetail(){
         sensorType: null,
         status: null,
         query: null,
-     });
+    });
     // const handleChangePage = async (page: number) => {
     //     const queryData: IPaginationRequestDto<ISensorQueryDto> = {
     //         where: filterData,
@@ -143,12 +143,12 @@ function RoomDetail(){
         ////demo when haven't websocket fro vercel deployment
         setChartData([])
         setLabelData([])
-    },[])
+    }, [])
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
         const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
-        // setWs(socket);
+        setWs(socket);
 
         socket.onopen = () => {
             console.log('WebSocket connection established and send register message');
@@ -161,16 +161,16 @@ function RoomDetail(){
                 const data = JSON.parse(event.data);
                 console.log(data)
                 if (data.sensors) {
-                  setSensorData(transformToISensorData(data.sensors));
-                //   chartData.push(data.sensors[1].temperature)
-                //   labelData.push( Date.now())
-                setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
-                setLabelData((prev) => [...prev, Date.now()]);
+                    setSensorData(transformToISensorData(data.sensors));
+                    //   chartData.push(data.sensors[1].temperature)
+                    //   labelData.push( Date.now())
+                    setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
+                    setLabelData((prev) => [...prev, Date.now()]);
                 }
                 if (data.devices) {
-                  setDeviceData(transformToIDeviceData(data.devices));
+                    setDeviceData(transformToIDeviceData(data.devices));
                 }
-              } catch (error) {
+            } catch (error) {
                 console.error("Error parsing WebSocket message:", error);
             }
         };
@@ -184,10 +184,10 @@ function RoomDetail(){
         };
 
         return () => {
-        // Clean up the WebSocket connection when the component unmounts
-        if (socket) {
-            socket.close();
-        }
+            // Clean up the WebSocket connection when the component unmounts
+            if (socket) {
+                socket.close();
+            }
         };
     }, []);
     // console.log(filterData)
@@ -224,83 +224,102 @@ function RoomDetail(){
             console.log(data)
             setIsLoading(true);
             const newData = await getDataSensor(filterData)
-            console.log("newdata: ",newData)
+            console.log("newdata: ", newData)
             console.log("unLoading")
             setIsLoading(false);
             setData([...newData])
-            
+
         };
         console.log("isLoading")
-            setIsLoading(true);
+        setIsLoading(true);
         const queryTimeout = setTimeout(filter, 1000);
-  
+
         return () => {
-           clearTimeout(queryTimeout);
+            clearTimeout(queryTimeout);
         };
-     }, [filterData]);
+    }, [filterData]);
     //  console.log(isLoading)
-    
-    return(
+
+    const sendControl = (deviceId: string, deviceState: boolean) => {
+        console.log(user)
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            const payload = {
+                type: 'control',
+                data: {
+                    userId: user?._id || "unknown",
+                    deviceId: deviceId,
+                    state: deviceState == true ? 'on' : 'off'
+                }
+            };
+            ws.send(JSON.stringify(payload));
+            console.log('Sent control message:', payload);
+        } else {
+            console.error('WebSocket is not open. Unable to send control message.');
+        }
+        console.log(`Device: ${deviceId}, State: ${deviceState}`);
+    }
+
+    return (
         <>
-        {isAuthenticated && (
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5">
-            {/* Main Content */}
-            <div className="flex flex-col xl:flex-row w-full justify-between gap-4">
-                {/* Sensor and Device Cards */}
-                <div className="flex flex-col w-full lg:max-w-[1024px]">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
-                        {(sensorData.length > 0 || deviceData.length > 0) && (
-                            <>
-                                {sensorData.map((c, index) => (
-                                    <SensorCard key={index} data={c} />
-                                ))}
-                                {deviceData.map((c, index) => (
-                                    <DeviceCard key={index} data={c} />
-                                ))}
-                            </>
-                        )}
-                    </div>
-                    <div className="w-full flex-shrink flex-grow mt-5">
-                        <ChartItem data={chartData} labels={labelData}/>
+            {isAuthenticated && (
+                <div className="w-full px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col gap-5">
+                        {/* Main Content */}
+                        <div className="flex flex-col xl:flex-row w-full justify-between gap-4">
+                            {/* Sensor and Device Cards */}
+                            <div className="flex flex-col w-full lg:max-w-[1024px]">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+                                    {(sensorData.length > 0 || deviceData.length > 0) && (
+                                        <>
+                                            {sensorData.map((c, index) => (
+                                                <SensorCard key={index} data={c} />
+                                            ))}
+                                            {deviceData.map((c, index) => (
+                                                <DeviceCard key={index} data={c} onToggleChange={sendControl} />
+                                            ))}
+                                        </>
+                                    )}
+                                </div>
+                                <div className="w-full flex-shrink flex-grow mt-5">
+                                    <ChartItem data={chartData} labels={labelData} />
+                                </div>
+                            </div>
+
+                            {/* Sidebar for Listing & Schedules */}
+                            <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
+                                <div>
+                                    <ListingPeople />
+                                </div>
+                                <div>
+                                    <ListingScheduleCards />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Filter & Table */}
+                        <div className="w-full">
+                            <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)} />
+                            <div className="pt-5">
+                                <TableSensor data={data} type={filterData.sensorType} isLoading={isLoading} />
+                            </div>
+
+                            {/* Pagination */}
+                            {data.length > 0 && (
+                                <div className="p-4 mt-5 flex justify-center sm:justify-end">
+                                    <Pagination
+                                        total={5}
+                                        page={1}
+                                        initialPage={1}
+                                        showControls
+                                        loop
+                                    // onChange={async (page) => await handleChangePage(page)}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-
-                {/* Sidebar for Listing & Schedules */}
-                <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
-                    <div>
-                        <ListingPeople/> 
-                    </div>
-                    <div>
-                        <ListingScheduleCards/>
-                    </div>
-                </div>
-            </div>
-
-            {/* Filter & Table */}
-            <div className="w-full">
-                <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)}/>
-                <div className="pt-5">
-                    <TableSensor data={data} type={filterData.sensorType} isLoading={isLoading}/>
-                </div>
-
-                {/* Pagination */}
-                {data.length > 0 && (
-                    <div className="p-4 mt-5 flex justify-center sm:justify-end">
-                        <Pagination
-                            total={5}
-                            page={1}
-                            initialPage={1}
-                            showControls
-                            loop
-                            // onChange={async (page) => await handleChangePage(page)}
-                        />
-                    </div>
-                )}
-            </div>
-        </div>
-    </div>
-)}
+            )}
         </>
     )
 }

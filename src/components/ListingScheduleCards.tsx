@@ -5,8 +5,8 @@ import { Button } from "@nextui-org/react";
 import { IoMdAdd } from "react-icons/io";
 import ScheduleList from "./ScheduleList";
 import { IDeviceSchedule } from "../models/Device.model";
-import ModalCreateSchedule from "../pages/RoomDetail/ModalCreateSchedule";
-import { getScheduleByRoom } from "../pages/RoomDetail/service";
+import ModalCreateSchedule from "../pages/roomDetail/ModalCreateSchedule";
+import { getScheduleByRoom } from "../pages/roomDetail/service";
 
 const ListingScheduleCards = () => {
   // const [listSchedule, setListSchedule] = useState([
@@ -18,16 +18,16 @@ const ListingScheduleCards = () => {
   //   },
   // ]);
   const [listSchedule, setListSchedule] = useState<IDeviceSchedule[]>([]);
-  const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
+  const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   // const handleAdd = () => {
-    
+
   useEffect(() => {
-    const initData = async() => {
+    const initData = async () => {
       const res = await getScheduleByRoom("")
       setListSchedule(res)
     }
     initData()
-  },[isOpenForm])
+  }, [isOpenForm])
   // };
 
   // const handleDelete = () => {
@@ -40,7 +40,7 @@ const ListingScheduleCards = () => {
 
   useEffect(() => {
     setListSchedule([])
-  },[])
+  }, [])
 
 
 
@@ -50,18 +50,18 @@ const ListingScheduleCards = () => {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-700">Schedules</h2>
           <Button isIconOnly aria-label="add" size="sm" color="primary" variant="ghost" onPress={() => setIsOpenForm(true)}>
-              <IoMdAdd  className="size-5"/>
+            <IoMdAdd className="size-5" />
           </Button>
         </div>
 
         <div
           className="rounded-[24px] h-[200px] space-y-2 max-h-[200px] overflow-y-auto"
         >
-          {listSchedule.length === 0 ? (<div className="text-center text-gray-500 italic">Danh sách trống</div>) 
-            :(<ScheduleList scheduleList={listSchedule} />) }
+          {listSchedule.length === 0 ? (<div className="text-center text-gray-500 italic">Danh sách trống</div>)
+            : (<ScheduleList scheduleList={listSchedule} />)}
         </div>
       </div>
-      <ModalCreateSchedule isOpen={isOpenForm} onClose={() => setIsOpenForm(false)}/>
+      <ModalCreateSchedule isOpen={isOpenForm} onClose={() => setIsOpenForm(false)} />
     </>
   );
 };

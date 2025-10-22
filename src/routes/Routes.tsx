@@ -1,53 +1,54 @@
-import {ReactNode} from "react";
+import { ReactNode } from "react";
 import { path } from "./Path";
 // import HomePage from "../pages/HomePage";
 // import Phat from "../pages/Phat";
 // import RoomDetailPage from "../pages/RoomDetailPage";
-import RoomDetail from "../pages/RoomDetail";
+import RoomDetail from "../pages/roomDetail";
 import Dashboard from "../pages/admin/dashboard";
 import Login from "../pages/auth/Login";
 import UserManagement from "../pages/admin/user";
 import SensorManagement from "../pages/admin/sensor";
 import RoomManagement from "../pages/admin/room";
+import HomePage from "../pages/homePage/index";
 
 
 export type routeProps = {
-    path: string;
-    component: ReactNode;
-    type: typeRoute;
- };
- 
- export enum typeRoute {
-    PRIVATE_ROUTE = 'private_route',
-    PROTECTED_ROUTE = 'protected_route',
-    PUBLIC_ROUTE = 'public_route',
- }
+   path: string;
+   component: ReactNode;
+   type: typeRoute;
+};
+
+export enum typeRoute {
+   PRIVATE_ROUTE = 'private_route',
+   PROTECTED_ROUTE = 'protected_route',
+   PUBLIC_ROUTE = 'public_route',
+}
 
 export const protectedRoutes: routeProps[] = [
-   
+
    {
       path: path.ADMIN.DETAIL_ROOM,
-      component:<RoomDetail/>,
+      component: <RoomDetail />,
       type: typeRoute.PROTECTED_ROUTE,
    },
    {
       path: path.ADMIN.DASHBOARD,
-      component: <Dashboard/>,
+      component: <Dashboard />,
       type: typeRoute.PROTECTED_ROUTE
    },
    {
       path: path.ADMIN.USER,
-      component: <UserManagement/>,
+      component: <UserManagement />,
       type: typeRoute.PROTECTED_ROUTE
    },
    {
       path: path.ADMIN.SENSOR,
-      component: <SensorManagement/>,
+      component: <SensorManagement />,
       type: typeRoute.PROTECTED_ROUTE
    },
    {
       path: path.ADMIN.ROOM,
-      component: <RoomManagement/>,
+      component: <RoomManagement />,
       type: typeRoute.PROTECTED_ROUTE
    },
    // {
@@ -87,15 +88,20 @@ export const publicRoutes: routeProps[] = [
    //    component: <AddPost />,
    //    type: typeRoute.PROTECTED_ROUTE,
    // },
-   
+
 ];
 export const privateRoutes: routeProps[] = [
    {
       path: path.HOME,
-      component: <RoomDetail/>,
+      component: <HomePage />,
       type: typeRoute.PRIVATE_ROUTE,
    },
-   
+   {
+      path: path.ROOM + '/:roomId',
+      component: <RoomDetail />,
+      type: typeRoute.PRIVATE_ROUTE,
+   },
+
    // {
    //    path: path.POST.VIEW,
    //    component: <ViewPost />,
@@ -104,5 +110,5 @@ export const privateRoutes: routeProps[] = [
 ];
 
 export const learningRoutes: routeProps[] = [
-   
+
 ];

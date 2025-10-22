@@ -3,7 +3,7 @@ import UserList from "./UserList";
 import { IUser } from "../models/User.model";
 import { Button } from "@nextui-org/button";
 import { IoMdAdd } from "react-icons/io";
-import ModalAddUser from "../pages/RoomDetail/ModalAddUser";
+import ModalAddUser from "../pages/roomDetail/ModalAddUser";
 
 const ListingPeople = () => {
   const [listUser, setListUser] = useState<IUser[]>([
@@ -33,7 +33,7 @@ const ListingPeople = () => {
     // }
   ]);
   // const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isOpenForm,setIsOpenForm] = useState<boolean>(false)
+  const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
   const listRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const editButtonRef = useRef<HTMLButtonElement>(null);
@@ -44,7 +44,7 @@ const ListingPeople = () => {
       const newUsers = selectedUsers.filter(
         (user) => !prevList.some((existingUser) => existingUser._id === user._id)
       );
-  
+
       return [...prevList, ...newUsers]; // Add only unique users
     });
   };
@@ -72,7 +72,7 @@ const ListingPeople = () => {
     window.addEventListener("click", handleClickOutside);
     return () => window.removeEventListener("click", handleClickOutside);
   }, []);
-  
+
   return (
     <>
       <div className="rounded-[24px] border-1 border-gray w-full sm:w-80 max-w-md mx-auto p-4 bg-gray-50 shadow-md">
@@ -82,7 +82,7 @@ const ListingPeople = () => {
             <ButtonDropdown onAdd={handleAdd} onDelete={handleDelete} />
           </div> */}
           <Button isIconOnly aria-label="add" size="sm" color="primary" variant="ghost" onPress={() => setIsOpenForm(true)}>
-            <IoMdAdd  className="size-5"/>
+            <IoMdAdd className="size-5" />
           </Button>
         </div>
 
@@ -90,8 +90,8 @@ const ListingPeople = () => {
           ref={listRef}
           className="rounded-[24px] h-[200px] space-y-4 max-h-[200px] overflow-y-auto"
         >
-          {listUser.length === 0 ? (<div className="text-center text-gray-500 italic">Danh sách trống</div>) 
-          :(<UserList userList={listUser} onDeleteUser={handleDeleteUser}/>) }
+          {listUser.length === 0 ? (<div className="text-center text-gray-500 italic">Danh sách trống</div>)
+            : (<UserList userList={listUser} onDeleteUser={handleDeleteUser} />)}
         </div>
 
         <div className="mt-5 flex justify-center">
@@ -104,7 +104,7 @@ const ListingPeople = () => {
           </button>
         </div>
       </div>
-      <ModalAddUser isOpen={isOpenForm} onClose={() => setIsOpenForm(false)} onAddUser={handleAddUser}/>
+      <ModalAddUser isOpen={isOpenForm} onClose={() => setIsOpenForm(false)} onAddUser={handleAddUser} />
     </>
   );
 };

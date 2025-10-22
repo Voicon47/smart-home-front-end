@@ -10,14 +10,14 @@ function Header() {
    const router = useRouter();
    // const { toggleTheme } = useTheme();
 
-   const { isAuthenticated, user, logout, isLoading} = useAuth();
+   const { isAuthenticated, user, logout, isLoading } = useAuth();
    console.log(user)
    ///prevent flickering
    if (isLoading) {
       return null
    }
    return (
-      <header className="flex select-none h-16 border-b-[1px] border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl fixed z-[100000] left-5 top-0 right-0 justify-between items-center p-4">
+      <header className="flex select-none h-16 border-b-[1px] rounded-b-2xl border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl sticky top-0 z-[100000] justify-between items-center p-4">
          <div
             onClick={() => {
                // router.push('');
@@ -37,10 +37,11 @@ function Header() {
                   <p className=''>Hi, {user?.fullName || "User1"} </p>
                   <Button
                      className="bg-transparent hover:text-primary text-primary"
-                     startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer"/>}
+                     startContent={<BiLogOut className="text-[40px]  hover:text-primary cursor-pointer" />}
                      onPress={() => {
                         logout()
-                        router.push(path.AUTH.LOGIN)}}
+                        router.push(path.AUTH.LOGIN)
+                     }}
                   >Log out</Button>
                </>
             ) : (
@@ -48,7 +49,7 @@ function Header() {
                   logout()
                   // toast.success('Đăng xuất thành công!');
                   router.push(path.AUTH.LOGIN)
-              }}>
+               }}>
                   Đăng nhập
                </Button>
             )}
