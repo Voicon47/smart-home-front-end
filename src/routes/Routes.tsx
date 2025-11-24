@@ -6,7 +6,7 @@ import UserManagement from "../pages/admin/user";
 import SensorManagement from "../pages/admin/sensor";
 import RoomManagement from "../pages/admin/room";
 import RoomDetail from "../pages/roomDetail";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/homePage/index";
 
 
 export type routeProps = {
