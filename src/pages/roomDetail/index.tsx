@@ -153,7 +153,7 @@ function RoomDetail() {
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
+        const socket = new WebSocket('wss://localhost:8017'); // Replace with your WebSocket URL
         setWs(socket);
 
         socket.onopen = () => {
