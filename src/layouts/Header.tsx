@@ -20,7 +20,7 @@ function Header() {
       <header className="flex select-none h-16 border-b-[1px] rounded-b-2xl border-solid dark:border-gray-900 dark:bg-dark-sidebar backdrop-blur-2xl sticky top-0 z-[100000] justify-between items-center p-4">
          <div
             onClick={() => {
-               // router.push('');
+               router.push('');
             }}
             className="cursor-pointer select-none flex justify-start items-center gap-5 w-1/3"
          >

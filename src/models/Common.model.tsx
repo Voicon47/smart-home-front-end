@@ -5,13 +5,13 @@ export enum IStatusSensor {
 }
 
 export type IFilterSensor = {
-    sensorId:string | null;
+    sensorId: string | null;
     sensorType: string | null;
     status?: IStatusSensor | string | null;
     query?: string | null;
- };
+};
 
- export type IResponse<T, U> = {
+export type IResponse<T, U> = {
     status: number;
     meta: T;
     data: U | null;
@@ -21,3 +21,9 @@ export type IToken = {
     accessToken: string;
     refreshToken: string;
 };
+
+export type INotification = {
+    room: string | null
+    description: string | null
+    status: string | null
+}

@@ -1,7 +1,8 @@
 
-import { IoMdArrowDropdown } from "react-icons/io";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { LuAlarmSmoke, LuDoorOpen } from "react-icons/lu";
+import { Badge, Button } from "@nextui-org/react";
+import { IoNotifications } from "react-icons/io5";
 
 const notifications = [
   {
@@ -23,59 +24,75 @@ const notifications = [
     icon: <LuDoorOpen className="text-blue-500 w-10 h-10" />,
   },
 ];
+// Icon mapping based on alert types
+// const iconMap = {
+//   overheating: <FaFireFlameCurved className="text-red-800 w-10 h-10" />,
+//   gas: <LuAlarmSmoke className="text-gray-500 w-10 h-10" />,
+//   door: <LuDoorOpen className="text-blue-800 w-10 h-10" />,
+//   flame: <FaFireFlameCurved className="text-red-800 w-10 h-10" />, // Additional for flame
+//   // Add more as needed
+// };
 
-  
-  export default function AnnouncementListing() {
-    return (
-      <div className="w-full h-full bg-white shadow-lg rounded-xl p-4 overflow-y-auto ">
-        <div className="flex justify-between items-center border-b pb-2">
-          <div className="flex items-center gap-2">
-            <h2 className="font-semibold text-lg">Notification</h2>
-          </div>
-  
-          <button className="flex items-center bg-white text-gray-600 font-medium text-xs gap-0.5 hover:shadow-xl transition">
-            <span>View</span>
-            <IoMdArrowDropdown size={12} />
-          </button>
+
+export default function AnnouncementListing() {
+  return (
+    <div className="w-full h-full bg-white shadow-lg rounded-xl p-4 overflow-y-auto ">
+      <div className="flex justify-between items-center border-b pb-2">
+        <div className="flex items-center gap-2">
+          <h2 className="font-semibold text-lg">Notification</h2>
         </div>
-        <div className="space-y-3">
-          {notifications.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-row items-start p-2 border rounded-lg gap-3 hover:shadow-xl transition"
-            >
-              <div className="my-auto">{item.icon}</div>
-              <div className="flex flex-col text-left w-full">
-                <span className="text-lg font-semibold text-gray-900">
-                  {item.room}
+
+        {/* <button className="flex items-center bg-white text-gray-600 font-medium text-xs gap-0.5 hover:shadow-xl transition">
+          <span>View</span>
+          <IoMdArrowDropdown size={12} />
+        </button> */}
+        {/* 🔔 Notification Button */}
+        <Badge content={notifications.length} color="danger" shape="circle">
+          <Button
+            isIconOnly
+            className=" rounded-full bg-transparent flex items-center justify-center hover:bg-gray-200 transition"
+          >
+            <IoNotifications className=" w-5 h-5 text-primary" />
+          </Button>
+        </Badge>
+
+      </div>
+      <div className="space-y-3 mt-2">
+        {notifications.map((item, index) => (
+          <div
+            key={index}
+            className="flex flex-row items-start p-2 border rounded-lg gap-3 hover:shadow-xl transition"
+          >
+            <div className="my-auto">{item.icon}</div>
+            <div className="flex flex-col text-left w-full">
+              <span className="text-lg font-semibold text-gray-900">
+                {item.room}
+              </span>
+              <div className="flex justify-between items-center w-full mt-1 min-w-0">
+                <span className="text-gray-700 max-w-[180px] truncate">
+                  {item.description}
                 </span>
-                <div className="flex justify-between items-center w-full mt-1 min-w-0">
-                  <span className="text-gray-700 w-[180px] truncate">
-                    {item.description}
-                  </span>
-                  <span className="flex items-center gap-1 text-sm font-medium ml-12">
-                    <span
-                      className={`text-lg ${
-                        item.status === "warning"
-                          ? "text-yellow-500"
-                          : "text-red-500"
+                <span className="flex items-center gap-1 text-sm font-medium ">
+                  <span
+                    className={`text-lg ${item.status === "warning"
+                      ? "text-yellow-500"
+                      : "text-red-500"
                       }`}
-                    ></span>
-                    <span
-                      className={`${
-                        item.status === "warning"
-                          ? "text-yellow-500"
-                          : "text-red-500"
+                  ></span>
+                  <span
+                    className={`${item.status === "warning"
+                      ? "text-yellow-500"
+                      : "text-red-500"
                       }`}
-                    >
-                      {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-                    </span>
+                  >
+                    {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                   </span>
-                </div>
+                </span>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
+};

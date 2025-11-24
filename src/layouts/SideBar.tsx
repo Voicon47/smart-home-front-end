@@ -2,7 +2,7 @@
 import { useLocation } from "react-router-dom";
 import { path } from "../routes/Path";
 import { BsDoorOpen } from "react-icons/bs";
-import {Accordion, AccordionItem, Button , Image, Card, CardHeader} from '@nextui-org/react';
+import { Accordion, AccordionItem, Button, Image, Card, CardHeader } from '@nextui-org/react';
 import { useRouter } from '../hooks/use-router';
 import { BiHome, BiLogOut } from "react-icons/bi";
 // import avatar from '../assets/avatar.jpg'
@@ -23,10 +23,10 @@ function Sidebar() {
         trigger: "mt-2 bg-light-sidebar dark:bg-dark-sidebar rounded-lg h-12 w-11/12 hover:border-none  focus:outline-primary",
         indicator: "text-large text-black",
         content: "text-small border-none",
-      };
+    };
     const { pathname } = useLocation();
     const router = useRouter();
-    const { logout} = useAuth();
+    const { logout } = useAuth();
     const navs = [
         {
             name: 'Dashboard',
@@ -43,22 +43,22 @@ function Sidebar() {
                 {
                     name: 'Sensor ',
                     path: path.ADMIN.SENSOR,
-                    icon: <MdSensors className="text-xl"/>
+                    icon: <MdSensors className="text-xl" />
                 },
                 {
                     name: 'Device',
                     path: path.ADMIN.SENSOR,
-                    icon: <BsDoorOpen className="text-xl"/>
+                    icon: <BsDoorOpen className="text-xl" />
                 },
                 {
                     name: 'Room',
                     path: path.ADMIN.ROOM,
-                    icon: <PiBuildingApartment className="text-xl"/>
+                    icon: <PiBuildingApartment className="text-xl" />
                 },
-                
+
             ],
         },
-        
+
         {
             name: 'Users',
             icon: <FiUser className="text-2xl" />,
@@ -85,78 +85,80 @@ function Sidebar() {
                     </div>
 
                     <div className="flex w-full mt-[2rem]">
-                        <Accordion 
+                        <Accordion
                             showDivider={false}
                             className="w-full max-w-full p-0 border-none"
                             itemClasses={itemClasses}
-                            // variant="shadow"
-                            >
+                        // variant="shadow"
+                        >
                             {navs.map((nav) => (
                                 <AccordionItem
                                     textValue={'nav'}
                                     key={nav.key}
                                     hideIndicator={!nav?.subNav}
-                                    indicator = {<IoAddCircleOutline />}
+                                    indicator={<IoAddCircleOutline />}
                                     // className={`hover:border-non `}
                                     aria-label="Connected devices"
                                     startContent={
                                         <div
                                             onClick={() => router.push(nav.path)}
-                                            className={` ${
-                                                pathname.includes(nav.path) ? 'text-primary font-bold' : 'text-black dark:text-white'
-                                            }  flex justify-start items-center gap-4 border-none hover:text-black hover:font-bold`}
+                                            className={` ${pathname.includes(nav.path) ? 'text-primary font-bold' : 'text-black dark:text-white'
+                                                }  flex justify-start items-center gap-4 border-none hover:text-black hover:font-bold`}
                                         >
                                             {nav.icon}
                                             <h2 >{nav.name}</h2>
                                         </div>
                                     }
-                                    // title = {nav.name}
-                                    
+                                // title = {nav.name}
+
 
                                 >
                                     {nav.subNav &&
                                         nav.subNav.map((subNav, index) => (
-                                            <div
-                                                onClick={() => router.push(subNav.path)}
-                                                className={`flex  items-center justify-start gap-4 px-4 py-2  mt-[6px] bg-white rounded-lg cursor-pointer hover:font-bold  ${
-                                                    pathname.substring(1) === subNav.path
+                                            <div className="flex">
+                                                <div className="w-1/4"></div>
+                                                <div
+                                                    onClick={() => router.push(subNav.path)}
+                                                    className={`flex items-center justify-start gap-4 px-4 py-2  mt-[6px] bg-white rounded-lg cursor-pointer hover:font-bold  ${pathname.substring(1) === subNav.path
                                                         ? 'text-primary'
                                                         : 'text-black'
-                                                }`}
-                                                
-                                                key={index}
-                                            >
-                                                {subNav.icon}
-                                                {<p className="text-[15px]">{subNav.name}</p>}
+                                                        }`}
+
+                                                    key={index}
+                                                >
+                                                    {subNav.icon}
+                                                    {<p className="text-[15px]">{subNav.name}</p>}
+                                                </div>
                                             </div>
+
                                         ))}
                                 </AccordionItem>
                             ))}
                         </Accordion>
                     </div>
 
-                    
-                    
+
+
                 </div>
 
                 <div className="flex w-4/5 mx-auto mt-[2rem] mb-[3rem]">
-                        <Card className="py-4 bg-gradient-to-r from-primary via-[#246347] to-[#187044]">
-                            <CardHeader className="pb-0 pt-2 px-4 flex-col items-center ">
-                                <p className="text-sm text-white font-bold">Upgrade to Pro</p>
-                                <small className="text-white mt-2">Get one month free and unlock</small>
-                            </CardHeader> 
-                            <Button 
-                                className=" bg-primary w-fit text-white mx-auto mt-2 font-semibold"
-                                radius="full"
-                            >
-                                Upgrade
-                            </Button>
-                        </Card>
-                    </div>
+                    <Card className="py-4 bg-gradient-to-r from-primary via-[#246347] to-[#187044]">
+                        <CardHeader className="pb-0 pt-2 px-4 flex-col items-center ">
+                            <p className="text-sm text-white font-bold">Upgrade to Pro</p>
+                            <small className="text-white mt-2">Get one month free and unlock</small>
+                        </CardHeader>
+                        <Button
+                            className=" bg-primary w-fit text-white mx-auto mt-2 font-semibold"
+                            radius="full"
+                        >
+                            Upgrade
+                        </Button>
+                    </Card>
+                </div>
                 <div className="flex pb-5 ml-3">
                     <Button
                         className="bg-transparent hover:text-primary text-black"
-                        startContent={<BiLogOut className="text-[30px]  over:thext-primary cursor-pointer"/>}
+                        startContent={<BiLogOut className="text-[30px]  over:thext-primary cursor-pointer" />}
                         onPress={() => {
                             logout()
                             toast.success('Đăng xuất thành công!');

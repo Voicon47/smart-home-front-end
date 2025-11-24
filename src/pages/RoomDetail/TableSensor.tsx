@@ -1,8 +1,8 @@
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner} from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Spinner } from "@nextui-org/react";
 // import { ISensorData } from "../../models/SensorData.model";
-import  { useEffect, useMemo} from "react";
+import { useEffect, useMemo } from "react";
 
-const allColumns  = [
+const allColumns = [
   { name: 'Date', uid: 'date' },
   { name: 'Time', uid: 'time' },
   { name: 'PIR Detection', uid: 'pirDetection' },
@@ -16,12 +16,8 @@ export type ISensorDataTable = {
   _id?: string,
   sensorId: string,
   createAt: string,
-  temperature?: number,
-  humidity?: number,
-  mq2?: number,
-  flame?: boolean,
-  pir?: boolean,
-  _destroy: boolean
+  attribute: string,
+  value: number | Record<string, number>,
   createdAtDate: string,
   createdAtTime: string
 
@@ -32,7 +28,7 @@ type TableProps = {
   isLoading?: boolean;
 };
 export default function TableSensor(props: TableProps) {
-  console.log("Table: ",props.isLoading)
+  console.log("Table: ", props.isLoading)
   const filteredColumns = useMemo(() => {
     if (props.type === "DHT11") {
       return allColumns.filter((col) => ["date", "time", "temperature", "humidity", "status"].includes(col.uid));
@@ -50,56 +46,58 @@ export default function TableSensor(props: TableProps) {
   }, [props.type]);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderCell = (data: ISensorDataTable, columnKey: any) => {
+    const value = data.value;
     switch (columnKey) {
-        case 'date':
-          return <h5>{data.createdAtDate}</h5>;
-        case 'time':
-          return <h5>{data.createdAtTime}</h5>
-        case 'temperature':
-          return <h5>{data.temperature}</h5>
-        case 'humidity':
-          return <h5>{data.humidity}</h5>
-        case 'mq2':
-          return <h5>{data.mq2}</h5>
-        case 'pirDetection':
-          return <h5>{data.pir}</h5>
-        case 'flameDetection':
-          return <h5>{data.flame}</h5>
-        case 'status':
-          return (
-              <Chip
-                  className="capitalize"
-                  color={data.temperature === null ||data.humidity === null ? 'danger' : 'success'}
-                  size="sm"
-                  variant="flat"
-              >
-                  {data.temperature === null ||data.humidity === null ? 'Off' : 'On'}
-              </Chip>
-          );
-        default:
-            return null;
+      case 'date':
+        return <h5>{data.createdAtDate}</h5>;
+      case 'time':
+        return <h5>{data.createdAtTime}</h5>
+      case 'temperature':
+        // value can be object or number
+        return <h5>{typeof value === 'object' ? value.temperature : '-'}</h5>;
+      case 'humidity':
+        return <h5>{typeof value === 'object' ? value.humidity : '-'}</h5>;
+      case 'mq2':
+        return <h5>{typeof value === 'number' ? value : value?.mq2 ?? '-'}</h5>;
+      case 'pirDetection':
+        return <h5>{typeof value === 'number' ? value : value?.motion ?? '-'}</h5>;
+      case 'flameDetection':
+        return <h5>{typeof value === 'number' ? value : value?.flame ?? '-'}</h5>;
+      case 'status':
+        return (
+          <Chip
+            className="capitalize"
+            color={data.value === null ? 'danger' : 'success'}
+            size="sm"
+            variant="flat"
+          >
+            {data.value === null ? 'Off' : 'On'}
+          </Chip>
+        );
+      default:
+        return null;
     }
   }
   useEffect(() => {
     console.log("Table Data Updated: ", props.data);
   }, [props.data]);
   return (
-    <Table 
-      aria-label="Example table with dynamic content" 
+    <Table
+      aria-label="Example table with dynamic content"
       removeWrapper
-      >
-      
+    >
+
       <TableHeader columns={filteredColumns} >
         {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "status" ? "center" : "start"}
-              className="bg-primary text-white"
-              // allowsSorting={column.sortable}
-            >
-              {column.name.toUpperCase()}
-            </TableColumn>
-          )}
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "status" ? "center" : "start"}
+            className="bg-primary text-white"
+          // allowsSorting={column.sortable}
+          >
+            {column.name.toUpperCase()}
+          </TableColumn>
+        )}
       </TableHeader>
       <TableBody
         isLoading={props.isLoading}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,6 +23,8 @@ import { BsArrowRightShort } from "react-icons/bs";
 
 import zoomPlugin from "chartjs-plugin-zoom";
 import { mockData } from "./mockData";
+import { IChartData } from "../models/Chart.model";
+import { getChartData } from "../pages/roomDetail/service";
 
 // Register ChartJS components
 ChartJS.register(
@@ -39,20 +41,23 @@ ChartJS.register(
 const MAX_POINTS = 24; // Max points for real-time mode
 
 type ChartItemProps = {
-  labels: number[]
-  data: number[]
+  data: IChartData[]
 }
-function ChartItem(props : ChartItemProps){
+function ChartItem(props: ChartItemProps) {
   const [currentData, setCurrentData] = useState(mockData.daily);
   // const [, setMenuOpen] = useState(false);
   // const [realTime, setRealTime] = useState(false);
   const [zoomRange, setZoomRange] = useState<number[]>([0, 12]);
   // const [paused, setPaused] = useState(false);
-  const [selectedKeys, setSelectedKey] = React.useState("Monthly");
+  const [selectedKeys, setSelectedKey] = React.useState("monthly");
   // console.log(props.data)
   // Capitalize function for dynamic menu items
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-  console.log("Chart",props.data)
+  console.log("Chart", props.data)
+
+  // const labels = props.data.map(item => item.labels);
+  // const temperature = props.data.map(item => item.temperature);
+  // const humidity = props.data.map(item => item.humidity);
   // console.log(currentData)
   // useEffect(() => {
   //   if (!realTime) return;
@@ -96,49 +101,92 @@ function ChartItem(props : ChartItemProps){
   // }, [realTime, paused]);
 
   // Change data type
-  const handleDataChange = useCallback(
-    (
-      type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
-    ) => {
-      // setMenuOpen(false);
-      setSelectedKey(capitalize(type));
-      if (type === "realTime") {
-        // setRealTime(true);
-        const now = new Date();
-        const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
-          const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
-          return {
-            time: time.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            }),
-            temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
-            humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
-          };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getChartData({
+          sensorId: "677faf7339a557ec6c1a9262",
+          year: 2025,
+          month: 11,
+          day: 24,
+          type: selectedKeys,
         });
 
         setCurrentData({
-          labels: initialData.map((d) => d.time),
-          temperature: initialData.map((d) => d.temperature),
-          humidity: initialData.map((d) => d.humidity),
+          labels: res.map((item) => item.labels),
+          temperature: res.map((item) => item.temperature),
+          humidity: res.map((item) => item.humidity),
         });
-        setZoomRange([0, 12]);
-        // setPaused(false);
-      // } else if (type === "monthly" && month) {
-      //   setRealTime(false);
-      //   // setSelectedMonth(month);
-      //   const monthData = mockData.monthly.details[month];
-      //   setCurrentData(monthData);
-      //   setZoomRange([0, Math.min(monthData.labels.length, 12)]);
-      } else {
-        // setRealTime(false);
-        setCurrentData(mockData[type]);
-        setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
       }
-    },
-    []
-  );
+    };
+    if (selectedKeys === "realTime") {
+      setCurrentData(() => {
+        return {
+          labels: props.data.map((item) => {
+            const date = new Date(Number(item.labels)); // ensure it's a Date object
+            return date.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            });
+          }),
+          temperature: props.data.map((item) => item.temperature),
+          humidity: props.data.map((item) => item.humidity),
+        }
+      });
+    } else {
+      fetchData();
+    }
+    // fetchData();
+  }, [selectedKeys, props.data]);
+
+
+  // const handleDataChange = useCallback(
+  //   (
+  //     type: "daily" | "weekly" | "monthly" | "yearly" | "realTime",
+  //   ) => {
+  //     // setMenuOpen(false);
+  //     setSelectedKey(capitalize(type));
+  //     if (type === "realTime") {
+  //       // setRealTime(true);
+  //       const now = new Date();
+  //       const initialData = Array.from({ length: MAX_POINTS }, (_, i) => {
+  //         const time = new Date(now.getTime() - (MAX_POINTS - 1 - i) * 5000);
+  //         return {
+  //           time: time.toLocaleTimeString([], {
+  //             hour: "2-digit",
+  //             minute: "2-digit",
+  //             second: "2-digit",
+  //           }),
+  //           temperature: parseFloat((20 + Math.random() * 10).toFixed(1)),
+  //           humidity: parseFloat((50 + Math.random() * 20).toFixed(1)),
+  //         };
+  //       });
+
+  //       setCurrentData({
+  //         labels: initialData.map((d) => d.time),
+  //         temperature: initialData.map((d) => d.temperature),
+  //         humidity: initialData.map((d) => d.humidity),
+  //       });
+  //       setZoomRange([0, 12]);
+  //       // setPaused(false);
+  //       // } else if (type === "monthly" && month) {
+  //       //   setRealTime(false);
+  //       //   // setSelectedMonth(month);
+  //       //   const monthData = mockData.monthly.details[month];
+  //       //   setCurrentData(monthData);
+  //       //   setZoomRange([0, Math.min(monthData.labels.length, 12)]);
+  //     } else {
+  //       // setRealTime(false);
+  //       setCurrentData(mockData[type]);
+  //       setZoomRange([0, Math.min(mockData[type].labels.length, 12)]);
+  //     }
+  //   },
+  //   []
+  // );
 
   // Handle zoom (Previous/Next) logic
   // const handleZoomChange = useCallback(
@@ -165,21 +213,21 @@ function ChartItem(props : ChartItemProps){
     labels: currentData.labels,
     datasets: [
       {
-        type: "line" as const,
+        // type: "line" as const,
         label: "Temperature (°C)",
         data: currentData.temperature.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
         borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        backgroundColor: "rgba(170, 15, 15, 0.8)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
         yAxisID: "y1",
       },
       {
-        type: "line" as const,
+        // type: "line" as const,
         label: "Humidity (%)",
         data: currentData.humidity.slice(zoomRange[0], zoomRange[1]), // Giảm 1 điểm
         // data:[0],
         borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "rgba(41, 70, 70, 0.8)",
         tension: 0.4, // nếu muốn thành đường thẳng thì tension = 0
         yAxisID: "y2",
       },
@@ -228,20 +276,20 @@ function ChartItem(props : ChartItemProps){
         <Dropdown>
           <DropdownTrigger>
             <Button className="text-white border-2 border-white" variant="bordered">
-              {selectedKeys}
+              {capitalize(String(selectedKeys))}
               <RxCaretRight className="text-lg" />
             </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Data Type Selection"
-            selectedKeys={selectedKeys}
+            selectedKeys={capitalize(String(selectedKeys))}
             selectionMode="single"
-            onAction={(key) => { 
-              setSelectedKey(capitalize(String(key)));
-              handleDataChange(
-                key as "daily" | "weekly" | "monthly" | "realTime"| "yearly"
-              );
-              
+            onAction={(key) => {
+              setSelectedKey(String(key));
+              // handleDataChange(
+              //   key as "daily" | "weekly" | "monthly" | "realTime" | "yearly"
+              // );
+
             }}
           >
             {/* Các loại menu */}
@@ -259,7 +307,7 @@ function ChartItem(props : ChartItemProps){
       <div className="border bg-white/90 rounded-3xl p-2 mt-4 relative">
         {/* Biểu đồ */}
         <div className="w-full h-96">
-          <Chart type="line" data={combinedChartData} options={chartOptions} />
+          <Chart type={selectedKeys === "realTime" ? "line" : "bar"} data={combinedChartData} options={chartOptions} />
         </div>
 
         {/* Nút Previous và Next */}

@@ -8,11 +8,12 @@ import { MdOutlineAir } from "react-icons/md";
 export type ISensorDataCard = {
   name: string;
   type: string;
-  temperature: number | string | null;
-  humidity: number | string | null;
-  mq2: number | string | null;
-  flame: number | boolean | null;
-  pir: number | null;
+  // temperature: number | string | null;
+  // humidity: number | string | null;
+  // mq2: number | string | null;
+  // flame: number | boolean | null;
+  // pir: number | null;
+  value: number | Record<string, number>;
 };
 type SensorDataItemProps = {
   data: ISensorDataCard
@@ -32,7 +33,7 @@ function SensorCard(props: SensorDataItemProps) {
     switch (props.data.type) {
       case "DHT11":
         return <FaTemperatureHigh className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
-      case "MQ-2":
+      case "MQ2":
         return <MdOutlineAir className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
       case "FLAME":
         return <IoIosFlame className={isSensorOn ? "text-white" : "text-primary"} size={33} />;
@@ -42,30 +43,30 @@ function SensorCard(props: SensorDataItemProps) {
   };
 
   useEffect(() => {
-    const { type, temperature, mq2, flame } = props.data;
+    const { type, value } = props.data;
 
     // Update based on sensor type
     switch (type) {
       case "DHT11":
         setName("DHT11");
-        setSensorValue(temperature);
-        setUnit(temperature ? "°C" : "");
-        setIsSensorOn(!!temperature);
+        setSensorValue(typeof value === 'object' ? value.temperature : '-');
+        setUnit(value ? "°C" : "");
+        setIsSensorOn(!!value);
         break;
-      case "MQ-2":
+      case "MQ2":
         setName("MQ-2");
-        setSensorValue(mq2);
-        setUnit(mq2 ? "PPM" : "");
-        setIsSensorOn(!!mq2);
+        setSensorValue(typeof value === 'number' ? value : '-');
+        setUnit(value ? "PPM" : "");
+        setIsSensorOn(!!value);
         break;
       case "FLAME":
         setName("FLAME");
-        console.log(flame)
+        console.log(value)
         setSensorValue(
-          typeof flame !== "number" ? "" : flame > 700 ? "Detected" : "Not Detected"
+          typeof value !== "number" ? "" : value > 700 ? "Detected" : "Not Detected"
         );
         setUnit("");
-        setIsSensorOn(flame != null);
+        setIsSensorOn(value != null);
         break;
       default:
         setName("Unknown");

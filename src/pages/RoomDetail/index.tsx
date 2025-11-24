@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import ChartItem from "../../components/ChartItem";
 import DeviceCard, { IDeviceData } from "../../components/DeviceCard"
-import ListingPeople from "../../components/ListingPeople";
 import ListingScheduleCards from "../../components/ListingScheduleCards";
 
 import SensorCard, { ISensorDataCard } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 import FilterBarSensor from "./FilterBarSensor";
-import { IFilterSensor } from "../../models/Common.model";
+import { IFilterSensor, INotification } from "../../models/Common.model";
 import TableSensor, { ISensorDataTable } from "./TableSensor";
 import { getDataSensor } from "./service";
 import { useAuth } from "../../context/authContext";
 import { Pagination } from "@nextui-org/react";
+import { IChartData } from "../../models/Chart.model";
+import AnnouncementListing from "../admin/dashboard/AnnoucementListing";
+import { useSelector } from "react-redux";
+import { RoomState } from "../../redux/store";
 // import { ISensor } from "../../models/Sensor.model";
 
 // import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
@@ -95,19 +98,22 @@ function RoomDetail() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sensorData, setSensorData] = useState<ISensorDataCard[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
-    const [chartData, setChartData] = useState<number[]>([]);
-    const [labelData, setLabelData] = useState<number[]>([]);
+    const [chartData, setChartData] = useState<IChartData[]>([]);
+    // const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
+    // const [notifications, setNotifications] = useState<INotification[]>([])
     // const router = useRouter();
     console.log(import.meta.env.VITE_URL_API)
     const { isAuthenticated, user } = useAuth()
+    const room = useSelector((state: RoomState) => state.room)
+    console.log("Room in detail page: ", room)
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
     //     totalPages: -1,
     //     size: 5,
     //     currentPage: 1,
     //  });
     const [filterData, setFilterData] = useState<IFilterSensor>({
-        sensorId: null,
+        sensorId: "677faf7339a557ec6c1a9261",
         sensorType: null,
         status: null,
         query: null,
@@ -142,7 +148,7 @@ function RoomDetail() {
         setDeviceData(transformToIDeviceData(defaultJson.devices))
         ////demo when haven't websocket fro vercel deployment
         setChartData([])
-        setLabelData([])
+        // setLabelData([])
     }, [])
 
     useEffect(() => {
@@ -158,14 +164,51 @@ function RoomDetail() {
 
         socket.onmessage = (event) => {
             try {
+
                 const data = JSON.parse(event.data);
                 console.log(data)
                 if (data.sensors) {
                     setSensorData(transformToISensorData(data.sensors));
                     //   chartData.push(data.sensors[1].temperature)
                     //   labelData.push( Date.now())
-                    setChartData((prev) => [...prev, data.sensors[1]?.temperature || 0]);
-                    setLabelData((prev) => [...prev, Date.now()]);
+                    setChartData((prev) => [
+                        ...prev,
+                        {
+                            labels: Date.now().toString(),
+                            temperature: data.sensors[1]?.temperature || 0,
+                            humidity: data.sensors[1]?.humidity || 0,
+                        },
+
+                    ]);
+                    // Generate notifications based on sensor data from Arduino
+                    const newNotifications: INotification[] = [];
+
+                    // Example thresholds (adjust as needed)
+                    if (data.sensors[1]?.temperature > 30) {
+                        newNotifications.push({
+                            room: "Room 1", // Adjust based on data.room if multiple rooms
+                            description: "Cảnh báo quá nhiệt.",
+                            status: "warning",
+                            // icon: iconMap.overheating,
+                        });
+                    }
+                    if (data.sensors[0]?.mq2 > 1000) { // Example threshold for gas
+                        newNotifications.push({
+                            room: "Room 1",
+                            description: "Cảnh báo khí dễ cháy.",
+                            status: "danger",
+                            // icon: iconMap.gas,
+                        });
+                    }
+                    if (data.sensors[2]?.flame === 1) {
+                        newNotifications.push({
+                            room: "Room 1",
+                            description: "Cảnh báo lửa.",
+                            status: "danger",
+                            // icon: iconMap.flame,
+                        });
+                    }
+                    // setNotifications((prev) => [...newNotifications, ...prev]);
                 }
                 if (data.devices) {
                     setDeviceData(transformToIDeviceData(data.devices));
@@ -281,14 +324,15 @@ function RoomDetail() {
                                     )}
                                 </div>
                                 <div className="w-full flex-shrink flex-grow mt-5">
-                                    <ChartItem data={chartData} labels={labelData} />
+                                    <ChartItem data={chartData} />
                                 </div>
                             </div>
 
                             {/* Sidebar for Listing & Schedules */}
                             <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
                                 <div>
-                                    <ListingPeople />
+                                    {/* <ListingPeople /> */}
+                                    <AnnouncementListing />
                                 </div>
                                 <div>
                                     <ListingScheduleCards />

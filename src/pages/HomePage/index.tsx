@@ -2,16 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { QuickActions } from './QuickActions';
 import { RoomGrid } from './RoomGrid';
 import DashboardStat from './DashBoardStat';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
+import { setRoom } from '../../redux/roomSlice';
+import { useAuth } from '../../context/authContext';
 
 const HomePage: React.FC = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [message, setMessage] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const { user } = useAuth();
+
+  const { id, name } = { id: "sdhkjashdkash", name: "Living Room" }
+  const dispatch = useDispatch<AppDispatch>();
+
 
   useEffect(() => {
+    if (id && name) {
+      dispatch(setRoom({ id, name }))
+    }
     // Initialize WebSocket connection when the component mounts
-    const socket = new WebSocket('http://192.168.0.201:8017'); // Replace with your WebSocket URL
+    const socket = new WebSocket('http://localhost:8017'); // Replace with your WebSocket URL
     setWs(socket);
 
     socket.onopen = () => {
@@ -57,7 +69,7 @@ const HomePage: React.FC = () => {
   return (
     <main className="container mx-auto px-4 py-8 space-y-8">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-balance">{"Welcome back, Sarah!"}</h1>
+        <h1 className="text-3xl font-bold text-balance">{`Welcome back, ${user?.fullName}`}</h1>
         <p className="text-muted-foreground text-lg">{"Manage your smart home devices across all your rooms"}</p>
       </div>
 

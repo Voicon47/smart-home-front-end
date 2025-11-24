@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { ISensor } from '../../models/Sensor.model';
 import instance from '../../helper/axios';
 
-  
+
 export type ICategory = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     id: any;
@@ -34,11 +34,11 @@ const getAllAvailableSensor = async (): Promise<ISensor[] | null> => {
         console.error("Error during login:", error.response);
         // Handle API error response
         if (error.response) {
-          throw new Error(error.response.data.message || `HTTP error! Status: ${error.response.status}`);
+            throw new Error(error.response.data.message || `HTTP error! Status: ${error.response.status}`);
         } else {
-          throw new Error("Network error or server not responding");
+            throw new Error("Network error or server not responding");
         }
-      }
+    }
 };
 
 function SelectAvailableSensor(props: SelectSensorProps) {
@@ -66,7 +66,7 @@ function SelectAvailableSensor(props: SelectSensorProps) {
         fetchSensors();
     }, [fetchSensors]);
 
-    console.log("Query sensor");
+    // console.log("Query sensor");
     return (
         <Select
             onChange={(val) => {
@@ -76,6 +76,7 @@ function SelectAvailableSensor(props: SelectSensorProps) {
                     type: selectedSensor ? selectedSensor.type : null,  // Return sensor type
                 });
             }}
+            defaultSelectedKeys={sensors && sensors.length > 0 ? [sensors[0]._id] : ["677faf7339a557ec6c1a9261"]}
             startContent={<MdCategory className="text-xl" />}
             labelPlacement="outside"
             disableSelectorIconRotation
@@ -83,7 +84,6 @@ function SelectAvailableSensor(props: SelectSensorProps) {
             label="Sensor "
             className="min-w-[10rem] max-w-[15rem] "
             selectorIcon={<TbSelector className="text-xl" />}
-            // selectedKeys={props.value ? [props.value.toString()] : []}
         >
             {sensors.map((sensor: ISensor, index: number) => (
                 <SelectItem key={sensor?._id ?? index} value={sensor._id} variant="flat" color="primary" className='text-black'>

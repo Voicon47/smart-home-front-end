@@ -9,13 +9,13 @@ type FilterBarCourseProps = {
 };
 
 function FilterBarSensor(props: FilterBarCourseProps) {
-    
+
     const [query, setQuery] = useState<string>("");
-    const [status, setStatus] = useState<IStatusSensor| string | null>(null)
+    const [status, setStatus] = useState<IStatusSensor | string | null>(null)
     const [sensor, setSensor] = useState<{ id: string | null; type: string | null }>({ id: null, type: null });
     const filter = useMemo(
         () => ({
-            sensorId: sensor.id || null,
+            sensorId: sensor.id || "null",
             sensorType: sensor.type || null,
             status: status || null,
             query: query.trim() || null
@@ -30,27 +30,19 @@ function FilterBarSensor(props: FilterBarCourseProps) {
         const delayDebounceFn = setTimeout(updateFilter, 500); // Debounce for 500ms
         return () => clearTimeout(delayDebounceFn);
     }, [updateFilter]);
-    // useEffect(() => {
-    //     let filter = {
-    //         sensorId: sensor.id,
-    //         sensorType: sensor.type,
-    //         status,
-    //         query
-    //     };
-    //     props.onChange(filter)
-    // },[sensor, status, query])
+
     console.log("FilterBarSensor")
-    return(
+    return (
         <div className="flex flex-wrap justify-between gap-3 items-end ">
             <Search onChange={(val) => setQuery(val)} placeholder="Tìm kiếm theo..." />
             <div className="flex gap-3">
-                <SelectAvailableSensor 
+                <SelectAvailableSensor
                     // value={sensorId}
-                    onResult={(val) => setSensor(val)}/>
-                <SelectStatusSensor onResult={(val) => setStatus(val)}/>
+                    onResult={(val) => setSensor(val)} />
+                <SelectStatusSensor onResult={(val) => setStatus(val)} />
             </div>
         </div>
-        
+
     );
-}   
+}
 export default FilterBarSensor

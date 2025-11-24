@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { useState, useEffect } from "react";
+import { Card, CardBody } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
 import TVNoise from "./tvNoise";
 import { Image } from "@nextui-org/react";

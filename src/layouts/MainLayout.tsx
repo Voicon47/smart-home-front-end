@@ -6,9 +6,9 @@ type MainLayoutProps = {
     children: React.ReactNode;
     isAuthenticated: boolean;
     // roles?: Roles[];
- };
- 
- function MainLayout(props: MainLayoutProps) {
+};
+
+function MainLayout(props: MainLayoutProps) {
     return (
         <div className=" overflow-hidden min-w-full min-h-screen select-none">
             {/* <Header/>
@@ -19,10 +19,10 @@ type MainLayoutProps = {
                 <div className="ml-[16rem] w-screen p-4 border-y-purple-50 rounded-2xl border-1 mr-[1rem]">{props.children}</div>
             </div> */}
             <div className="flex mt-2 gap-2 ">
-                <div className="select-none w-[15rem] bg-white shadow-2xl fixed z-auto    max-h-screen rounded-xl bottom-0 top-0 items-start flex-col">
-                    <Sidebar/>
+                <div className="select-none w-[15rem] bg-white shadow-2xl fixed z-auto   rounded-xl bottom-0 top-0 items-start flex-col">
+                    <Sidebar />
                 </div>
-                <div className="ml-[16rem] w-screen p-4  mr-[2rem]">{props.children}</div>
+                <div className="ml-[16rem] flex-1 p-4  mr-[2rem] overflow-y-auto">{props.children}</div>
             </div>
             {/* <Footer/> */}
         </div>

@@ -15,12 +15,13 @@ export const transformToISensorData = (sensors: any): ISensorDataCard[] => {
     type: sensor.type,
     name: sensor.name,
     sensorId: null,
-    temperature: sensor.temperature || null,
-    humidity: sensor.humidity || null,
-    mq2: sensor.mq2 || null,
-    // flame: sensor.flame === null ? null : sensor.flame === 1 ? false : true,
-    flame: sensor.flame,
-    pir: null, // Set null since it's not present in the raw data
+    // temperature: sensor.temperature || null,
+    // humidity: sensor.humidity || null,
+    // mq2: sensor.mq2 || null,
+    // // flame: sensor.flame === null ? null : sensor.flame === 1 ? false : true,
+    // flame: sensor.flame,
+    // pir: null, // Set null since it's not present in the raw data
+    value: sensor.value !== undefined ? sensor.value : "",
   }));
 };
 
