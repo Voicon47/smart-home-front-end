@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -38,7 +38,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-const MAX_POINTS = 24; // Max points for real-time mode
+// const MAX_POINTS = 24; // Max points for real-time mode
 
 type ChartItemProps = {
   data: IChartData[]
@@ -135,10 +135,13 @@ function ChartItem(props: ChartItemProps) {
           }),
           temperature: props.data.map((item) => item.temperature),
           humidity: props.data.map((item) => item.humidity),
+
         }
       });
+      setZoomRange([0, 12]);
     } else {
       fetchData();
+      setZoomRange([0, Math.min(currentData.labels.length, 12)]);
     }
     // fetchData();
   }, [selectedKeys, props.data]);

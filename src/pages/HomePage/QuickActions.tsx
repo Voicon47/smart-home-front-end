@@ -2,7 +2,6 @@
 
 import { Card, CardBody } from "@nextui-org/card"
 import { Home, Lightbulb, Thermometer, Shield } from "lucide-react"
-import { useRouter } from "../../hooks/use-router";
 
 export function QuickActions() {
   const actions = [
