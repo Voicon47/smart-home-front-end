@@ -1,15 +1,12 @@
 import { ReactNode } from "react";
 import { path } from "./Path";
-// import HomePage from "../pages/HomePage";
-// import Phat from "../pages/Phat";
-// import RoomDetailPage from "../pages/RoomDetailPage";
-import RoomDetail from "../pages/roomDetail";
 import Dashboard from "../pages/admin/dashboard";
 import Login from "../pages/auth/Login";
 import UserManagement from "../pages/admin/user";
 import SensorManagement from "../pages/admin/sensor";
 import RoomManagement from "../pages/admin/room";
-import HomePage from "../pages/homePage/index";
+import RoomDetail from "../pages/roomDetail";
+import HomePage from "../pages/HomePage";
 
 
 export type routeProps = {

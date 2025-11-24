@@ -114,9 +114,9 @@ function ChartItem(props: ChartItemProps) {
         });
 
         setCurrentData({
-          labels: res.map((item) => item.labels),
-          temperature: res.map((item) => item.temperature),
-          humidity: res.map((item) => item.humidity),
+          labels: res.map((item: any) => item.labels),
+          temperature: res.map((item: any) => item.temperature),
+          humidity: res.map((item: any) => item.humidity),
         });
       } catch (error) {
         console.error("Error fetching chart data:", error);
