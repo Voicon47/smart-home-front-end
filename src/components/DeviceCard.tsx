@@ -23,7 +23,7 @@ function DeviceCard(props: DeviceDataProps) {
     const newState = !isDeviceOn;
     setIsDeviceOn(newState);
     // Notify parent of toggle change
-    props.onToggleChange("67a976200157d298f7c949c8", newState);
+    props.onToggleChange(props.data.id, newState);
   };
 
   const renderIcon = (): JSX.Element => {

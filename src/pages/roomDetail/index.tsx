@@ -12,9 +12,11 @@ import { getDataSensor } from "./service";
 import { useAuth } from "../../context/authContext";
 import { Pagination } from "@nextui-org/react";
 import { IChartData } from "../../models/Chart.model";
-import AnnouncementListing from "../admin/dashboard/AnnoucementListing";
+// import AnnouncementListing from "../admin/dashboard/AnnoucementListing";
 import { useSelector } from "react-redux";
 import { RoomState } from "../../redux/store";
+import ListingPeople from "../../components/ListingPeople";
+// import { Notification } from "./NotificationDrawer";
 // import { ISensor } from "../../models/Sensor.model";
 
 // import { IPaginationClientData } from "../../models/PaginatedResponse.Dto";
@@ -36,7 +38,7 @@ const defaultData = `{
     "sensors": [
         { "name":"mq2_1","type":"MQ-2","mq2": 134 },
         { "name":"dht11_1","type":"DHT11","temperature": 28, "humidity": null },
-        { "name":"flame_1","type":"FLAME","flame": 601 }
+        { "name":"flame_1","type":"FLAME","flame": null }
     ],
     "devices": [
         { "name":"light_1", "type": "LIGHT", "status": null},
@@ -101,9 +103,7 @@ function RoomDetail() {
     const [chartData, setChartData] = useState<IChartData[]>([]);
     // const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
-    // const [notifications, setNotifications] = useState<INotification[]>([])
-    // const router = useRouter();
-    console.log(import.meta.env.VITE_URL_API)
+
     const { isAuthenticated, user } = useAuth()
     const room = useSelector((state: RoomState) => state.room)
     console.log("Room in detail page: ", room)
@@ -118,30 +118,7 @@ function RoomDetail() {
         status: null,
         query: null,
     });
-    // const handleChangePage = async (page: number) => {
-    //     const queryData: IPaginationRequestDto<ISensorQueryDto> = {
-    //         where: filterData,
-    //         pageNumber: page,
-    //         pageSize: paginationData.size,
-    //     };
-    //     setPaginationData((prev) => {
-    //         return {
-    //             ...prev,
-    //             currentPage: page,
-    //         };
-    //     });
-    //     // setIsLoading(true);
-    //     // const res = await getAllCourse(queryData);
-    //     // console.log("After change "+res)
-    //     // setIsLoading(false);
-    //     // res && setData(res.data);
-    // };
-    // useEffect(() => {
-    //     const userId = '6777a2be6f390f3a1bcfde52'
-    //     FetchUserDataAPI(userId).then(user => {
-    //         setUser(user)
-    //     })
-    // }, [])
+
     useEffect(() => {
         const defaultJson = JSON.parse(defaultData)
         setSensorData(transformToISensorData(defaultJson.sensors))
@@ -153,7 +130,7 @@ function RoomDetail() {
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('wss://localhost:8017'); // Replace with your WebSocket URL
+        const socket = new WebSocket('wss://smart-home-back-end.onrender.com/ws'); // Replace with your WebSocket URL
         setWs(socket);
 
         socket.onopen = () => {
@@ -168,15 +145,15 @@ function RoomDetail() {
                 const data = JSON.parse(event.data);
                 console.log(data)
                 if (data.sensors) {
-                    setSensorData(transformToISensorData(data.sensors));
+                    setSensorData(transformToISensorData(data.sensors.filter((s: any) => s.type !== 'PZEM')));
                     //   chartData.push(data.sensors[1].temperature)
                     //   labelData.push( Date.now())
                     setChartData((prev) => [
                         ...prev,
                         {
                             labels: Date.now().toString(),
-                            temperature: data.sensors[1]?.temperature || 0,
-                            humidity: data.sensors[1]?.humidity || 0,
+                            temperature: data.sensors[1]?.value.temperature || 0,
+                            humidity: data.sensors[1]?.value.humidity || 0,
                         },
 
                     ]);
@@ -235,28 +212,6 @@ function RoomDetail() {
     }, []);
     // console.log(filterData)
 
-    // useEffect(() => {
-    //     const initData = async() => {
-    //         setIsLoading(true)
-    //         const totalData = 100
-    //         // const queryData: IPaginationRequestDto<ISensorQueryDto> = {
-    //         //     where: {},
-    //         //     pageNumber: 1,
-    //         //     pageSize: paginationData.size,
-    //         // }
-    //         setPaginationData((prev) => {
-    //             return {
-    //                 ...prev,
-    //                 totalPages: Math.ceil(totalData / paginationData.size)
-    //             }
-    //         })
-    //         const res = await getDataSensor(filterData)
-    //         console.log(res)
-    //         setIsLoading(false)
-    //         res && setData(res)
-    //     }
-    //     initData();
-    // }, []);
 
     useEffect(() => {
         console.log("UseEffect 2")
@@ -331,11 +286,12 @@ function RoomDetail() {
                             {/* Sidebar for Listing & Schedules */}
                             <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
                                 <div>
-                                    {/* <ListingPeople /> */}
-                                    <AnnouncementListing />
+                                    <ListingPeople />
+                                    {/* <AnnouncementListing /> */}
                                 </div>
                                 <div>
                                     <ListingScheduleCards />
+                                    {/* <ListingPeople /> */}
                                 </div>
                             </div>
                         </div>

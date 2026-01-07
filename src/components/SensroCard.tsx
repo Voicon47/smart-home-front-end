@@ -63,7 +63,7 @@ function SensorCard(props: SensorDataItemProps) {
         setName("FLAME");
         console.log(value)
         setSensorValue(
-          typeof value !== "number" ? "" : value > 700 ? "Detected" : "Not Detected"
+          typeof value !== "number" ? "" : value == 1 ? "Detected" : "Not Detected"
         );
         setUnit("");
         setIsSensorOn(value != null);

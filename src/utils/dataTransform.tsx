@@ -21,7 +21,7 @@ export const transformToISensorData = (sensors: any): ISensorDataCard[] => {
     // // flame: sensor.flame === null ? null : sensor.flame === 1 ? false : true,
     // flame: sensor.flame,
     // pir: null, // Set null since it's not present in the raw data
-    value: sensor.value !== undefined ? sensor.value : "",
+    value: sensor.value !== null ? sensor.value : null,
   }));
 };
 
@@ -36,6 +36,8 @@ export const transformToIDeviceData = (devices: any): IDeviceData[] => {
   return devices.map((device: any) => ({
     type: device.type,
     status: device.status,
+    name: device.name,
+    id: device.id,
   }));
 };
 

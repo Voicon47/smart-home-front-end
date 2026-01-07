@@ -1,5 +1,6 @@
 import axios from "../../helper/axios";
 import { IChartData } from "../../models/Chart.model";
+import { INotification } from "../../models/Common.model";
 import { IDevice, IDeviceSchedule } from "../../models/Device.model";
 // import { IPaginationResponseDto } from "../../models/PaginatedResponse.Dto";
 // import { IPaginationRequestDto } from "../../models/PaginationRequest.Dto";
@@ -157,6 +158,22 @@ export const getScheduleByRoom = async (roomId: string): Promise<IDeviceSchedule
     console.log(roomId)
 
     return result
+
+  } catch (error) {
+    console.error("Error fetching devices:", error);
+    throw error;
+  }
+
+}
+
+export const getNotioficationByRoom = async (roomId: string): Promise<INotification[]> => {
+  try {
+    roomId = "677d0d50cc13de58fab8e379"
+    const response = await axios.get<INotification[]>(`notification/${roomId}`);
+
+    // return result
+    console.log("Response chart data: ", response.data)
+    return response.data;
 
   } catch (error) {
     console.error("Error fetching devices:", error);

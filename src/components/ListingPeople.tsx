@@ -7,18 +7,18 @@ import ModalAddUser from "../pages/roomDetail/ModalAddUser";
 
 const ListingPeople = () => {
   const [listUser, setListUser] = useState<IUser[]>([
-    // {
-    //   _id: "1",
-    //   userName: "Nguyen Tan Phat",
-    //   roomId: "436 Street 3-2",
-    //   imageUrl: "",
-    //   password: "",
-    //   email: "",
-    //   status: "active",
-    //   role: "user",
-    //   createAt: new Date().toISOString(),
-    //   updateAt: new Date().toISOString(),
-    // },
+    {
+      _id: "1",
+      userName: "vandinhdung@gmail.com",
+      imageUrl: "",
+      password: "",
+      email: "",
+      status: "active",
+      role: "user",
+      createAt: new Date().toISOString(),
+      updateAt: new Date().toISOString(),
+      fullName: "A Tam"
+    },
     // {
     //   _id: "2",
     //   userName: "Nguyen Tan Phat",
