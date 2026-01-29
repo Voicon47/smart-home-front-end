@@ -130,7 +130,8 @@ function RoomDetail() {
 
     useEffect(() => {
         // Initialize WebSocket connection when the component mounts
-        const socket = new WebSocket('wss://smart-home-back-end.onrender.com/ws'); // Replace with your WebSocket URL
+        // const socket = new WebSocket('wss://smart-home-back-end.onrender.com/ws'); // Replace with your WebSocket URL
+        const socket = new WebSocket('ws://localhost:8017/ws')
         setWs(socket);
 
         socket.onopen = () => {
@@ -245,7 +246,7 @@ function RoomDetail() {
                 type: 'control',
                 data: {
                     userId: user?._id || "unknown",
-                    deviceId: deviceId,
+                    deviceId: "deviceId",
                     state: deviceState == true ? 'on' : 'off'
                 }
             };

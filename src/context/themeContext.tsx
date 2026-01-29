@@ -39,9 +39,8 @@ export const ThemeProvider: React.FC<ThemeContextProps> = ({ children }) => {
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             <div
-                className={`${
-                    theme === typeTheme.DARK_MODE ? 'dark ' : 'light '
-                } min-h-screen text-foreground bg-background bg-modal`}
+                className={`${theme === typeTheme.DARK_MODE ? 'dark ' : 'light '
+                    } min-h-screen w-screen text-foreground bg-background bg-modal`}
             >
                 {children}
             </div>

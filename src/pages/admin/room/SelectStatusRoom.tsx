@@ -3,7 +3,7 @@ import { TbSelector } from 'react-icons/tb';
 import { MdCategory } from 'react-icons/md';
 
 
-  
+
 export type ICategory = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     id: any;
@@ -18,20 +18,20 @@ type SelectRoleProps = {
 };
 
 const categories: ICategory[] = [
-      {
-         id: 1,
-         nameCategory: 'Normal',
-      },
-      {
-         id: 2,
-         nameCategory: 'Warning',
-      },
-      {
+    {
+        id: 1,
+        nameCategory: 'Normal',
+    },
+    {
+        id: 2,
+        nameCategory: 'Warning',
+    },
+    {
         id: 3,
         nameCategory: 'Danger',
-     },
-      
-   ];
+    },
+
+];
 function SelectStatusRoom(props: SelectRoleProps) {
     // const [users, setUsers] = useState<IUser[]>([]);
 
@@ -48,7 +48,7 @@ function SelectStatusRoom(props: SelectRoleProps) {
     //     };
     //     getData();
     // }, []);
-    
+
 
     console.log("Query sensor");
     return (
@@ -61,9 +61,9 @@ function SelectStatusRoom(props: SelectRoleProps) {
             disableSelectorIconRotation
             placeholder="Select status"
             label="Status "
-            className="min-w-[10rem] max-w-[15rem]"
+            className=""
             selectorIcon={<TbSelector className="text-xl" />}
-            // selectedKeys={props.value ? [props.value.toString()] : []}
+        // selectedKeys={props.value ? [props.value.toString()] : []}
         >
             {categories.map((category: ICategory, index: number) => (
                 <SelectItem key={category?.nameCategory ?? index} value={category.id} variant="flat" color="secondary">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
    Table as TableNextUI,
    TableHeader,
@@ -8,13 +8,20 @@ import {
    TableCell,
    Chip,
    Spinner,
+   Button,
+   Tooltip,
 } from '@nextui-org/react';
 // import avatar from '../../../assets/avatar.jpg'
-import { IoMdTrash,IoMdConstruct  } from 'react-icons/io';
+import { IoMdTrash, IoMdConstruct } from 'react-icons/io';
+import { FaEdit } from "react-icons/fa";
 import { IRoom } from '../../../models/Room.model';
+import ModalAddUser from '../../roomDetail/ModalAddUser';
+import FormConfirm from '../../../components/FormConfirm';
+import { deleteRoomById } from './service';
+import { DeleteIcon, EditIcon } from '../../../utils/icon';
 const columns = [
    { name: 'Name', uid: 'name' },
-   { name: 'Home ID', uid: 'roomId' },
+   { name: 'Home ', uid: 'homeName' },
    { name: 'Status', uid: 'status' },
    { name: 'Action', uid: 'actions' },
 ];
@@ -22,9 +29,18 @@ const columns = [
 type PropsType = {
    data: IRoom[];
    isLoading?: boolean;
+   onDeleteRoom: (_id: string) => void
 };
-export default function TableSensor({ data, isLoading }: PropsType) {
+export default function TableRoom({ data, isLoading, onDeleteRoom }: PropsType) {
    // const [userIdSelect, setUserIdSelect] = useState<any>(null);
+   const [selectedId, setSelectedId] = useState<string>();
+   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
+   const handleConfirmDelete = () => {
+      if (selectedId) {
+         onDeleteRoom?.(selectedId);
+         setIsOpenForm(false); // Close modal after deletion
+      }
+   };
 
    const renderCell = React.useCallback((room: IRoom, columnKey: React.Key) => {
       const cellValue = room[columnKey as keyof IRoom];
@@ -33,37 +49,51 @@ export default function TableSensor({ data, isLoading }: PropsType) {
             return (
                <h5 className='capitalize'>{room.name}</h5>
             );
-         case 'roomId':
-            return <h5>{room.homeId}</h5>;
+         case 'homeName':
+            return <h5>{room.homeName}</h5>;
          case 'status': {
             return (
-                <>
-                {room.status === "normal" ? (
-                  <Chip className="capitalize" color="success" size="sm" variant="flat">
-                     Normal
-                  </Chip>
+               <>
+                  {room.status === "normal" ? (
+                     <Chip className="capitalize" color="success" size="sm" variant="flat">
+                        Normal
+                     </Chip>
                   ) : room.status === "warning" ? (
-                  <Chip className="capitalize" color="warning" size="sm" variant="flat">
-                     Warning
-                  </Chip>
+                     <Chip className="capitalize" color="warning" size="sm" variant="flat">
+                        Warning
+                     </Chip>
                   ) : (
-                  <Chip className="capitalize" color="danger" size="sm" variant="flat">
-                     Danger
-                  </Chip>
-               )}
-              </>
+                     // <Chip className="capitalize" color="danger" size="sm" variant="flat">
+                     //    Danger
+                     // </Chip>
+                     <Chip className="capitalize" color="success" size="sm" variant="flat">
+                        Normal
+                     </Chip>
+                  )}
+               </>
             );
          }
          case 'actions':
             return (
-                <div className="relative flex justify-center items-center gap-2">
-                    <span className="text-lg cursor-pointer active:opacity-50">
-                        <IoMdConstruct className="text-xl" />
-                    </span>
-                    <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        <IoMdTrash className="text-xl" />
-                    </span>
-                </div>
+               <div className="relative flex items-center gap-2">
+                  <Tooltip color='primary' content="Edit user">
+                     <span className="text-lg text-primary-400 cursor-pointer active:opacity-50">
+                        <EditIcon />
+                     </span>
+                  </Tooltip>
+
+                  <Tooltip color="danger" content="Delete room">
+                     <span
+                        onClick={() => {
+                           setSelectedId(room._id)
+                           setIsOpenForm(true)
+                        }}
+                        className="text-lg text-danger cursor-pointer active:opacity-50"
+                     >
+                        <DeleteIcon />
+                     </span>
+                  </Tooltip>
+               </div>
             );
          default:
             return cellValue;
@@ -73,7 +103,7 @@ export default function TableSensor({ data, isLoading }: PropsType) {
    return (
       <>
          {/* <ModalDetailUser onClose={() => setUserIdSelect(null)} isOpen={!!userIdSelect} id={userIdSelect} />. */}
-         <TableNextUI   aria-label="Example table with custom cells" selectionMode="single" >
+         <TableNextUI aria-label="Example table with custom cells" selectionMode="single" >
             <TableHeader columns={columns}>
                {(column) => (
                   <TableColumn
@@ -98,6 +128,7 @@ export default function TableSensor({ data, isLoading }: PropsType) {
                )}
             </TableBody>
          </TableNextUI>
+         <FormConfirm isOpen={isOpenForm} onClose={() => setIsOpenForm(false)} onAccepted={handleConfirmDelete} />
       </>
    );
 }
