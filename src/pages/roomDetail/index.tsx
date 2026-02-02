@@ -6,16 +6,19 @@ import ListingScheduleCards from "../../components/ListingScheduleCards";
 import SensorCard, { ISensorDataCard } from "../../components/SensroCard";
 import { transformToIDeviceData, transformToISensorData } from "../../utils/dataTransform";
 import FilterBarSensor from "./FilterBarSensor";
-import { IFilterSensor, INotification } from "../../models/Common.model";
+import { IFilterSensor, INotification, IPzemData } from "../../models/Common.model";
 import TableSensor, { ISensorDataTable } from "./TableSensor";
 import { getDataSensor } from "./service";
 import { useAuth } from "../../context/authContext";
 import { Pagination } from "@nextui-org/react";
 import { IChartData } from "../../models/Chart.model";
-// import AnnouncementListing from "../admin/dashboard/AnnoucementListing";
+import AnnouncementListing from "../admin/dashboard/AnnoucementListing";
 import { useSelector } from "react-redux";
 import { RoomState } from "../../redux/store";
 import ListingPeople from "../../components/ListingPeople";
+import webSocketService from "../../helper/webSocketService";
+import PzemMonitor from "../../components/PzemMonitor";
+import { Roles } from "../../App";
 // import { Notification } from "./NotificationDrawer";
 // import { ISensor } from "../../models/Sensor.model";
 
@@ -96,15 +99,24 @@ const defaultData = `{
 
 function RoomDetail() {
     // const [user, setUser] = useState(null)
-    const [ws, setWs] = useState<WebSocket | null>(null);
+    const wsService = webSocketService;
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [sensorData, setSensorData] = useState<ISensorDataCard[]>([])
     const [deviceData, setDeviceData] = useState<IDeviceData[]>([])
     const [chartData, setChartData] = useState<IChartData[]>([]);
     // const [labelData, setLabelData] = useState<number[]>([]);
     const [data, setData] = useState<ISensorDataTable[]>([]);
+    const [pzemData, setPzemData] = useState<IPzemData>({
+        voltage: 232.2,
+        current: 0,
+        power: 1.6,
+        pf: 1,
+        energy: 0.018,
+        frequency: 50,
+    })
 
-    const { isAuthenticated, user } = useAuth()
+    const { isAuthenticated, user, role } = useAuth()
+    const isAdmin = role == Roles.ADMIN
     const room = useSelector((state: RoomState) => state.room)
     console.log("Room in detail page: ", room)
     // const [paginationData, setPaginationData] = useState<IPaginationClientData>({
@@ -128,92 +140,238 @@ function RoomDetail() {
         // setLabelData([])
     }, [])
 
-    useEffect(() => {
-        // Initialize WebSocket connection when the component mounts
-        // const socket = new WebSocket('wss://smart-home-back-end.onrender.com/ws'); // Replace with your WebSocket URL
-        const socket = new WebSocket('ws://localhost:8017/ws')
-        setWs(socket);
+    // useEffect(() => {
+    //     // Initialize WebSocket connection when the component mounts
+    //     // const socket = new WebSocket('wss://smart-home-back-end.onrender.com/ws'); // Replace with your WebSocket URL
+    //     const socket = new WebSocket('ws://localhost:8017/ws')
+    //     setWs(socket);
 
-        socket.onopen = () => {
-            console.log('WebSocket connection established and send register message');
-            const payload = { type: 'register', role: "frontend" };
-            socket.send(JSON.stringify(payload));
+    //     socket.onopen = () => {
+    //         console.log('WebSocket connection established and send register message');
+    //         const payload = { type: 'register', role: "frontend" };
+    //         socket.send(JSON.stringify(payload));
+    //     };
+
+    //     socket.onmessage = (event) => {
+    //         try {
+
+    //             const data = JSON.parse(event.data);
+    //             console.log(data)
+    //             if (data.sensors) {
+    //                 setSensorData(transformToISensorData(data.sensors.filter((s: any) => s.type !== 'PZEM')));
+    //                 //   chartData.push(data.sensors[1].temperature)
+    //                 //   labelData.push( Date.now())
+    //                 setChartData((prev) => [
+    //                     ...prev,
+    //                     {
+    //                         labels: Date.now().toString(),
+    //                         temperature: data.sensors[1]?.value.temperature || 0,
+    //                         humidity: data.sensors[1]?.value.humidity || 0,
+    //                     },
+
+    //                 ]);
+    //                 // Generate notifications based on sensor data from Arduino
+    //                 const newNotifications: INotification[] = [];
+
+    //                 // Example thresholds (adjust as needed)
+    //                 if (data.sensors[1]?.temperature > 30) {
+    //                     newNotifications.push({
+    //                         room: "Room 1", // Adjust based on data.room if multiple rooms
+    //                         description: "Cảnh báo quá nhiệt.",
+    //                         status: "warning",
+    //                         // icon: iconMap.overheating,
+    //                     });
+    //                 }
+    //                 if (data.sensors[0]?.mq2 > 1000) { // Example threshold for gas
+    //                     newNotifications.push({
+    //                         room: "Room 1",
+    //                         description: "Cảnh báo khí dễ cháy.",
+    //                         status: "danger",
+    //                         // icon: iconMap.gas,
+    //                     });
+    //                 }
+    //                 if (data.sensors[2]?.flame === 1) {
+    //                     newNotifications.push({
+    //                         room: "Room 1",
+    //                         description: "Cảnh báo lửa.",
+    //                         status: "danger",
+    //                         // icon: iconMap.flame,
+    //                     });
+    //                 }
+    //                 // setNotifications((prev) => [...newNotifications, ...prev]);
+    //             }
+    //             if (data.devices) {
+    //                 setDeviceData(transformToIDeviceData(data.devices));
+    //             }
+    //         } catch (error) {
+    //             console.error("Error parsing WebSocket message:", error);
+    //         }
+    //     };
+
+    //     socket.onerror = (event) => {
+    //         console.error('WebSocket error:', event);
+    //     };
+
+    //     socket.onclose = () => {
+    //         console.log('WebSocket connection closed.');
+    //     };
+
+    //     return () => {
+    //         // Clean up the WebSocket connection when the component unmounts
+    //         if (socket) {
+    //             socket.close();
+    //         }
+    //     };
+    // }, []);
+    // // console.log(filterData)
+
+
+
+
+    //  console.log(isLoading)
+
+    // const sendControl = (deviceId: string, deviceState: boolean) => {
+    //     console.log(user)
+    //     if (ws && ws.readyState === WebSocket.OPEN) {
+    //         const payload = {
+    //             type: 'control',
+    //             data: {
+    //                 userId: user?._id || "unknown",
+    //                 deviceId: "deviceId",
+    //                 state: deviceState == true ? 'on' : 'off'
+    //             }
+    //         };
+    //         ws.send(JSON.stringify(payload));
+    //         console.log('Sent control message:', payload);
+    //     } else {
+    //         console.error('WebSocket is not open. Unable to send control message.');
+    //     }
+    //     console.log(`Device: ${deviceId}, State: ${deviceState}`);
+    // }
+    //  1. Connect & register listeners (only once)
+    // ────────────────────────────────────────────────
+    useEffect(() => {
+        // Make sure connection is attempted
+        wsService.connect('ws://localhost:8017/ws'); // ← uses default URL or pass your own
+
+        // // You can listen to special events
+        // wsService.addCallbacks('connect', () => {
+        //     console.log('Room component knows: WS is connected');
+        // });
+
+        // wsService.addCallbacks('error', (e) => {
+        //     console.error('WS error in room:', e);
+        // });
+
+        // Main sensor/device listener
+        const handleSensorMessage = (message: any) => {
+            if (!message?.sensors) return;
+            const pzemSensor = message.sensors.find((s: any) => s.type === 'PZEM');
+            // console.log("PZEM Sensor:", pzemSensor);
+            if (pzemSensor && pzemSensor.value) {
+                setPzemData({
+                    voltage: pzemSensor.value.voltage || 0,
+                    current: pzemSensor.value.current || 0,
+                    power: pzemSensor.value.power || 0,
+                    pf: pzemSensor.value.pf || 0,
+                    energy: pzemSensor.value.energy || 0,
+                    frequency: pzemSensor.value.frequency || 0,
+                });
+            }
+            const sensors = message.sensors.filter((s: any) => s.type !== 'PZEM');
+
+            setSensorData(transformToISensorData(sensors));
+
+            // Chart update (assuming sensor[1] is DHT22 or similar)
+            if (message.sensors[1]?.value) {
+                setChartData(prev => [
+                    ...prev,
+                    {
+                        labels: Date.now().toString(),
+                        temperature: message.sensors[1].value.temperature ?? 0,
+                        humidity: message.sensors[1].value.humidity ?? 0,
+                    }
+                ]);
+            }
+
+            // Notifications logic
+            const newNotifs: INotification[] = [];
+
+            if (message.sensors[1]?.value?.temperature > 30) {
+                newNotifs.push({
+                    room: "Room 1",
+                    description: "Cảnh báo quá nhiệt",
+                    status: "Warning",
+                    createdAt: 1002
+                });
+            }
+
+            if (message.sensors[0]?.mq2 > 1000) {
+                newNotifs.push({
+                    room: "Room 1",
+                    description: "Cảnh báo khí dễ cháy",
+                    status: "Danger",
+                    createdAt: 10023222
+                });
+            }
+
+            if (message.sensors[2]?.flame === 1) {
+                newNotifs.push({
+                    room: "Room 1",
+                    description: "Cảnh báo lửa",
+                    status: "Danger",
+                    createdAt: 10023222
+                });
+            }
+
+            // if (newNotifs.length > 0) {
+            //     setNotifications(prev => [...newNotifs, ...prev]);
+            // }
         };
 
-        socket.onmessage = (event) => {
-            try {
-
-                const data = JSON.parse(event.data);
-                console.log(data)
-                if (data.sensors) {
-                    setSensorData(transformToISensorData(data.sensors.filter((s: any) => s.type !== 'PZEM')));
-                    //   chartData.push(data.sensors[1].temperature)
-                    //   labelData.push( Date.now())
-                    setChartData((prev) => [
-                        ...prev,
-                        {
-                            labels: Date.now().toString(),
-                            temperature: data.sensors[1]?.value.temperature || 0,
-                            humidity: data.sensors[1]?.value.humidity || 0,
-                        },
-
-                    ]);
-                    // Generate notifications based on sensor data from Arduino
-                    const newNotifications: INotification[] = [];
-
-                    // Example thresholds (adjust as needed)
-                    if (data.sensors[1]?.temperature > 30) {
-                        newNotifications.push({
-                            room: "Room 1", // Adjust based on data.room if multiple rooms
-                            description: "Cảnh báo quá nhiệt.",
-                            status: "warning",
-                            // icon: iconMap.overheating,
-                        });
-                    }
-                    if (data.sensors[0]?.mq2 > 1000) { // Example threshold for gas
-                        newNotifications.push({
-                            room: "Room 1",
-                            description: "Cảnh báo khí dễ cháy.",
-                            status: "danger",
-                            // icon: iconMap.gas,
-                        });
-                    }
-                    if (data.sensors[2]?.flame === 1) {
-                        newNotifications.push({
-                            room: "Room 1",
-                            description: "Cảnh báo lửa.",
-                            status: "danger",
-                            // icon: iconMap.flame,
-                        });
-                    }
-                    // setNotifications((prev) => [...newNotifications, ...prev]);
-                }
-                if (data.devices) {
-                    setDeviceData(transformToIDeviceData(data.devices));
-                }
-            } catch (error) {
-                console.error("Error parsing WebSocket message:", error);
+        const handleDeviceMessage = (message: any) => {
+            if (message?.devices) {
+                setDeviceData(transformToIDeviceData(message.devices));
             }
         };
 
-        socket.onerror = (event) => {
-            console.error('WebSocket error:', event);
-        };
+        wsService.addCallbacks('control', handleSensorMessage);   // ← assuming server sends { type: "sensors", sensors: [...] }
+        wsService.addCallbacks('control', handleDeviceMessage);   // ← same idea
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed.');
-        };
+        // Optional: handle generic unknown type
+        wsService.addCallbacks('unknown', (msg) => {
+            console.log('Received unhandled message type:', msg?.type, msg);
+        });
 
         return () => {
-            // Clean up the WebSocket connection when the component unmounts
-            if (socket) {
-                socket.close();
+            // Important: clean up only the callbacks added by THIS component
+            wsService.removeCallbacks('control', handleSensorMessage);
+            wsService.removeCallbacks('control', handleDeviceMessage);
+            // Do NOT call wsService.disconnect() here unless it's the last component using it
+        };
+    }, []); // ← empty deps = run once per mount
+
+    // ────────────────────────────────────────────────
+    //  2. Control device (now using the service)
+    // ────────────────────────────────────────────────
+    const sendControl = (deviceId: string, turnOn: boolean) => {
+        const payload = {
+            type: 'control',
+            data: {
+                userId: user?._id || "unknown",
+                deviceId: deviceId,           // ← fixed typo: was hardcoded "deviceId"
+                state: turnOn ? 'on' : 'off'
             }
         };
-    }, []);
-    // console.log(filterData)
 
+        const sent = wsService.sendMessage(payload);
 
+        if (!sent) {
+            console.warn('Message queued — WS not connected yet');
+        } else {
+            console.log('Control sent:', payload);
+        }
+    };
     useEffect(() => {
         console.log("UseEffect 2")
         if (!filterData) return; // Skip if filterData is empty
@@ -237,34 +395,14 @@ function RoomDetail() {
             clearTimeout(queryTimeout);
         };
     }, [filterData]);
-    //  console.log(isLoading)
-
-    const sendControl = (deviceId: string, deviceState: boolean) => {
-        console.log(user)
-        if (ws && ws.readyState === WebSocket.OPEN) {
-            const payload = {
-                type: 'control',
-                data: {
-                    userId: user?._id || "unknown",
-                    deviceId: "deviceId",
-                    state: deviceState == true ? 'on' : 'off'
-                }
-            };
-            ws.send(JSON.stringify(payload));
-            console.log('Sent control message:', payload);
-        } else {
-            console.error('WebSocket is not open. Unable to send control message.');
-        }
-        console.log(`Device: ${deviceId}, State: ${deviceState}`);
-    }
-
     return (
         <>
             {isAuthenticated && (
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col gap-5">
                         {/* Main Content */}
-                        <div className="flex flex-col xl:flex-row w-full justify-between gap-4">
+                        {/* <div className="flex flex-col xl:flex-row w-full justify-between gap-4"> */}
+                        <div className={`flex flex-col xl:flex-row  w-full justify-between gap-4`}>
                             {/* Sensor and Device Cards */}
                             <div className="flex flex-col w-full lg:max-w-[1024px]">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
@@ -286,9 +424,10 @@ function RoomDetail() {
 
                             {/* Sidebar for Listing & Schedules */}
                             <div className="flex flex-col md:max-xl:flex-row justify-between gap-5 w-[20rem] ">
-                                <div>
-                                    <ListingPeople />
-                                    {/* <AnnouncementListing /> */}
+                                {/* <div className={`flex  ${!isAdmin ? "flex-row w-full" : "flex-col w-[20rem]"} md:max-xl:flex-row  justify-between gap-5 `}> */}
+                                <div className="flex flex-col gap-5 ">
+                                    {/* <div className={`flex ${!isAdmin ? "flex-row" : "flex-col"}  gap-5`}> */}
+                                    <PzemMonitor dataPzem={pzemData} />
                                 </div>
                                 <div>
                                     <ListingScheduleCards />
@@ -296,7 +435,13 @@ function RoomDetail() {
                                 </div>
                             </div>
                         </div>
+                        {isAdmin && (
+                            <div className="flex ">
+                                <AnnouncementListing />
+                                <div className=" w-[20rem]"><ListingPeople /> </div>
 
+                            </div>
+                        )}
                         {/* Filter & Table */}
                         <div className="w-full">
                             <FilterBarSensor onChange={(res: IFilterSensor) => setFilterData(res)} />

@@ -8,16 +8,11 @@ import {
    TableCell,
    Chip,
    Spinner,
-   Button,
    Tooltip,
 } from '@nextui-org/react';
 // import avatar from '../../../assets/avatar.jpg'
-import { IoMdTrash, IoMdConstruct } from 'react-icons/io';
-import { FaEdit } from "react-icons/fa";
 import { IRoom } from '../../../models/Room.model';
-import ModalAddUser from '../../roomDetail/ModalAddUser';
 import FormConfirm from '../../../components/FormConfirm';
-import { deleteRoomById } from './service';
 import { DeleteIcon, EditIcon } from '../../../utils/icon';
 const columns = [
    { name: 'Name', uid: 'name' },

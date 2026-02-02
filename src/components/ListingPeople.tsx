@@ -15,8 +15,8 @@ const ListingPeople = () => {
       email: "",
       status: "active",
       role: "user",
-      createAt: new Date().toISOString(),
-      updateAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       fullName: "A Tam"
     },
     // {

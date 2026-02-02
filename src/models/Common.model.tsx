@@ -23,7 +23,17 @@ export type IToken = {
 };
 
 export type INotification = {
-    room: string | null
-    description: string | null
-    status: string | null
+    room: string;
+    status: "Danger" | "Warning";
+    description: string;
+    createdAt: number;
 }
+export type IPzemData = {
+    id?: string;
+    voltage: number; // V
+    current: number; // A
+    power: number; // W
+    frequency: number; // Hz
+    pf: number; // 0-1
+    energy: number; // kWh
+};

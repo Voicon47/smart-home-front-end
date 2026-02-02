@@ -8,26 +8,47 @@ import { MdOutlineShowChart } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io";
 import {
     Badge,
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerBody,
-    DrawerFooter,
     Button,
 } from "@nextui-org/react";
 import { IoNotifications } from "react-icons/io5";
 import { RiCalendarScheduleLine } from "react-icons/ri";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { INotification } from "../../../models/Common.model"
+// import { getNotioficationByRoom } from "../../roomDetail/service"
+import { useAuth } from "../../../context/authContext"
+import NotificationDrawer from "../../roomDetail/NotificationDrawer"
+import webSocketService from "../../../helper/webSocketService";
 
 function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
+    const { isLoading } = useAuth();
+    const [notifications, setNotifications] = useState<INotification[]>([]);
+    // const roomId = ""
+    const wsService = webSocketService;
+    //    console.log(user)
+    ///prevent flickering
+    useEffect(() => {
+        wsService.connect('ws://localhost:8017/ws'); // ← uses default URL or pass your own
+        const onNotification = (msg: any) => {
+            console.log(msg)
+            if (!msg?.data) return;
 
-    const notifications = [
-        { id: 1, title: "Room 1", message: "Cảnh báo quá nhiệt.", type: "Warning" },
-        { id: 2, title: "Room 2", message: "Cảnh báo khí dễ cháy.", type: "Danger" },
-        { id: 3, title: "Room 3", message: "Cảnh báo cửa mở.", type: "Warning" },
-    ];
+            setNotifications(prev => [
+                msg.data,
+                ...prev,
+            ]);
+        };
+
+        wsService.addCallbacks("notification", onNotification);
+
+        return () => {
+            wsService.removeCallbacks("notification", onNotification);
+        };
+    }, []);
+    if (isLoading) {
+        return null
+    }
+
     return (
         <>
             <div className="w-full mt-5">
@@ -63,44 +84,11 @@ function Dashboard() {
                                     </Badge>
 
                                     {/* 🧭 Drawer Notification Panel */}
-                                    <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} placement="right">
-                                        <DrawerContent>
-                                            <DrawerHeader className="flex justify-between items-center border-b">
-                                                <h3 className="text-lg font-semibold">Notifications</h3>
-                                                <Button
-                                                    variant="light"
-                                                    color="danger"
-                                                    size="sm"
-                                                    onClick={() => setIsOpen(false)}
-                                                >
-                                                    Close
-                                                </Button>
-                                            </DrawerHeader>
-
-                                            <DrawerBody className="p-4 flex flex-col gap-3">
-                                                {notifications.map((n) => (
-                                                    <div
-                                                        key={n.id}
-                                                        className={`p-3 rounded-lg border flex flex-col ${n.type === "Danger"
-                                                            ? "border-red-500 bg-red-50"
-                                                            : n.type === "Warning"
-                                                                ? "border-yellow-400 bg-yellow-50"
-                                                                : "border-gray-200 bg-gray-50"
-                                                            }`}
-                                                    >
-                                                        <span className="font-semibold">{n.title}</span>
-                                                        <span className="text-sm text-gray-600">{n.message}</span>
-                                                    </div>
-                                                ))}
-                                            </DrawerBody>
-
-                                            <DrawerFooter className="border-t flex justify-end">
-                                                <Button color="primary" onClick={() => setIsOpen(false)}>
-                                                    View all
-                                                </Button>
-                                            </DrawerFooter>
-                                        </DrawerContent>
-                                    </Drawer>
+                                    <NotificationDrawer
+                                        isOpen={isOpen}
+                                        onClose={() => setIsOpen(false)}
+                                        notifications={notifications}
+                                    />
                                 </div>
                             </div>
 
@@ -137,10 +125,10 @@ function Dashboard() {
                                     </Link>
                                 </div>
                                 <div className="flex flex-row gap-4 mt-3">
-                                    <RoomCard name={"AAA"} status={""} energy={0} userName={"Elephant47"} />
-                                    <RoomCard name={"AAA"} status={""} energy={0} userName={"Loc81"} />
+                                    <RoomCard name={"Room A25"} status={"Normal"} energy={0.2} userName={"A Tam"} />
+                                    {/* <RoomCard name={"AAA"} status={""} energy={0} userName={"Loc81"} />
                                     <RoomCard name={"AAA"} status={""} energy={0} userName={"Phat BMTBMT"} />
-                                    <RoomCard name={"AAA"} status={"AAA"} energy={0} userName={"Mango 521"} />
+                                    <RoomCard name={"AAA"} status={"AAA"} energy={0} userName={"Mango 521"} /> */}
                                 </div>
                             </div>
 

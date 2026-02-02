@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
    Table as TableNextUI,
    TableHeader,
@@ -9,10 +9,12 @@ import {
    Chip,
    Avatar,
    Spinner,
+   Tooltip,
 } from '@nextui-org/react';
 import { IUser } from '../../../models/User.model';
 // import avatar from '../../../assets/avatar.jpg'
-import { IoMdTrash,IoMdConstruct  } from 'react-icons/io';
+import { DeleteIcon, EditIcon } from '../../../utils/icon';
+import FormConfirm from '../../../components/FormConfirm';
 const columns = [
    { name: 'Avatar', uid: 'avatar' },
    { name: 'Name', uid: 'fullName' },
@@ -26,10 +28,19 @@ const columns = [
 type PropsType = {
    data: IUser[];
    isLoading?: boolean;
+   onDeleteUser: (_id: string) => void
 };
-export default function TableUser({ data, isLoading }: PropsType) {
+export default function TableUser({ data, isLoading, onDeleteUser }: PropsType) {
    // const [userIdSelect, setUserIdSelect] = useState<any>(null);
+   const [selectedId, setSelectedId] = useState<string>();
+   const [isOpenForm, setIsOpenForm] = useState<boolean>(false)
 
+   const handleConfirmDelete = () => {
+      if (selectedId) {
+         onDeleteUser?.(selectedId);
+         setIsOpenForm(false); // Close modal after deletion
+      }
+   };
    const renderCell = React.useCallback((user: IUser, columnKey: React.Key) => {
       const cellValue = user[columnKey as keyof IUser];
       switch (columnKey) {
@@ -57,29 +68,40 @@ export default function TableUser({ data, isLoading }: PropsType) {
             );
          case 'status': {
             return (
-                <>
-                {user.status === "active" ? (
-                  <Chip className="capitalize" color="success" size="sm" variant="flat">
-                    Active
-                  </Chip>
-                ) : (
-                  <Chip className="capitalize" color="danger" size="sm" variant="flat">
-                    Inactive
-                  </Chip>
-                )}
-              </>
+               <>
+                  {user.status === "active" ? (
+                     <Chip className="capitalize" color="success" size="sm" variant="flat">
+                        Active
+                     </Chip>
+                  ) : (
+                     <Chip className="capitalize" color="danger" size="sm" variant="flat">
+                        Inactive
+                     </Chip>
+                  )}
+               </>
             );
          }
          case 'actions':
             return (
-                <div className="relative flex justify-center items-center gap-2">
-                    <span className="text-lg cursor-pointer active:opacity-50">
-                        <IoMdConstruct className="text-xl" />
-                    </span>
-                    <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                        <IoMdTrash className="text-xl" />
-                    </span>
-                </div>
+               <div className="relative flex justify-center items-center gap-2">
+                  <Tooltip color='primary' content="Edit user">
+                     <span className="text-lg text-primary-400 cursor-pointer active:opacity-50">
+                        <EditIcon />
+                     </span>
+                  </Tooltip>
+
+                  <Tooltip color="danger" content="Delete room">
+                     <span
+                        onClick={() => {
+                           setSelectedId(user._id)
+                           setIsOpenForm(true)
+                        }}
+                        className="text-lg text-danger cursor-pointer active:opacity-50"
+                     >
+                        <DeleteIcon />
+                     </span>
+                  </Tooltip>
+               </div>
             );
          default:
             return cellValue;
@@ -89,7 +111,7 @@ export default function TableUser({ data, isLoading }: PropsType) {
    return (
       <>
          {/* <ModalDetailUser onClose={() => setUserIdSelect(null)} isOpen={!!userIdSelect} id={userIdSelect} />. */}
-         <TableNextUI   aria-label="Example table with custom cells" selectionMode="single" >
+         <TableNextUI aria-label="Example table with custom cells" selectionMode="single" >
             <TableHeader columns={columns}>
                {(column) => (
                   <TableColumn
@@ -114,6 +136,7 @@ export default function TableUser({ data, isLoading }: PropsType) {
                )}
             </TableBody>
          </TableNextUI>
+         <FormConfirm isOpen={isOpenForm} onClose={() => setIsOpenForm(false)} onAccepted={handleConfirmDelete} />
       </>
    );
 }

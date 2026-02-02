@@ -7,8 +7,8 @@ export type IUser = {
   fullName: string,
   status?: string,
   role?: string | number,
-  createAt?: string,
-  updateAt?: string,
+  createdAt?: string,
+  updatedAt?: string,
   imageUrl?: string
 }
 
@@ -22,8 +22,8 @@ export const mockUsers: IUser[] = [
     fullName: "John Doe",
     status: "active",
     role: "admin",
-    createAt: "2024-02-01T12:00:00Z",
-    updateAt: "2024-02-10T15:30:00Z",
+    createdAt: "2024-02-01T12:00:00Z",
+    updatedAt: "2024-02-10T15:30:00Z",
     imageUrl: "https://randomuser.me/api/portraits/men/1.jpg"
   },
   {
@@ -35,8 +35,8 @@ export const mockUsers: IUser[] = [
     fullName: "Jane Smith",
     status: "inactive",
     role: "user",
-    createAt: "2023-11-20T09:45:00Z",
-    updateAt: "2024-01-05T10:20:00Z",
+    createdAt: "2023-11-20T09:45:00Z",
+    updatedAt: "2024-01-05T10:20:00Z",
     imageUrl: "https://randomuser.me/api/portraits/women/2.jpg"
   },
   {
@@ -48,8 +48,8 @@ export const mockUsers: IUser[] = [
     fullName: "Michael Brown",
     status: "pending",
     role: "moderator",
-    createAt: "2024-01-15T14:10:00Z",
-    updateAt: "2024-02-12T08:50:00Z",
+    createdAt: "2024-01-15T14:10:00Z",
+    updatedAt: "2024-02-12T08:50:00Z",
     imageUrl: "https://randomuser.me/api/portraits/men/3.jpg"
   },
   {
@@ -61,8 +61,8 @@ export const mockUsers: IUser[] = [
     fullName: "Emily Wilson",
     status: "active",
     role: "user",
-    createAt: "2023-12-05T17:30:00Z",
-    updateAt: "2024-02-14T11:00:00Z",
+    createdAt: "2023-12-05T17:30:00Z",
+    updatedAt: "2024-02-14T11:00:00Z",
     imageUrl: "https://randomuser.me/api/portraits/women/4.jpg"
   },
   {
@@ -74,8 +74,8 @@ export const mockUsers: IUser[] = [
     fullName: "David Jones",
     status: "banned",
     role: "user",
-    createAt: "2023-10-10T08:00:00Z",
-    updateAt: "2024-01-01T16:45:00Z",
+    createdAt: "2023-10-10T08:00:00Z",
+    updatedAt: "2024-01-01T16:45:00Z",
     imageUrl: "https://randomuser.me/api/portraits/men/5.jpg"
   }
 ];

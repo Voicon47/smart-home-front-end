@@ -107,9 +107,9 @@ function ChartItem(props: ChartItemProps) {
       try {
         const res = await getChartData({
           sensorId: "677faf7339a557ec6c1a9262",
-          year: 2025,
-          month: 11,
-          day: 24,
+          year: 2026,
+          month: 1,
+          day: 2,
           type: selectedKeys,
         });
 
