@@ -27,7 +27,7 @@ const NotificationDrawer: FC<NotificationDrawerProps> = ({ isOpen, onClose, noti
   return (
     <>
       <audio ref={alertAudio} src={AlertSound} preload="auto" />
-      <Drawer isOpen={isOpen} onClose={onClose} placement="right">
+      <Drawer isOpen={isOpen} onClose={onClose} placement="right" className="top-20">
         <DrawerContent>
           <DrawerHeader className="flex justify-between items-center border-b">
             <h3 className="text-lg font-semibold">Notifications</h3>

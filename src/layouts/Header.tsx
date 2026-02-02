@@ -8,8 +8,8 @@ import logo from '../assets/smart-home.png'
 import { useEffect, useState } from 'react';
 import NotificationDrawer from '../pages/roomDetail/NotificationDrawer';
 import { IoNotifications } from 'react-icons/io5';
-import { getNotioficationByRoom } from '../pages/roomDetail/service';
 import { INotification } from '../models/Common.model';
+import webSocketService from "../helper/webSocketService";
 
 
 // import toast from 'react-hot-toast';
@@ -21,19 +21,28 @@ function Header() {
    const [isOpen, setIsOpen] = useState(false);
 
    const [notifications, setNotifications] = useState<INotification[]>([]);
-   const roomId = ""
-   console.log(user)
+   // const roomId = ""
+   const wsService = webSocketService;
+   //    console.log(user)
    ///prevent flickering
    useEffect(() => {
-      const fetchNotification = async () => {
-         const data = await getNotioficationByRoom(roomId)
-         setNotifications(data)
-      }
-      if (isOpen) {
-         fetchNotification()
-      }
-      console.log("Notification")
-   }, [isOpen, roomId])
+      wsService.connect('ws://localhost:8017/ws'); // ← uses default URL or pass your own
+      const onNotification = (msg: any) => {
+         console.log(msg)
+         if (!msg?.data) return;
+
+         setNotifications(prev => [
+            msg.data,
+            ...prev,
+         ]);
+      };
+
+      wsService.addCallbacks("notification", onNotification);
+
+      return () => {
+         wsService.removeCallbacks("notification", onNotification);
+      };
+   }, []);
    if (isLoading) {
       return null
    }
